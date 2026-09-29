@@ -14,7 +14,7 @@
   --dark: #0A0A0A;
   --dark-line: rgba(245, 244, 241, 0.16);
 
-  --font: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font: 'Switzer', 'Helvetica Neue', Arial, sans-serif;
 
   --gutter: clamp(20px, 5vw, 64px);
   --section-pad: clamp(72px, 12vw, 160px);
@@ -110,9 +110,55 @@ img { max-width: 100%; display: block; }
 
 /* -------------------- hero -------------------- */
 
+/* -------------------- hero → first work pin/crossfade -------------------- */
+/* The hero stays pinned in the viewport for an extra scroll-length, during
+   which it fades out while the first Work slot fades in on top of it —
+   the hero "becomes" the first project, both full-bleed, same spot. */
+
+.pin-wrap {
+  position: relative;
+  height: 200vh;
+}
+
+.pin-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.pin-hero {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  min-height: 0;
+}
+
+.work__slot.pin-work01 {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  opacity: 0;
+  background: var(--paper);
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pin-wrap { height: auto; }
+  .pin-stage { position: relative; height: auto; overflow: visible; }
+  .pin-hero { position: relative; inset: auto; opacity: 1 !important; }
+  .work__slot.pin-work01 {
+    position: relative;
+    inset: auto;
+    height: min(78vh, 760px);
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 .hero {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  grid-template-columns: 1fr 1fr;
   min-height: 100vh;
 }
 
@@ -529,6 +575,20 @@ img { max-width: 100%; display: block; }
     align-items: flex-end;
   }
   .hero__wordmark { text-align: right; }
+
+  /* The stacked hero panels run taller than 100vh on narrow screens, so
+     the pin/crossfade (built for a fixed 100vh stage) would clip the
+     light panel. Fall back to a normal, non-pinned stack instead. */
+  .pin-wrap { height: auto; }
+  .pin-stage { position: relative; height: auto; overflow: visible; }
+  .pin-hero { position: relative; inset: auto; height: auto; opacity: 1 !important; }
+  .work__slot.pin-work01 {
+    position: relative;
+    inset: auto;
+    height: min(70vh, 560px);
+    opacity: 1 !important;
+    transform: none !important;
+  }
 
   .work__slot { height: min(70vh, 560px); }
 

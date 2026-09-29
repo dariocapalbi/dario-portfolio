@@ -32,6 +32,44 @@ if ('IntersectionObserver' in window) {
   revealTargets.forEach((el) => el.classList.add('is-visible'));
 }
 
+// Hero → first-work pin/crossfade: the hero stays pinned for one extra
+// viewport of scroll while the first Work slot fades in on top of it, so
+// the hero visually "becomes" the first project. Driven directly by scroll
+// position (not a one-shot trigger) so it tracks the scrollbar exactly.
+const pinWrap = document.querySelector('.pin-wrap');
+const pinHero = document.querySelector('.pin-hero');
+const pinWork01 = document.querySelector('.pin-work01');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const narrowViewport = window.matchMedia('(max-width: 860px)').matches;
+
+if (pinWrap && pinHero && pinWork01 && !reduceMotion && !narrowViewport) {
+  let ticking = false;
+
+  const updatePin = () => {
+    const rect = pinWrap.getBoundingClientRect();
+    const total = pinWrap.offsetHeight - window.innerHeight;
+    const scrolled = Math.min(Math.max(-rect.top, 0), Math.max(total, 0));
+    const progress = total > 0 ? scrolled / total : 0;
+
+    pinHero.style.opacity = String(1 - progress);
+    pinWork01.style.opacity = String(progress);
+    pinWork01.style.transform = `translateY(${(1 - progress) * 28}px)`;
+
+    ticking = false;
+  };
+
+  const onScroll = () => {
+    if (!ticking) {
+      requestAnimationFrame(updatePin);
+      ticking = true;
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  updatePin();
+}
+
 // Footer year
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();

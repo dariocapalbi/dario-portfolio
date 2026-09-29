@@ -1,3 +1,6 @@
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const narrowViewport = window.matchMedia('(max-width: 860px)').matches;
+
 // Scroll-reveal: each .reveal element fades + slides up as it enters the
 // viewport, same easing/motion as the hero headline. Siblings that share a
 // parent (a row of service items, work slots, process steps…) get a small
@@ -32,30 +35,45 @@ if ('IntersectionObserver' in window) {
   revealTargets.forEach((el) => el.classList.add('is-visible'));
 }
 
-// Services grey→black ink-fill: fires later than the generic .reveal
-// trigger above — only once the heading text itself is actually centered
-// in the viewport (not just the row's top edge, i.e. its small index
-// number, peeking in), so the fill is still visible as it happens instead
-// of finishing off-screen before you can read it.
-const servicesNames = Array.from(document.querySelectorAll('.services__name'));
+// Services pin: the list stays pinned in the viewport for an extra stretch
+// of scroll, like the reference site's sticky team-name list — only the
+// "current" service (by scroll progress through the pinned range) inks in
+// black, the rest stay grey. Reversible, not a one-shot reveal.
+const servicesPinWrap = document.querySelector('.services__pin-wrap');
+const servicesItems = Array.from(document.querySelectorAll('.services__item'));
 
-if (servicesNames.length) {
-  if ('IntersectionObserver' in window) {
-    const inkObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-inked');
-            inkObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0, rootMargin: '-35% 0px -35% 0px' }
+if (servicesPinWrap && servicesItems.length && !reduceMotion) {
+  let servicesTicking = false;
+
+  const updateServicesPin = () => {
+    const rect = servicesPinWrap.getBoundingClientRect();
+    const total = servicesPinWrap.offsetHeight - window.innerHeight;
+    const scrolled = Math.min(Math.max(-rect.top, 0), Math.max(total, 0));
+    const progress = total > 0 ? scrolled / total : 0;
+    const activeIndex = Math.min(
+      servicesItems.length - 1,
+      Math.floor(progress * servicesItems.length)
     );
-    servicesNames.forEach((el) => inkObserver.observe(el));
-  } else {
-    servicesNames.forEach((el) => el.classList.add('is-inked'));
-  }
+
+    servicesItems.forEach((el, i) => {
+      el.classList.toggle('is-active', i === activeIndex);
+    });
+
+    servicesTicking = false;
+  };
+
+  const onServicesScroll = () => {
+    if (!servicesTicking) {
+      requestAnimationFrame(updateServicesPin);
+      servicesTicking = true;
+    }
+  };
+
+  window.addEventListener('scroll', onServicesScroll, { passive: true });
+  window.addEventListener('resize', onServicesScroll);
+  updateServicesPin();
+} else {
+  servicesItems.forEach((el) => el.classList.add('is-active'));
 }
 
 // Hero → first-work pin/crossfade: the hero stays pinned for one extra
@@ -65,8 +83,6 @@ if (servicesNames.length) {
 const pinWrap = document.querySelector('.pin-wrap');
 const pinHero = document.querySelector('.pin-hero');
 const pinWork01 = document.querySelector('.pin-work01');
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const narrowViewport = window.matchMedia('(max-width: 860px)').matches;
 
 if (pinWrap && pinHero && pinWork01 && !reduceMotion && !narrowViewport) {
   let ticking = false;

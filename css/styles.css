@@ -60,7 +60,7 @@ img { max-width: 100%; display: block; }
 .nav {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50%;
   right: 0;
   z-index: 100;
   display: flex;
@@ -71,18 +71,7 @@ img { max-width: 100%; display: block; }
   mix-blend-mode: difference;
 }
 
-.nav__mark {
-  font-weight: 900;
-  font-size: 15px;
-  letter-spacing: 0.04em;
-}
-
-.nav__links {
-  display: flex;
-  gap: clamp(16px, 3vw, 40px);
-}
-
-.nav__links a {
+.nav a {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -90,7 +79,7 @@ img { max-width: 100%; display: block; }
   padding-bottom: 3px;
 }
 
-.nav__links a::after {
+.nav a::after {
   content: "";
   position: absolute;
   left: 0;
@@ -103,7 +92,7 @@ img { max-width: 100%; display: block; }
   transition: transform 0.35s ease;
 }
 
-.nav__links a:hover::after {
+.nav a:hover::after {
   transform: scaleX(1);
   transform-origin: left;
 }
@@ -251,7 +240,7 @@ img { max-width: 100%; display: block; }
 }
 
 .wordmark__img {
-  width: clamp(280px, 34vw, 560px);
+  width: clamp(320px, 42vw, 720px);
   height: auto;
 }
 
@@ -373,6 +362,24 @@ img { max-width: 100%; display: block; }
 }
 
 /* -------------------- services -------------------- */
+/* Pinned like the hero→work transition: the list stays fixed in the
+   viewport for an extra stretch of scroll, and only the "current" service
+   (by scroll progress) inks in black — the others stay grey, same as the
+   reference site's sticky team-name list. */
+
+.services__pin-wrap {
+  position: relative;
+  height: 240vh;
+}
+
+.services__pin-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .services__list {
   border-top: 1px solid var(--line);
@@ -401,16 +408,21 @@ img { max-width: 100%; display: block; }
   line-height: 1;
   color: transparent;
   -webkit-text-stroke: 1.2px var(--ink-ghost);
-  transition: color 1.1s var(--ease) 0.3s, -webkit-text-stroke 1.1s var(--ease) 0.3s;
+  transition: color 0.5s var(--ease), -webkit-text-stroke 0.5s var(--ease);
 }
 
-/* Stays grey until the text itself is actually centered in view, then
-   inks in solid black — its own scroll trigger (not .reveal's, and not
-   hover), tuned to fire once you can actually read it, not the moment
-   the row's top edge (its small index number) peeks into the viewport. */
-.services__name.is-inked {
+/* Only the row that's "current" for the scroll position inks in solid
+   black; the rest stay grey. Toggled continuously while the section is
+   pinned (not a one-shot reveal — it reverts when it's no longer active). */
+.services__item.is-active .services__name {
   color: var(--ink);
   -webkit-text-stroke: 1.2px transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services__pin-wrap { height: auto; }
+  .services__pin-stage { position: relative; height: auto; }
+  .services__name { color: var(--ink) !important; -webkit-text-stroke: 1.2px transparent !important; }
 }
 
 .services__desc {
@@ -568,6 +580,10 @@ img { max-width: 100%; display: block; }
 /* -------------------- responsive -------------------- */
 
 @media (max-width: 860px) {
+  /* Hero panels stack instead of splitting left/right, so the nav goes
+     back to spanning the full width. */
+  .nav { left: 0; }
+
   .hero {
     grid-template-columns: 1fr;
   }
@@ -610,8 +626,7 @@ img { max-width: 100%; display: block; }
 }
 
 @media (max-width: 560px) {
-  .nav__links { gap: 14px; }
-  .nav__links a { font-size: 11px; }
+  .nav a { font-size: 11px; }
   .footer { flex-direction: column; align-items: flex-start; }
 }
 

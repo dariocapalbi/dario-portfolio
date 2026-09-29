@@ -32,6 +32,32 @@ if ('IntersectionObserver' in window) {
   revealTargets.forEach((el) => el.classList.add('is-visible'));
 }
 
+// Services grey→black ink-fill: fires later than the generic .reveal
+// trigger above — only once the heading text itself is actually centered
+// in the viewport (not just the row's top edge, i.e. its small index
+// number, peeking in), so the fill is still visible as it happens instead
+// of finishing off-screen before you can read it.
+const servicesNames = Array.from(document.querySelectorAll('.services__name'));
+
+if (servicesNames.length) {
+  if ('IntersectionObserver' in window) {
+    const inkObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-inked');
+            inkObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0, rootMargin: '-35% 0px -35% 0px' }
+    );
+    servicesNames.forEach((el) => inkObserver.observe(el));
+  } else {
+    servicesNames.forEach((el) => el.classList.add('is-inked'));
+  }
+}
+
 // Hero → first-work pin/crossfade: the hero stays pinned for one extra
 // viewport of scroll while the first Work slot fades in on top of it, so
 // the hero visually "becomes" the first project. Driven directly by scroll

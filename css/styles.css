@@ -247,11 +247,11 @@ img { max-width: 100%; display: block; }
 
 .hero__wordmark {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .wordmark__img {
-  width: clamp(220px, 26vw, 420px);
+  width: clamp(280px, 34vw, 560px);
   height: auto;
 }
 
@@ -404,9 +404,11 @@ img { max-width: 100%; display: block; }
   transition: color 1.1s var(--ease) 0.3s, -webkit-text-stroke 1.1s var(--ease) 0.3s;
 }
 
-/* Stays grey until the item scrolls into view, then inks in solid black —
-   triggered by .reveal's own IntersectionObserver, not by hover. */
-.services__item.is-visible .services__name {
+/* Stays grey until the text itself is actually centered in view, then
+   inks in solid black — its own scroll trigger (not .reveal's, and not
+   hover), tuned to fire once you can actually read it, not the moment
+   the row's top edge (its small index number) peeks into the viewport. */
+.services__name.is-inked {
   color: var(--ink);
   -webkit-text-stroke: 1.2px transparent;
 }
@@ -572,9 +574,7 @@ img { max-width: 100%; display: block; }
   .hero__panel--dark { min-height: 78vh; }
   .hero__panel--light {
     min-height: 40vh;
-    align-items: flex-end;
   }
-  .hero__wordmark { text-align: right; }
 
   /* The stacked hero panels run taller than 100vh on narrow screens, so
      the pin/crossfade (built for a fixed 100vh stage) would clip the

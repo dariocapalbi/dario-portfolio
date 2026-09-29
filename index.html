@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700,800,900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/styles.css?v=6">
+<link rel="stylesheet" href="css/styles.css?v=8">
 </head>
 <body>
 
@@ -46,11 +46,18 @@
       </div>
     </header>
 
-    <div class="work__slot pin-work01">
-      <span class="work__index">(01)</span>
-      <span class="work__plus">+</span>
-      <p class="work__title">Project title</p>
-      <small class="work__status">Case study coming soon</small>
+    <div class="work__slot pin-work01 work__slot--live">
+      <video class="work__video" autoplay muted loop playsinline poster="assets/work/flagged-poster.jpg?v=2">
+        <source src="assets/work/flagged-preview.webm?v=2" type="video/webm">
+        <source src="assets/work/flagged-preview.mp4?v=2" type="video/mp4">
+      </video>
+      <div class="work__slot-content">
+        <span class="work__index">(01)</span>
+        <div class="work__caption">
+          <p class="work__title">Flagged</p>
+          <p class="work__tag">Maritime compliance SaaS — UX/UI Design</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

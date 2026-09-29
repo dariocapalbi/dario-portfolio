@@ -327,6 +327,66 @@ img { max-width: 100%; display: block; }
   background: rgba(10, 10, 10, 0.02);
 }
 
+/* A real project card: video fills the slot, solid border instead of the
+   placeholder dashed one, text sits in a scrim-faded content layer on top. */
+.work__slot--live {
+  border-style: solid;
+  padding: 0;
+  overflow: hidden;
+}
+
+.work__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.work__slot-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  padding: var(--gutter);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(245, 244, 241, 0.55) 0%,
+    rgba(245, 244, 241, 0) 12%,
+    rgba(245, 244, 241, 0) 78%,
+    rgba(245, 244, 241, 0.65) 100%
+  );
+}
+
+.work__slot--live .work__index {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.work__caption {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.work__slot--live .work__title {
+  font-size: clamp(24px, 3.6vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.work__tag {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-mute);
+}
+
 .work__index {
   font-size: 13px;
   color: var(--ink-mute);

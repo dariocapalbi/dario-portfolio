@@ -1,5 +1,19 @@
-// Scroll-reveal for sections
-const revealTargets = document.querySelectorAll('[data-reveal]');
+// Scroll-reveal: each .reveal element fades + slides up as it enters the
+// viewport, same easing/motion as the hero headline. Siblings that share a
+// parent (a row of service items, work slots, process steps…) get a small
+// staggered delay so they animate in sequence rather than all at once.
+const revealTargets = Array.from(document.querySelectorAll('.reveal'));
+const STAGGER_MS = 90;
+const MAX_STAGGER_MS = 360;
+
+revealTargets.forEach((el) => {
+  const siblings = Array.from(el.parentElement.children).filter((c) =>
+    c.classList.contains('reveal')
+  );
+  const index = siblings.indexOf(el);
+  const delay = Math.min(index * STAGGER_MS, MAX_STAGGER_MS);
+  el.style.transitionDelay = `${delay}ms`;
+});
 
 if ('IntersectionObserver' in window) {
   const observer = new IntersectionObserver(
@@ -11,7 +25,7 @@ if ('IntersectionObserver' in window) {
         }
       });
     },
-    { threshold: 0.15 }
+    { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
   );
   revealTargets.forEach((el) => observer.observe(el));
 } else {

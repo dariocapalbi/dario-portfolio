@@ -257,32 +257,43 @@ img { max-width: 100%; display: block; }
 }
 
 /* -------------------- work -------------------- */
+/* Full-bleed stacked panels: each slot spans the entire viewport width,
+   edge to edge, regardless of the section's own side padding. */
 
 .work__empty {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(16px, 2vw, 24px);
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
 .work__slot {
   position: relative;
-  aspect-ratio: 4 / 5;
-  border: 1px dashed var(--line);
-  border-radius: 2px;
-  padding: 20px;
+  width: 100%;
+  height: min(78vh, 760px);
+  border-top: 1px dashed var(--line);
+  border-bottom: 1px dashed var(--line);
+  padding: var(--gutter);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: border-color 0.3s ease, background 0.3s ease;
+  transition: background 0.3s ease;
+}
+
+.work__slot + .work__slot {
+  border-top: none;
 }
 
 .work__slot:hover {
-  border-color: var(--ink-soft);
   background: rgba(10, 10, 10, 0.02);
 }
 
 .work__index {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--ink-mute);
 }
 
@@ -291,20 +302,20 @@ img { max-width: 100%; display: block; }
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 32px;
+  font-size: 40px;
   font-weight: 300;
   color: var(--ink-ghost);
 }
 
 .work__title {
   margin: 0;
-  font-size: 15px;
+  font-size: clamp(16px, 2vw, 20px);
   font-weight: 700;
   color: var(--ink-soft);
 }
 
 .work__status {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.03em;
   color: var(--ink-mute);
 }
@@ -344,10 +355,12 @@ img { max-width: 100%; display: block; }
   line-height: 1;
   color: transparent;
   -webkit-text-stroke: 1.2px var(--ink-ghost);
-  transition: color 0.4s ease, -webkit-text-stroke 0.4s ease;
+  transition: color 1.1s var(--ease) 0.3s, -webkit-text-stroke 1.1s var(--ease) 0.3s;
 }
 
-.services__item:hover .services__name {
+/* Stays grey until the item scrolls into view, then inks in solid black —
+   triggered by .reveal's own IntersectionObserver, not by hover. */
+.services__item.is-visible .services__name {
   color: var(--ink);
   -webkit-text-stroke: 1.2px transparent;
 }
@@ -517,10 +530,7 @@ img { max-width: 100%; display: block; }
   }
   .hero__wordmark { text-align: right; }
 
-  .work__empty {
-    grid-template-columns: 1fr;
-  }
-  .work__slot { aspect-ratio: 16 / 10; }
+  .work__slot { height: min(70vh, 560px); }
 
   .about__grid {
     grid-template-columns: 1fr;

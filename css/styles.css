@@ -327,15 +327,15 @@ img { max-width: 100%; display: block; }
   background: rgba(10, 10, 10, 0.02);
 }
 
-/* A real project card: video fills the slot, solid border instead of the
-   placeholder dashed one, text sits in a scrim-faded content layer on top. */
+/* A real project card: the image fills the slot, solid border instead of
+   the placeholder dashed one, text sits in a scrim-faded content layer on top. */
 .work__slot--live {
   border-style: solid;
   padding: 0;
   overflow: hidden;
 }
 
-.work__video {
+.work__media {
   position: absolute;
   inset: 0;
   width: 100%;

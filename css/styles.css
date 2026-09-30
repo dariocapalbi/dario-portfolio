@@ -348,9 +348,11 @@ html.has-custom-cursor button {
    .section__head h2 rule so it wins at equal specificity. */
 .section__head--full {
   position: relative;
+  align-items: center;
   justify-content: center;
+  height: 100vh;
   margin: 0 calc(-1 * var(--gutter));
-  padding: clamp(12px, 1.5vw, 20px) 4vw clamp(20px, 3vw, 32px);
+  padding: 0 4vw;
   background: var(--paper);
   overflow: hidden;
 }
@@ -379,6 +381,8 @@ html.has-custom-cursor button {
 #work .section__head--wide {
   position: sticky;
   top: 0;
+  align-items: center;
+  height: 100vh;
   margin-bottom: 0;
   overflow: hidden;
 }
@@ -463,6 +467,8 @@ html.has-custom-cursor button {
 }
 
 .work__note {
+  position: relative;
+  background: var(--paper);
   margin: clamp(28px, 4vw, 40px) 0 0;
   font-size: 13px;
   color: var(--ink-mute);

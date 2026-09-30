@@ -395,10 +395,11 @@ html.has-custom-cursor button {
    breathing room in the section's bottom padding instead, so it
    stays inside that budget and is actually seen. */
 #about .section__head--wide {
-  margin-bottom: clamp(16px, 2vw, 32px);
+  margin-bottom: clamp(56px, 8vw, 88px);
 }
 
 #about {
+  padding-top: clamp(40px, 5vw, 56px);
   padding-bottom: clamp(80px, 12vw, 140px);
 }
 
@@ -597,7 +598,8 @@ html.has-custom-cursor button {
 .about__grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
-  gap: clamp(32px, 6vw, 80px);
+  column-gap: clamp(32px, 6vw, 80px);
+  row-gap: 0;
   align-items: start;
 }
 
@@ -676,16 +678,16 @@ html.has-custom-cursor button {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.03em;
-  /* Solid equivalent of --ink-mute (which is semi-transparent) - this
-     link sits under the cursor ball on hover, and a translucent color
-     lets the ball's yellow bleed through even though the text is
-     technically stacked on top of it, reading as if it's covered. */
-  color: #97968f;
+  /* Solid, always-dark rather than muted grey or a :hover-only change -
+     this link sits under the cursor ball, and a light/translucent
+     color has too little contrast against the ball's bright yellow to
+     read clearly, whether or not :hover happens to be active. */
+  color: var(--ink);
   transition: color 0.3s ease;
 }
 
 .contact__socials a:hover {
-  color: var(--ink);
+  color: var(--accent);
 }
 
 /* -------------------- footer -------------------- */

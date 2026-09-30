@@ -265,14 +265,14 @@ html.has-custom-cursor button {
   border-top: 1px solid var(--line);
 }
 
-/* Sections that should hold in place while the next one slides up and
-   covers them, deck-of-cards style. Only used where a section's own
-   content fits within one screen — a taller section (e.g. Work, with
-   several full-height slots) would freeze on its first screenful for
-   the whole pin duration instead of scrolling through normally. */
+/* Used to pin About in place, since removed - position: sticky here
+   had effectively unbounded slack (nothing bounds how long it stays
+   "stuck" once its own content clears, since it's not based on
+   proximity to the next section) so About stayed glued in front of
+   Contact well after Contact had started covering it, bleeding
+   through. Scrolls normally now, same as Work's slots and Services. */
 .section--pin {
-  position: sticky;
-  top: 0;
+  position: relative;
 }
 
 /* Scroll reveal — same fade + slide-up language as the hero,
@@ -678,16 +678,13 @@ html.has-custom-cursor button {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.03em;
-  /* Solid, always-dark rather than muted grey or a :hover-only change -
-     this link sits under the cursor ball, and a light/translucent
-     color has too little contrast against the ball's bright yellow to
-     read clearly, whether or not :hover happens to be active. */
+  /* Constant --ink, no color change at all (including on hover) - this
+     link sits under the cursor ball, which is bright yellow, and every
+     color tried so far that shifts on hover (grey, accent orange) has
+     turned out to have poor contrast against it. Solid near-black is
+     the one color guaranteed to stay legible no matter what's behind
+     it, so it just never changes. */
   color: var(--ink);
-  transition: color 0.3s ease;
-}
-
-.contact__socials a:hover {
-  color: var(--accent);
 }
 
 /* -------------------- footer -------------------- */

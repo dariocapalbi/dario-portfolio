@@ -327,6 +327,27 @@ html.has-custom-cursor button {
   margin-bottom: clamp(40px, 6vw, 72px);
 }
 
+/* Full-screen section intro: the heading alone fills the viewport,
+   pinned like the rest of the page's sections until the content after
+   it slides up and covers it. */
+.section__head--full {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  margin: 0 calc(-1 * var(--gutter));
+  padding: 0 var(--gutter);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+}
+
+.section__head--full h2 {
+  font-size: clamp(56px, 11vw, 160px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
 .kicker {
   font-size: 12px;
   font-weight: 700;

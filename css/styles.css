@@ -347,20 +347,30 @@ html.has-custom-cursor button {
    content after it slides up and covers it. Declared after the base
    .section__head h2 rule so it wins at equal specificity. */
 .section__head--full {
-  position: sticky;
-  top: 0;
+  position: relative;
+  justify-content: center;
   margin: 0 calc(-1 * var(--gutter));
-  padding: clamp(140px, 22vw, 240px) 4vw clamp(48px, 8vw, 88px);
+  padding: clamp(24px, 4vw, 48px) 4vw clamp(48px, 8vw, 88px);
   background: var(--paper);
   overflow: hidden;
 }
 
-.section__head--full h2 {
+.section__head--full h2,
+.section__head--wide h2 {
   font-size: 13vw;
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 0.9;
   white-space: nowrap;
+}
+
+/* Same oversized edge-to-edge heading, without the sticky pin - for
+   sections (like About) whose outer section is already the thing
+   that pins as a whole. */
+.section__head--wide {
+  justify-content: center;
+  margin: 0 calc(-1 * var(--gutter)) clamp(48px, 8vw, 96px);
+  padding: 0 4vw;
 }
 
 /* -------------------- work -------------------- */
@@ -379,8 +389,7 @@ html.has-custom-cursor button {
 }
 
 .work__slot {
-  position: sticky;
-  top: 0;
+  position: relative;
   width: 100%;
   height: 100vh;
   background: var(--paper);
@@ -601,11 +610,15 @@ html.has-custom-cursor button {
 }
 
 .contact__headline {
-  margin: 0;
-  font-size: clamp(44px, 9vw, 120px);
+  width: calc(100% + 2 * var(--gutter));
+  margin: 0 calc(-1 * var(--gutter));
+  padding: 0 4vw;
+  font-size: 13vw;
   font-weight: 800;
   letter-spacing: -0.02em;
-  line-height: 0.98;
+  line-height: 0.9;
+  white-space: nowrap;
+  text-align: center;
 }
 
 .contact__email {
@@ -678,8 +691,6 @@ html.has-custom-cursor button {
   .hero__panel--light {
     min-height: 40vh;
   }
-
-  .work__slot { height: min(70vh, 560px); }
 
   .about__grid {
     grid-template-columns: 1fr;

@@ -66,7 +66,7 @@ img { max-width: 100%; display: block; }
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 2;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.25s ease;
@@ -93,6 +93,8 @@ img { max-width: 100%; display: block; }
 html.has-custom-cursor a,
 html.has-custom-cursor button {
   cursor: none;
+  position: relative;
+  z-index: 3;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -144,6 +146,8 @@ html.has-custom-cursor button {
 /* -------------------- hero -------------------- */
 
 .hero {
+  position: sticky;
+  top: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: 100vh;
@@ -255,8 +259,20 @@ html.has-custom-cursor button {
 /* -------------------- sections -------------------- */
 
 .section {
+  position: relative;
+  background: var(--paper);
   padding: var(--section-pad) var(--gutter);
   border-top: 1px solid var(--line);
+}
+
+/* Sections that should hold in place while the next one slides up and
+   covers them, deck-of-cards style. Only used where a section's own
+   content fits within one screen — a taller section (e.g. Work, with
+   several full-height slots) would freeze on its first screenful for
+   the whole pin duration instead of scrolling through normally. */
+.section--pin {
+  position: sticky;
+  top: 0;
 }
 
 /* Scroll reveal — same fade + slide-up language as the hero,
@@ -342,74 +358,65 @@ html.has-custom-cursor button {
 }
 
 .work__slot {
-  position: relative;
+  position: sticky;
+  top: 0;
   width: 100%;
-  height: min(78vh, 760px);
-  border-top: 1px dashed var(--line);
-  border-bottom: 1px dashed var(--line);
+  height: 100vh;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
   padding: var(--gutter);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  transition: background 0.3s ease;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 3vw, 32px);
+  text-align: center;
 }
 
 .work__slot + .work__slot {
   border-top: none;
 }
 
-.work__slot:hover {
-  background: rgba(10, 10, 10, 0.02);
+/* Placeholder color box standing in for the real project image - each
+   slot pins (see position: sticky above) and the next slot's own paper
+   background slides up over it, same cover effect as the rest of the
+   page's sections. */
+.work__box {
+  position: relative;
+  width: min(96vw, 1320px);
+  height: 50vh;
 }
 
-/* TEMP: solid color fills standing in for real project images, so the
-   scroll-reveal on these slots is actually visible while testing —
-   swap for real work whenever that's ready. */
-.work__slot--swatch {
-  border-style: solid;
-}
-
-.work__slot--swatch:nth-of-type(1) { background: var(--accent); }
-.work__slot--swatch:nth-of-type(2) { background: var(--yellow); }
-.work__slot--swatch:nth-of-type(3) { background: #2E5CFF; }
-
-.work__slot--swatch .work__index,
-.work__slot--swatch .work__title {
-  color: var(--ink);
-}
-
-.work__slot--swatch .work__status {
-  color: rgba(10, 10, 10, 0.55);
-}
-
-.work__slot--swatch .work__plus {
-  color: rgba(10, 10, 10, 0.25);
-}
-
-.work__index {
-  font-size: 13px;
-  color: var(--ink-mute);
-}
-
-.work__plus {
+.work__box::after {
+  content: "+";
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 40px;
   font-weight: 300;
-  color: var(--ink-ghost);
+  color: rgba(10, 10, 10, 0.25);
+}
+
+.work__box--01 { background: var(--accent); }
+.work__box--02 { background: var(--yellow); }
+.work__box--03 { background: #2E5CFF; }
+
+.work__index {
+  font-size: 13px;
+  color: var(--ink-mute);
 }
 
 .work__title {
   margin: 0;
-  font-size: clamp(16px, 2vw, 20px);
-  font-weight: 700;
-  color: var(--ink-soft);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ink);
 }
 
 .work__status {
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.03em;
   color: var(--ink-mute);
 }
@@ -465,9 +472,8 @@ html.has-custom-cursor button {
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1.2px var(--ink-ghost);
-  transition: color 0.5s var(--ease), -webkit-text-stroke 0.5s var(--ease);
+  color: var(--ink-ghost);
+  transition: color 0.5s var(--ease);
 }
 
 /* Only the row that's "current" for the scroll position inks in solid
@@ -475,13 +481,12 @@ html.has-custom-cursor button {
    pinned (not a one-shot reveal — it reverts when it's no longer active). */
 .services__item.is-active .services__name {
   color: var(--ink);
-  -webkit-text-stroke: 1.2px transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .services__pin-wrap { height: auto; }
   .services__pin-stage { position: relative; height: auto; }
-  .services__name { color: var(--ink) !important; -webkit-text-stroke: 1.2px transparent !important; }
+  .services__name { color: var(--ink) !important; }
 }
 
 .services__desc {
@@ -616,6 +621,8 @@ html.has-custom-cursor button {
 /* -------------------- footer -------------------- */
 
 .footer {
+  position: relative;
+  background: var(--paper);
   display: flex;
   flex-wrap: wrap;
   gap: 12px 24px;

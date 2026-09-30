@@ -350,7 +350,7 @@ html.has-custom-cursor button {
   position: relative;
   justify-content: center;
   margin: 0 calc(-1 * var(--gutter));
-  padding: clamp(24px, 4vw, 48px) 4vw clamp(48px, 8vw, 88px);
+  padding: clamp(12px, 1.5vw, 20px) 4vw clamp(20px, 3vw, 32px);
   background: var(--paper);
   overflow: hidden;
 }
@@ -369,8 +369,18 @@ html.has-custom-cursor button {
    that pins as a whole. */
 .section__head--wide {
   justify-content: center;
-  margin: 0 calc(-1 * var(--gutter)) clamp(48px, 8vw, 96px);
+  margin: 0 calc(-1 * var(--gutter)) clamp(96px, 14vw, 180px);
   padding: 0 4vw;
+}
+
+/* Work's own heading pins and gets covered by the first slot, same as
+   every other section - #work isn't itself the thing that pins (unlike
+   About), so its heading needs the sticky treatment directly. */
+#work .section__head--wide {
+  position: sticky;
+  top: 0;
+  margin-bottom: 0;
+  overflow: hidden;
 }
 
 /* -------------------- work -------------------- */
@@ -389,7 +399,8 @@ html.has-custom-cursor button {
 }
 
 .work__slot {
-  position: relative;
+  position: sticky;
+  top: 0;
   width: 100%;
   height: 100vh;
   background: var(--paper);
@@ -414,7 +425,7 @@ html.has-custom-cursor button {
 .work__box {
   position: relative;
   width: min(96vw, 1320px);
-  height: 50vh;
+  height: 68vh;
 }
 
 .work__box::after {

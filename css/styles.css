@@ -327,27 +327,6 @@ html.has-custom-cursor button {
   margin-bottom: clamp(40px, 6vw, 72px);
 }
 
-/* Full-screen section intro: the heading alone fills the viewport,
-   pinned like the rest of the page's sections until the content after
-   it slides up and covers it. */
-.section__head--full {
-  position: sticky;
-  top: 0;
-  min-height: 100vh;
-  margin: 0 calc(-1 * var(--gutter));
-  padding: 0 var(--gutter);
-  background: var(--paper);
-  display: flex;
-  align-items: center;
-}
-
-.section__head--full h2 {
-  font-size: clamp(56px, 11vw, 160px);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 0.95;
-}
-
 .kicker {
   font-size: 12px;
   font-weight: 700;
@@ -361,6 +340,27 @@ html.has-custom-cursor button {
   font-size: clamp(28px, 4vw, 44px);
   font-weight: 800;
   letter-spacing: -0.01em;
+}
+
+/* Full-width section intro: the heading spans edge to edge at a huge
+   fluid size, pinned like the rest of the page's sections until the
+   content after it slides up and covers it. Declared after the base
+   .section__head h2 rule so it wins at equal specificity. */
+.section__head--full {
+  position: sticky;
+  top: 0;
+  margin: 0 calc(-1 * var(--gutter));
+  padding: clamp(140px, 22vw, 240px) 4vw clamp(48px, 8vw, 88px);
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.section__head--full h2 {
+  font-size: 15vw;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  white-space: nowrap;
 }
 
 /* -------------------- work -------------------- */

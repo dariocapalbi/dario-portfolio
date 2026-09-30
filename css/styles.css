@@ -387,6 +387,21 @@ html.has-custom-cursor button {
   overflow: hidden;
 }
 
+/* About is pinned to a single viewport (see .section--pin) - if its
+   heading, statement and toolkit collectively run taller than that
+   viewport, whatever doesn't fit (typically the section's own
+   bottom padding) never becomes visible while pinned, no matter how
+   large it's set. Keep the heading's own gap small and put the real
+   breathing room in the section's bottom padding instead, so it
+   stays inside that budget and is actually seen. */
+#about .section__head--wide {
+  margin-bottom: clamp(16px, 2vw, 32px);
+}
+
+#about {
+  padding-bottom: clamp(80px, 12vw, 140px);
+}
+
 /* -------------------- work -------------------- */
 /* Full-bleed stacked panels: each slot spans the entire viewport width,
    edge to edge, regardless of the section's own side padding. */
@@ -633,7 +648,7 @@ html.has-custom-cursor button {
   font-size: 13vw;
   font-weight: 800;
   letter-spacing: -0.02em;
-  line-height: 0.9;
+  line-height: 1.15;
   white-space: nowrap;
   text-align: center;
 }
@@ -661,7 +676,11 @@ html.has-custom-cursor button {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.03em;
-  color: var(--ink-mute);
+  /* Solid equivalent of --ink-mute (which is semi-transparent) - this
+     link sits under the cursor ball on hover, and a translucent color
+     lets the ball's yellow bleed through even though the text is
+     technically stacked on top of it, reading as if it's covered. */
+  color: #97968f;
   transition: color 0.3s ease;
 }
 

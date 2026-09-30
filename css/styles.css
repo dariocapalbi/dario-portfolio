@@ -350,7 +350,7 @@ html.has-custom-cursor button {
   position: relative;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 40vh;
   margin: 0 calc(-1 * var(--gutter));
   padding: 0 4vw;
   background: var(--paper);
@@ -382,7 +382,7 @@ html.has-custom-cursor button {
   position: sticky;
   top: 0;
   align-items: center;
-  height: 100vh;
+  height: 40vh;
   margin-bottom: 0;
   overflow: hidden;
 }

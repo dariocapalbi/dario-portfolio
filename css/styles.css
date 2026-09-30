@@ -99,52 +99,6 @@ img { max-width: 100%; display: block; }
 
 /* -------------------- hero -------------------- */
 
-/* -------------------- hero → first work pin/crossfade -------------------- */
-/* The hero stays pinned in the viewport for an extra scroll-length, during
-   which it fades out while the first Work slot fades in on top of it —
-   the hero "becomes" the first project, both full-bleed, same spot. */
-
-.pin-wrap {
-  position: relative;
-  height: 200vh;
-}
-
-.pin-stage {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.pin-hero {
-  position: absolute;
-  inset: 0;
-  height: 100%;
-  min-height: 0;
-}
-
-.work__slot.pin-work01 {
-  position: absolute;
-  inset: 0;
-  height: 100%;
-  opacity: 0;
-  background: var(--paper);
-  will-change: opacity, transform;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pin-wrap { height: auto; }
-  .pin-stage { position: relative; height: auto; overflow: visible; }
-  .pin-hero { position: relative; inset: auto; opacity: 1 !important; }
-  .work__slot.pin-work01 {
-    position: relative;
-    inset: auto;
-    height: min(78vh, 760px);
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
 .hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -355,10 +309,28 @@ img { max-width: 100%; display: block; }
   pointer-events: none;
   background: linear-gradient(
     to bottom,
-    rgba(245, 244, 241, 0.55) 0%,
-    rgba(245, 244, 241, 0) 12%,
-    rgba(245, 244, 241, 0) 78%,
-    rgba(245, 244, 241, 0.65) 100%
+    rgba(245, 244, 241, 0) 60%,
+    rgba(245, 244, 241, 0.7) 100%
+  );
+}
+
+/* Fixed-height scrim (not a % of the slot's height) so the nav — which is
+   a fixed pixel height regardless of viewport — always has a reliable,
+   near-opaque backdrop to sit on, instead of blending unpredictably with
+   whatever the photo shows at its very top edge. */
+.work__slot--live::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(245, 244, 241, 0.94) 0%,
+    rgba(245, 244, 241, 0) 100%
   );
 }
 
@@ -650,20 +622,6 @@ img { max-width: 100%; display: block; }
   .hero__panel--dark { min-height: 78vh; }
   .hero__panel--light {
     min-height: 40vh;
-  }
-
-  /* The stacked hero panels run taller than 100vh on narrow screens, so
-     the pin/crossfade (built for a fixed 100vh stage) would clip the
-     light panel. Fall back to a normal, non-pinned stack instead. */
-  .pin-wrap { height: auto; }
-  .pin-stage { position: relative; height: auto; overflow: visible; }
-  .pin-hero { position: relative; inset: auto; height: auto; opacity: 1 !important; }
-  .work__slot.pin-work01 {
-    position: relative;
-    inset: auto;
-    height: min(70vh, 560px);
-    opacity: 1 !important;
-    transform: none !important;
   }
 
   .work__slot { height: min(70vh, 560px); }

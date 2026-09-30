@@ -28,17 +28,9 @@ if (cursorBall && canHover && !reduceMotion) {
     cursorBall.classList.remove('is-active');
   });
 
-  // Small, isolated links (currently just the contact socials) stay
-  // excluded from the grow effect entirely - at 64px the ball is
-  // bigger than the link's own text, and no z-index arrangement kept
-  // the label reliably readable over solid yellow, so it never grows
-  // there instead.
-  const growExclude = 'a.no-grow, button.no-grow';
-
   document.addEventListener(
     'mouseover',
     (e) => {
-      if (e.target.closest(growExclude)) return;
       if (e.target.closest('a, button')) {
         cursorBall.classList.add('is-hovering');
       }

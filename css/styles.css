@@ -623,6 +623,14 @@ html.has-custom-cursor button {
 }
 
 .contact__email {
+  /* .reveal's transform (even at translateY(0), post-animation) makes
+     this its own stacking context - without an explicit z-index here
+     that beats the cursor ball's, the ball would paint over the whole
+     link regardless of the link's own z-index, since that only
+     matters for stacking *within* this context, not against siblings
+     outside it. Same fix as .contact__socials below. */
+  position: relative;
+  z-index: 4;
   font-size: clamp(18px, 2.4vw, 24px);
   font-weight: 700;
   padding-bottom: 4px;
@@ -636,6 +644,11 @@ html.has-custom-cursor button {
 }
 
 .contact__socials {
+  /* Same reasoning as .contact__email above: .reveal's transform makes
+     this its own stacking context, so it needs its own z-index above
+     the cursor ball's for its links to reliably paint on top of it. */
+  position: relative;
+  z-index: 4;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;

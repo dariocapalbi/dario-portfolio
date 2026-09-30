@@ -11,6 +11,7 @@
   --ink-ghost: rgba(10, 10, 10, 0.16);
   --line: rgba(10, 10, 10, 0.14);
   --accent: #FF4D23;
+  --yellow: #FFF959;
   --dark: #0A0A0A;
   --dark-line: rgba(245, 244, 241, 0.16);
 
@@ -79,7 +80,7 @@ img { max-width: 100%; display: block; }
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #fff959;
+  background: var(--yellow);
   transition: width 0.8s cubic-bezier(0.21, 1, 0.4, 0.98),
     height 0.8s cubic-bezier(0.21, 1, 0.4, 0.98);
 }
@@ -197,7 +198,7 @@ html.has-custom-cursor button {
 
 .hero__accent {
   font-style: normal;
-  color: var(--accent);
+  color: var(--yellow);
 }
 
 .hero__headline span:nth-child(1) { animation-delay: 0.05s; }
@@ -359,6 +360,30 @@ html.has-custom-cursor button {
 
 .work__slot:hover {
   background: rgba(10, 10, 10, 0.02);
+}
+
+/* TEMP: solid color fills standing in for real project images, so the
+   scroll-reveal on these slots is actually visible while testing —
+   swap for real work whenever that's ready. */
+.work__slot--swatch {
+  border-style: solid;
+}
+
+.work__slot--swatch:nth-of-type(1) { background: var(--accent); }
+.work__slot--swatch:nth-of-type(2) { background: var(--yellow); }
+.work__slot--swatch:nth-of-type(3) { background: #2E5CFF; }
+
+.work__slot--swatch .work__index,
+.work__slot--swatch .work__title {
+  color: var(--ink);
+}
+
+.work__slot--swatch .work__status {
+  color: rgba(10, 10, 10, 0.55);
+}
+
+.work__slot--swatch .work__plus {
+  color: rgba(10, 10, 10, 0.25);
 }
 
 .work__index {

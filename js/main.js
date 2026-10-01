@@ -176,6 +176,21 @@ if (servicesPinWrap && servicesItems.length && !reduceMotion) {
   servicesItems.forEach((el) => el.classList.add('is-active'));
 }
 
+// The hero only stays pinned while it fits on screen. Taller than the
+// viewport — any phone once the panels stack, or a laptop short enough that
+// the headline overflows — a sticky box pins immediately and everything
+// below the fold, the wordmark included, can never be scrolled to.
+const hero = document.querySelector('.hero');
+if (hero) {
+  const syncHeroPin = () => {
+    hero.classList.toggle('hero--unpinned', hero.offsetHeight > window.innerHeight + 1);
+  };
+  syncHeroPin();
+  window.addEventListener('resize', syncHeroPin);
+  // Webfonts landing reflow the headline, which is what decides the height.
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncHeroPin);
+}
+
 // Footer year
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();

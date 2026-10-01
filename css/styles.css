@@ -153,6 +153,17 @@ html.has-custom-cursor button {
   min-height: 100vh;
 }
 
+/* A sticky box taller than the viewport pins the instant you scroll and its
+   lower half becomes unreachable - on phones, and on laptops short enough
+   that the headline alone overflows, that lower half is the light panel
+   holding the wordmark. (bottom: 0 is no cure: a sticky box taller than the
+   scrollport simply never pins.) So the hero only pins while it fits;
+   main.js sets this class whenever it doesn't, and the deck stacking
+   resumes at Work either way. */
+.hero--unpinned {
+  position: static;
+}
+
 .hero__panel {
   position: relative;
   padding: var(--gutter);
@@ -775,12 +786,15 @@ html.has-custom-cursor button {
      back to spanning the full width. */
   .nav { left: 0; }
 
+  /* Dark panel with the headline on top, light panel with the wordmark
+     under it. Stacked like this the hero is always taller than a phone
+     screen, so main.js unpins it and you scroll through the whole thing. */
   .hero {
     grid-template-columns: 1fr;
   }
-  .hero__panel--dark { min-height: 78vh; }
+  .hero__panel--dark { min-height: 72vh; }
   .hero__panel--light {
-    min-height: 40vh;
+    min-height: 46vh;
   }
 
   .about__grid {

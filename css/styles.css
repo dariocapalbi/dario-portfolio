@@ -456,9 +456,13 @@ html.has-custom-cursor button {
   background: url("../assets/work-01-flagged.webp") center / cover no-repeat;
 }
 
+.work__box--02 {
+  background: url("../assets/work-02-fitmate.webp") center / cover no-repeat;
+}
+
 /* No "+" placeholder over a slot that already has real artwork. */
-.work__box--01::after { content: none; }
-.work__box--02 { background: var(--yellow); }
+.work__box--01::after,
+.work__box--02::after { content: none; }
 .work__box--03 { background: #2E5CFF; }
 
 .work__index {

@@ -387,13 +387,6 @@ html.has-custom-cursor button {
   overflow: hidden;
 }
 
-/* About is pinned to a single viewport (see .section--pin) - if its
-   heading, statement and toolkit collectively run taller than that
-   viewport, whatever doesn't fit (typically the section's own
-   bottom padding) never becomes visible while pinned, no matter how
-   large it's set. Keep the heading's own gap small and put the real
-   breathing room in the section's bottom padding instead, so it
-   stays inside that budget and is actually seen. */
 #about .section__head--wide {
   margin-bottom: clamp(56px, 8vw, 88px);
 }
@@ -578,6 +571,30 @@ html.has-custom-cursor button {
   line-height: 1.35;
 }
 
+/* Cut-out portrait sitting in a solid disc - the image itself is a
+   transparent PNG, so the circle is this element's own background. */
+.about__portrait {
+  margin: 0;
+  justify-self: end;
+  width: min(100%, 420px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #deddd8;
+  overflow: hidden;
+}
+
+.about__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about__tools {
+  margin-top: clamp(64px, 10vw, 120px);
+  border-top: 1px solid var(--line);
+  padding-top: clamp(20px, 3vw, 32px);
+}
+
 .about__tools-label {
   display: block;
   font-size: 12px;
@@ -585,20 +602,19 @@ html.has-custom-cursor button {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-mute);
-  margin-bottom: 16px;
+  margin-bottom: clamp(20px, 3vw, 32px);
 }
 
 .about__tools ul {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: clamp(20px, 4vw, 56px);
 }
 
 .about__tools li {
-  font-size: 15px;
-  font-weight: 600;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--line);
+  font-size: clamp(18px, 2.4vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 /* -------------------- contact -------------------- */
@@ -710,6 +726,7 @@ html.has-custom-cursor button {
   .about__grid {
     grid-template-columns: 1fr;
   }
+  .about__portrait { justify-self: center; }
 
   .services__item {
     grid-template-columns: 1fr;

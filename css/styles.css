@@ -571,14 +571,13 @@ html.has-custom-cursor button {
   line-height: 1.35;
 }
 
-/* Cut-out portrait sitting in a solid disc - the image itself is a
-   transparent PNG, so the circle is this element's own background. */
+/* Cut-out portrait on a solid panel - the image itself is a
+   transparent PNG, so the panel is this element's own background. */
 .about__portrait {
   margin: 0;
   justify-self: end;
   width: min(100%, 420px);
-  aspect-ratio: 1;
-  border-radius: 50%;
+  aspect-ratio: 4 / 5;
   background: #deddd8;
   overflow: hidden;
 }

@@ -481,11 +481,6 @@ html.has-custom-cursor button {
 .work__box--03::after,
 .work__box--04::after { content: none; }
 
-.work__index {
-  font-size: 13px;
-  color: var(--ink-mute);
-}
-
 .work__title {
   position: relative;
   margin: 0;

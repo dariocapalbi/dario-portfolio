@@ -197,9 +197,13 @@ html.has-custom-cursor button {
 }
 
 .hero__headline {
-  margin: clamp(48px, 8vw, 88px) 0 0;
+  /* The vh terms are what keep the hero inside the viewport so it can stay
+     pinned. Sized on width alone, the headline hits its 76px cap at 1267px
+     wide, but the panel it sits in is only half that - every line wraps,
+     the four lines render as eight, and the hero outgrows a laptop screen. */
+  margin: clamp(32px, min(8vw, 7vh), 88px) 0 0;
   font-weight: 800;
-  font-size: clamp(34px, 6vw, 76px);
+  font-size: clamp(34px, min(6vw, 7vh), 76px);
   line-height: 1.06;
   letter-spacing: -0.01em;
 }
@@ -787,14 +791,17 @@ html.has-custom-cursor button {
   .nav { left: 0; }
 
   /* Dark panel with the headline on top, light panel with the wordmark
-     under it. Stacked like this the hero is always taller than a phone
-     screen, so main.js unpins it and you scroll through the whole thing. */
+     under it. No vh floors here: fixed ones summed past the screen and
+     forced the hero to overflow even when the content would have fitted.
+     Let the panels take their natural height and the hero's own 100vh
+     floor stretch them, so it stays pinned on phones that can hold it -
+     and main.js unpins it on the short ones that cannot. */
   .hero {
     grid-template-columns: 1fr;
   }
-  .hero__panel--dark { min-height: 72vh; }
+  .hero__panel--dark { min-height: 0; }
   .hero__panel--light {
-    min-height: 46vh;
+    min-height: 0;
   }
 
   .about__grid {

@@ -166,15 +166,19 @@ html.has-custom-cursor button {
 
 .hero__panel {
   position: relative;
-  padding: var(--gutter);
+  /* Vertical padding gives way on a short screen so the headline does not
+     have to. */
+  padding: min(var(--gutter), 6vh) var(--gutter);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   min-height: 60vh;
 }
 
+/* Bottom-aligned like the light panel, so the headline and the wordmark
+   across the split finish on the same line. */
 .hero__panel--dark {
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .hero__panel--dark {
@@ -197,14 +201,14 @@ html.has-custom-cursor button {
 }
 
 .hero__headline {
-  /* The vh terms are what keep the hero inside the viewport so it can stay
-     pinned. Sized on width alone, the headline hits its 76px cap at 1267px
-     wide, but the panel it sits in is only half that - every line wraps,
-     the four lines render as eight, and the hero outgrows a laptop screen. */
-  margin: clamp(32px, min(8vw, 7vh), 88px) 0 0;
+  /* The hero has to fit the viewport to stay pinned, but that budget comes
+     out of the margin and the leading, not the type: the headline is the
+     thing, and it should fill the dark panel. The vh cap only bites on a
+     genuinely short screen, where the four lines wrap to eight. */
+  margin: clamp(20px, min(8vw, 3.5vh), 88px) 0 0;
   font-weight: 800;
-  font-size: clamp(34px, min(6vw, 7vh), 76px);
-  line-height: 1.06;
+  font-size: clamp(34px, min(6vw, 9vh), 76px);
+  line-height: 1.0;
   letter-spacing: -0.01em;
 }
 
@@ -229,9 +233,13 @@ html.has-custom-cursor button {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Out of the flow and over to the right: the dark panel is bottom-aligned
+   now, and in the flow this cue would take the baseline that "connect." has
+   to share with the wordmark across the split. */
 .hero__scroll {
-  margin-top: auto;
-  padding-top: 40px;
+  position: absolute;
+  right: var(--gutter);
+  bottom: min(var(--gutter), 6vh);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -802,6 +810,14 @@ html.has-custom-cursor button {
   .hero__panel--dark { min-height: 0; }
   .hero__panel--light {
     min-height: 0;
+  }
+
+  /* Back in the flow: the panels are stacked here, so there is no wordmark
+     across a split to keep a baseline with, and pinned bottom-right the cue
+     landed on top of the headline's last line. */
+  .hero__scroll {
+    position: static;
+    margin-top: 28px;
   }
 
   .about__grid {

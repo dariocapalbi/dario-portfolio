@@ -435,10 +435,13 @@ html.has-custom-cursor button {
    slot pins (see position: sticky above) and the next slot's own paper
    background slides up over it, same cover effect as the rest of the
    page's sections. */
+/* Matches the artwork's own 1846x852 proportions so nothing gets
+   cropped. The third min() term caps the height at the previous 68vh
+   by capping width instead, which keeps the ratio intact. */
 .work__box {
   position: relative;
-  width: min(96vw, 1320px);
-  height: 68vh;
+  width: min(96vw, 1320px, 147vh);
+  aspect-ratio: 1846 / 852;
 }
 
 .work__box::after {

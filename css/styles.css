@@ -467,6 +467,7 @@ html.has-custom-cursor button {
 }
 
 .work__title {
+  position: relative;
   margin: 0;
   font-size: clamp(28px, 4vw, 44px);
   font-weight: 800;
@@ -478,6 +479,46 @@ html.has-custom-cursor button {
   font-size: 13px;
   letter-spacing: 0.03em;
   color: var(--ink-mute);
+  transition: color 0.4s var(--ease);
+}
+
+/* Hover state, ahead of these slots becoming real links. */
+.work__slot {
+  cursor: pointer;
+}
+
+.work__box {
+  transition: transform 0.7s var(--ease);
+}
+
+.work__slot:hover .work__box {
+  transform: scale(1.02);
+}
+
+.work__title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.18em;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.45s var(--ease);
+}
+
+.work__slot:hover .work__title::after {
+  transform: scaleX(1);
+}
+
+.work__slot:hover .work__status {
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work__box,
+  .work__title::after { transition: none; }
+  .work__slot:hover .work__box { transform: none; }
 }
 
 .work__note {

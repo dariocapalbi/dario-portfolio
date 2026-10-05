@@ -418,6 +418,13 @@ html.has-custom-cursor button {
   overflow: hidden;
 }
 
+/* The pinned stage already carries a screenful of air around the list, so
+   this section does not need a full section-pad under it as well - that was
+   the dead white between Graphic Design and About. */
+#services {
+  padding-bottom: clamp(32px, 5vw, 64px);
+}
+
 #about {
   padding-top: var(--section-pad);
   padding-bottom: clamp(80px, 12vw, 140px);
@@ -579,7 +586,11 @@ html.has-custom-cursor button {
 
 .services__pin-wrap {
   position: relative;
-  height: 240vh;
+  /* Scroll distance for the fill, and nothing more. 240vh was built for a
+     longer list: with two items it meant 70vh of scrolling each, so the
+     second one finished inking well before the pin let go and the rest read
+     as dead white space before About. */
+  height: 130vh;
 }
 
 .services__pin-stage {

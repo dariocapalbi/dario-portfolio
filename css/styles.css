@@ -396,7 +396,9 @@ html.has-custom-cursor button {
    sections (like About) whose outer section is already the thing
    that pins as a whole. */
 .section__head--wide {
+  align-items: center;
   justify-content: flex-end;
+  height: 20vh;
   margin: 0 calc(-1 * var(--gutter)) clamp(40px, 6vw, 80px);
   padding: 0 var(--gutter);
 }
@@ -407,18 +409,17 @@ html.has-custom-cursor button {
 #work .section__head--wide {
   position: sticky;
   top: 0;
-  align-items: center;
-  height: 20vh;
   margin-bottom: 0;
   overflow: hidden;
 }
 
 #about .section__head--wide {
   margin-bottom: clamp(24px, 3.5vw, 44px);
+  overflow: hidden;
 }
 
 #about {
-  padding-top: clamp(40px, 5vw, 56px);
+  padding-top: var(--section-pad);
   padding-bottom: clamp(80px, 12vw, 140px);
 }
 

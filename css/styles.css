@@ -388,13 +388,7 @@ html.has-custom-cursor button {
 
 .section__head--full h2,
 .section__head--wide h2 {
-  /* Kept just under .services__name, which runs clamp(40px, 9vw, 112px): at
-     11vw the section label was 22% larger than the work it announces, and
-     shouted over it. It has to follow the same vh cap those names do, or the
-     two drift apart on a short window - at 8vw against 10vh the label went
-     back to 1.45x. The max matters too: a bare 8vw would overtake them past
-     1400px, where they stop growing. */
-  font-size: clamp(26px, min(8vw, 10.8vh), 104px);
+  font-size: 11vw;
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 0.95;
@@ -434,14 +428,15 @@ html.has-custom-cursor button {
 #services .section__head--full {
   position: sticky;
   top: 0;
+  /* Room under the label where words follow it. Work keeps none: its first
+     slot is a full-bleed image and butts up cleanly. */
+  margin-bottom: clamp(32px, 7vh, 80px);
 }
 
 #about .section__head--wide {
   position: sticky;
   top: 0;
-  /* No gap under it, same as Work and Services: the title is centred inside
-     the band, so the band's own lower half is the separation. */
-  margin-bottom: 0;
+  margin-bottom: clamp(32px, 7vh, 80px);
   overflow: hidden;
 }
 

@@ -376,7 +376,7 @@ html.has-custom-cursor button {
   position: relative;
   align-items: center;
   justify-content: flex-end;
-  height: 40vh;
+  height: 20vh;
   margin: 0 calc(-1 * var(--gutter));
   padding: 0 var(--gutter);
   background: var(--paper);
@@ -397,7 +397,7 @@ html.has-custom-cursor button {
    that pins as a whole. */
 .section__head--wide {
   justify-content: flex-end;
-  margin: 0 calc(-1 * var(--gutter)) clamp(96px, 14vw, 180px);
+  margin: 0 calc(-1 * var(--gutter)) clamp(40px, 6vw, 80px);
   padding: 0 var(--gutter);
 }
 
@@ -408,13 +408,13 @@ html.has-custom-cursor button {
   position: sticky;
   top: 0;
   align-items: center;
-  height: 40vh;
+  height: 20vh;
   margin-bottom: 0;
   overflow: hidden;
 }
 
 #about .section__head--wide {
-  margin-bottom: clamp(56px, 8vw, 88px);
+  margin-bottom: clamp(24px, 3.5vw, 44px);
 }
 
 #about {

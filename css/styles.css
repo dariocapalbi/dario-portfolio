@@ -388,7 +388,13 @@ html.has-custom-cursor button {
 
 .section__head--full h2,
 .section__head--wide h2 {
-  font-size: 11vw;
+  /* Kept just under .services__name, which runs clamp(40px, 9vw, 112px): at
+     11vw the section label was 22% larger than the work it announces, and
+     shouted over it. It has to follow the same vh cap those names do, or the
+     two drift apart on a short window - at 8vw against 10vh the label went
+     back to 1.45x. The max matters too: a bare 8vw would overtake them past
+     1400px, where they stop growing. */
+  font-size: clamp(26px, min(8vw, 10.8vh), 104px);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 0.95;
@@ -649,7 +655,7 @@ html.has-custom-cursor button {
   grid-template-columns: 60px 1fr;
   align-items: baseline;
   gap: 4px 24px;
-  padding: clamp(20px, 3vw, 32px) 0;
+  padding: clamp(14px, min(3vw, 2.4vh), 32px) 0;
   border-bottom: 1px solid var(--line);
   cursor: default;
 }
@@ -661,7 +667,10 @@ html.has-custom-cursor button {
 
 .services__name {
   grid-column: 2;
-  font-size: clamp(40px, 9vw, 112px);
+  /* Capped by height as well: the stage is pinned, so the whole list has to
+     fit one screen. Three items at 9vw made it 577px tall in a 550px window,
+     taller than the viewport it pins inside, and sticky cannot hold that. */
+  font-size: clamp(32px, min(9vw, 12vh), 112px);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1;

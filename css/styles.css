@@ -205,9 +205,12 @@ html.has-custom-cursor button {
      out of the margin and the leading, not the type: the headline is the
      thing, and it should fill the dark panel. The vh cap only bites on a
      genuinely short screen, where the four lines wrap to eight. */
-  margin: clamp(20px, min(8vw, 3.5vh), 88px) 0 0;
+  margin: clamp(12px, min(8vw, 2vh), 88px) 0 0;
   font-weight: 800;
-  font-size: clamp(34px, min(6vw, 9vh), 76px);
+  /* Sized to fill the dark panel. 80px at 1280x800 is the ceiling: the four
+     lines still wrap to eight there, and one step more tips them to nine and
+     pushes the hero past the viewport, which would unpin it. */
+  font-size: clamp(34px, min(6.25vw, 10vh), 88px);
   line-height: 1.0;
   letter-spacing: -0.01em;
 }
@@ -372,20 +375,20 @@ html.has-custom-cursor button {
 .section__head--full {
   position: relative;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   height: 40vh;
   margin: 0 calc(-1 * var(--gutter));
-  padding: 0 4vw;
+  padding: 0 var(--gutter);
   background: var(--paper);
   overflow: hidden;
 }
 
 .section__head--full h2,
 .section__head--wide h2 {
-  font-size: 13vw;
+  font-size: clamp(28px, 4vw, 44px);
   font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 0.9;
+  letter-spacing: -0.01em;
+  line-height: 1;
   white-space: nowrap;
 }
 
@@ -393,9 +396,9 @@ html.has-custom-cursor button {
    sections (like About) whose outer section is already the thing
    that pins as a whole. */
 .section__head--wide {
-  justify-content: center;
+  justify-content: flex-end;
   margin: 0 calc(-1 * var(--gutter)) clamp(96px, 14vw, 180px);
-  padding: 0 4vw;
+  padding: 0 var(--gutter);
 }
 
 /* Work's own heading pins and gets covered by the first slot, same as
@@ -647,12 +650,29 @@ html.has-custom-cursor button {
   align-items: start;
 }
 
+/* Lead line stays at display size; the detail that follows drops to reading
+   size so the two do not compete. */
 .about__statement {
-  margin: 0 0 clamp(64px, 10vw, 120px);
+  margin: 0 0 clamp(24px, 3vw, 36px);
   font-size: clamp(22px, 3.4vw, 36px);
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.35;
+}
+
+.about__bio {
+  margin: 0 0 clamp(14px, 1.6vw, 20px);
+  max-width: 62ch;
+  font-size: clamp(15px, 1.25vw, 18px);
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+.about__bio:last-child {
+  margin-bottom: 0;
+  color: var(--ink);
+  font-weight: 500;
 }
 
 /* Cut-out portrait on a solid panel - the image itself is a

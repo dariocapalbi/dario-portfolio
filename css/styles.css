@@ -378,32 +378,35 @@ html.has-custom-cursor button {
 .section__head--full {
   position: relative;
   align-items: center;
-  justify-content: flex-end;
-  height: 20vh;
+  justify-content: center;
+  height: auto;
   margin: 0 calc(-1 * var(--gutter));
-  padding: 0 var(--gutter);
+  padding: clamp(14px, 3vh, 30px) var(--gutter);
   background: var(--paper);
   overflow: hidden;
 }
 
 .section__head--full h2,
 .section__head--wide h2 {
-  font-size: clamp(28px, 4vw, 44px);
+  font-size: 13vw;
   font-weight: 800;
-  letter-spacing: -0.01em;
-  line-height: 1;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
   white-space: nowrap;
 }
 
 /* Same oversized edge-to-edge heading, without the sticky pin - for
    sections (like About) whose outer section is already the thing
    that pins as a whole. */
+/* Height comes from the type now, not a vh figure. All three headings are a
+   single line at the same size, so the three bands stay equal on their own -
+   which is what a fixed height was there to guarantee. */
 .section__head--wide {
   align-items: center;
-  justify-content: flex-end;
-  height: clamp(96px, 20vh, 200px);
+  justify-content: center;
+  height: auto;
   margin: 0 calc(-1 * var(--gutter)) clamp(32px, 5vw, 64px);
-  padding: 0 var(--gutter);
+  padding: clamp(14px, 3vh, 30px) var(--gutter);
 }
 
 /* Work's own heading pins and gets covered by the first slot, same as

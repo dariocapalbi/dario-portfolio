@@ -194,15 +194,6 @@ html.has-custom-cursor button {
   color: var(--ink);
 }
 
-.hero__tag {
-  position: absolute;
-  top: var(--gutter);
-  left: var(--gutter);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  color: rgba(245, 244, 241, 0.55);
-}
-
 .hero__headline {
   /* The hero has to fit the viewport to stay pinned, but that budget comes
      out of the margin and the leading, not the type: the headline is the
@@ -262,17 +253,6 @@ html.has-custom-cursor button {
 @keyframes bob {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(5px); }
-}
-
-.hero__meta {
-  position: absolute;
-  top: var(--gutter);
-  right: var(--gutter);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  color: var(--ink-mute);
-  max-width: 180px;
-  text-align: right;
 }
 
 .hero__wordmark {

@@ -145,9 +145,17 @@ const servicesItems = Array.from(document.querySelectorAll('.services__item'));
 if (servicesPinWrap && servicesItems.length && !reduceMotion) {
   let servicesTicking = false;
 
+  const servicesStage = document.querySelector('.services__pin-stage');
+
   const updateServicesPin = () => {
     const rect = servicesPinWrap.getBoundingClientRect();
-    const total = servicesPinWrap.offsetHeight - window.innerHeight;
+    // The range to spread the fill over is how long the stage actually stays
+    // pinned, not the wrapper minus a viewport. Those were the same when the
+    // stage was a full 100vh; now that it is the height of its own list they
+    // are not, and the fill was finishing long before the pin let go.
+    const stageTop = servicesStage ? parseFloat(getComputedStyle(servicesStage).top) || 0 : 0;
+    const stageH = servicesStage ? servicesStage.offsetHeight : window.innerHeight;
+    const total = servicesPinWrap.offsetHeight - stageH - stageTop;
     const scrolled = Math.min(Math.max(-rect.top, 0), Math.max(total, 0));
     const progress = total > 0 ? scrolled / total : 0;
     const activeIndex = Math.min(

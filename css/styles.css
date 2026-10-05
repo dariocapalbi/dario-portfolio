@@ -388,7 +388,7 @@ html.has-custom-cursor button {
 
 .section__head--full h2,
 .section__head--wide h2 {
-  font-size: 13vw;
+  font-size: 11vw;
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 0.95;
@@ -422,6 +422,14 @@ html.has-custom-cursor button {
 /* Same grammar as Work: the heading pins and the section's own content
    rides up over it. About had no overlap at all - it was the one section
    that just scrolled past. */
+/* Services was the last heading that just scrolled away: Work's pins and its
+   slots ride over it, About's does the same with its body. This one pins too
+   and the pinned stage's wrapper covers it. */
+#services .section__head--full {
+  position: sticky;
+  top: 0;
+}
+
 #about .section__head--wide {
   position: sticky;
   top: 0;
@@ -606,13 +614,17 @@ html.has-custom-cursor button {
    (by scroll progress) inks in black — the others stay grey, same as the
    reference site's sticky team-name list. */
 
+/* Opaque and above the heading so it covers it on the way up, the same as
+   Work's slots and About's body. */
 .services__pin-wrap {
   position: relative;
+  z-index: 1;
+  background: var(--paper);
   /* Scroll distance for the fill, and nothing more. 240vh was built for a
      longer list: with two items it meant 70vh of scrolling each, so the
      second one finished inking well before the pin let go and the rest read
      as dead white space before About. */
-  height: 130vh;
+  height: 175vh;
 }
 
 /* The stage used to be a full 100vh with the list centred in it, which left

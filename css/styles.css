@@ -413,9 +413,23 @@ html.has-custom-cursor button {
   overflow: hidden;
 }
 
+/* Same grammar as Work: the heading pins and the section's own content
+   rides up over it. About had no overlap at all - it was the one section
+   that just scrolled past. */
 #about .section__head--wide {
+  position: sticky;
+  top: 0;
   margin-bottom: clamp(24px, 3.5vw, 44px);
   overflow: hidden;
+}
+
+/* Opaque and above the pinned heading, so it covers it instead of letting
+   it read through. One box around the grid and the toolkit, or the gap
+   between them would be a window onto the heading. */
+.about__body {
+  position: relative;
+  z-index: 1;
+  background: var(--paper);
 }
 
 /* The pinned stage already carries a screenful of air around the list, so

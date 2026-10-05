@@ -18,7 +18,10 @@
   --font: 'Switzer', 'Helvetica Neue', Arial, sans-serif;
 
   --gutter: clamp(20px, 5vw, 64px);
-  --section-pad: clamp(72px, 12vw, 160px);
+  /* Sized on width alone this stayed at 120px in a 550px-tall window, where
+     it dwarfed everything around it. Capped by height too, so the vertical
+     rhythm follows the shorter dimension. */
+  --section-pad: clamp(48px, min(12vw, 11vh), 160px);
 
   --ease: cubic-bezier(.16, 1, .3, 1);
   --reveal-dist: 32px;
@@ -398,8 +401,8 @@ html.has-custom-cursor button {
 .section__head--wide {
   align-items: center;
   justify-content: flex-end;
-  height: 20vh;
-  margin: 0 calc(-1 * var(--gutter)) clamp(40px, 6vw, 80px);
+  height: clamp(96px, 20vh, 200px);
+  margin: 0 calc(-1 * var(--gutter)) clamp(32px, 5vw, 64px);
   padding: 0 var(--gutter);
 }
 
@@ -419,7 +422,9 @@ html.has-custom-cursor button {
 #about .section__head--wide {
   position: sticky;
   top: 0;
-  margin-bottom: clamp(24px, 3.5vw, 44px);
+  /* No gap under it, same as Work and Services: the title is centred inside
+     the band, so the band's own lower half is the separation. */
+  margin-bottom: 0;
   overflow: hidden;
 }
 
@@ -607,13 +612,17 @@ html.has-custom-cursor button {
   height: 130vh;
 }
 
+/* The stage used to be a full 100vh with the list centred in it, which left
+   a gap under the heading that Work does not have - that is the whole reason
+   the Services block read as the bigger one. It is the height of its list
+   now, and pins just below the nav instead of at the very top. */
 .services__pin-stage {
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: clamp(64px, 13vh, 96px);
+  height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .services__list {

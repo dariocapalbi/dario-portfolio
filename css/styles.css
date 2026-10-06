@@ -163,6 +163,36 @@ html.has-custom-cursor a.case__slot {
   font-weight: 650;
 }
 
+/* Figures sit inside the reading column but break out wider than the prose -
+   the words want 68ch, the screens want room. */
+.case__fig {
+  /* Centred with margin, not transform: these carry .reveal, whose own
+     translateY would overwrite a translateX here and drop them back to the
+     left edge mid-animation. */
+  width: min(92vw, 1100px);
+  margin: clamp(32px, 5vw, 56px) 0 clamp(32px, 5vw, 56px)
+          calc((100% - min(92vw, 1100px)) / 2);
+}
+
+/* The annotated walkthrough is a tall portrait strip, not a landscape shot -
+   at full width it would run several screens deep. */
+.case__fig--tall {
+  width: min(78vw, 620px);
+  margin-left: calc((100% - min(78vw, 620px)) / 2);
+}
+
+.case__fig img {
+  width: 100%;
+  height: auto;
+}
+
+.case__fig figcaption {
+  margin-top: clamp(10px, 1.2vw, 14px);
+  font-size: clamp(12px, 1vw, 14px);
+  line-height: 1.5;
+  color: var(--ink-mute);
+}
+
 .case__credit {
   margin: 0;
   padding-top: clamp(20px, 3vw, 28px);

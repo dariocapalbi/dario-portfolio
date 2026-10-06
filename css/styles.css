@@ -100,6 +100,16 @@ html.has-custom-cursor button {
   z-index: 3;
 }
 
+/* That rule exists to lift inline links over the ball, but position: relative
+   silently overrides position: sticky - a whole-card link stopped pinning and
+   dropped out of the deck. These keep the layout they had as plain divs; the
+   ball leaves them alone instead (see main.js). */
+html.has-custom-cursor a.work__slot,
+html.has-custom-cursor a.case__slot {
+  position: sticky;
+  z-index: auto;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cursor-ball { display: none; }
 }
@@ -752,6 +762,51 @@ html.has-custom-cursor button {
   font-size: clamp(18px, 2.4vw, 28px);
   font-weight: 700;
   letter-spacing: -0.01em;
+}
+
+/* -------------------- case study -------------------- */
+/* Same deck as Work: each shot pins and the next one rides up over it. The
+   slots are sized by the artwork's own 1771x878 rather than a fixed height,
+   so nothing is cropped. */
+
+.case__back {
+  margin: 0 0 clamp(32px, 5vw, 56px);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--ink-mute);
+}
+
+.case__back a:hover {
+  color: var(--ink);
+}
+
+.case__slot {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  padding: var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.case__shot {
+  width: min(96vw, 1320px, 147vh);
+  height: auto;
+}
+
+/* The deck stays on a phone - it is the whole point of the page. The slot
+   just stops being a full screen: the shots are 2:1 strips, so a 100vh slot
+   would be mostly empty. 62vh keeps enough slack for one to ride over the
+   last. */
+@media (max-width: 860px) {
+  .case__slot {
+    min-height: 62vh;
+  }
 }
 
 /* -------------------- contact -------------------- */

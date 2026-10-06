@@ -31,7 +31,11 @@ if (cursorBall && canHover && !reduceMotion) {
   document.addEventListener(
     'mouseover',
     (e) => {
-      if (e.target.closest('a, button')) {
+      // Whole-card links (a Work slot, a case-study shot) are the size of the
+      // screen: growing the ball there would park a 64px disc on top of the
+      // title. Those sections are sticky, so they make their own stacking
+      // context and no z-index on the title can lift it over the ball.
+      if (e.target.closest('a, button') && !e.target.closest('.work__slot, .case__slot')) {
         cursorBall.classList.add('is-hovering');
       }
     },

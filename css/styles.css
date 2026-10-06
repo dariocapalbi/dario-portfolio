@@ -466,6 +466,20 @@ html.has-custom-cursor a.case__slot {
   margin-right: -50vw;
 }
 
+/* The last slot's bottom sits flush with this box's bottom, which leaves it
+   no slack to stick in: Polaroid scrolled straight past instead of pinning,
+   and the slot behind it surfaced again on its way out. This tail is the
+   travel it pins through while the note and Services ride up over it. Padding
+   will not do - sticky is constrained by the containing block's content box,
+   which padding sits outside of. A pseudo-element becomes a flex item, so it
+   counts. */
+.work__empty::after {
+  content: "";
+  display: block;
+  flex: none;
+  height: 100vh;
+}
+
 .work__slot {
   position: sticky;
   top: 0;

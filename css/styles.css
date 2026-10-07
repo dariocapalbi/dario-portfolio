@@ -193,6 +193,16 @@ html.has-custom-cursor a.case__slot {
   color: var(--ink-mute);
 }
 
+.case__block .case__quote {
+  margin: clamp(18px, 2.4vw, 26px) 0;
+  padding-left: clamp(14px, 1.6vw, 20px);
+  border-left: 2px solid var(--ink-ghost);
+  font-size: clamp(16px, 1.35vw, 19px);
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
 .case__credit {
   margin: 0;
   padding-top: clamp(20px, 3vw, 28px);

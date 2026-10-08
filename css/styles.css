@@ -587,9 +587,6 @@ html.has-custom-cursor a.case__slot {
   padding-bottom: 0;
 }
 
-.work__note {
-  margin-top: 0;
-}
 
 /* -------------------- work -------------------- */
 /* Full-bleed stacked panels: each slot spans the entire viewport width,
@@ -793,13 +790,6 @@ div.work__slot {
   .work__slot:hover .work__box { transform: none; }
 }
 
-.work__note {
-  position: relative;
-  background: var(--paper);
-  margin: clamp(28px, 4vw, 40px) 0 0;
-  font-size: 13px;
-  color: var(--ink-mute);
-}
 
 /* -------------------- services -------------------- */
 /* Pinned like the hero→work transition: the list stays fixed in the
@@ -946,6 +936,12 @@ div.work__slot {
   padding-top: clamp(20px, 3vw, 32px);
 }
 
+/* Due gruppi -Design e AI & Development- impilati, ciascuno con la sua
+   etichetta. Il bordo e lo stacco dal testo restano sul contenitore. */
+.about__tools-group + .about__tools-group {
+  margin-top: clamp(28px, 4vw, 44px);
+}
+
 .about__tools-label {
   display: block;
   font-size: 12px;
@@ -953,7 +949,7 @@ div.work__slot {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-mute);
-  margin-bottom: clamp(20px, 3vw, 32px);
+  margin-bottom: clamp(14px, 2vw, 20px);
 }
 
 .about__tools ul {
@@ -1032,6 +1028,12 @@ div.work__slot {
   line-height: 1.15;
   white-space: nowrap;
   text-align: center;
+}
+
+.contact__note {
+  margin: 0;
+  font-size: clamp(14px, 1.3vw, 17px);
+  color: var(--ink-soft);
 }
 
 .contact__email {

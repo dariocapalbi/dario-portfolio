@@ -193,6 +193,16 @@ html.has-custom-cursor a.case__slot {
   color: var(--ink-mute);
 }
 
+/* La riga di attribuzione sotto una citazione: stessa colonna, ma piu
+   piccola e smorzata, cosi non compete con le parole citate. */
+.case__block .case__quote span {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.82em;
+  font-style: normal;
+  color: var(--ink-mute);
+}
+
 .case__block .case__quote {
   margin: clamp(18px, 2.4vw, 26px) 0;
   padding-left: clamp(14px, 1.6vw, 20px);
@@ -423,16 +433,24 @@ html.has-custom-cursor a.case__slot {
    up from below individually, staggered ~80ms apart. JS splits the text
    into .emerge-word-wrapped spans and toggles .is-visible on scroll-into-
    view; this file only defines the two visual states. */
+/* I discendenti di Switzer scendono sotto una linea da 0.95em, e la
+   maschera che tiene nascosta ogni parola prima che salga tagliava le code
+   delle due g di "Flagged" -il primo titolo del sito con un discendente
+   dentro-. La maschera cresce verso il basso, il margine negativo rimette
+   l'impaginato dov'era, e lo stato nascosto scende altrettanto perche la
+   parola parta comunque fuori vista. */
 .emerge-word {
   display: inline-block;
   overflow: hidden;
   vertical-align: top;
+  padding-bottom: 0.22em;
+  margin-bottom: -0.22em;
 }
 
 .emerge-word > span {
   display: inline-block;
   opacity: 0;
-  transform: translateY(100%);
+  transform: translateY(calc(100% + 0.24em));
   transition: transform 0.6s cubic-bezier(0.21, 1, 0.4, 0.98),
     opacity 0.6s cubic-bezier(0.21, 1, 0.4, 0.98);
 }

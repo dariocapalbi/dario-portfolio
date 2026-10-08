@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700,800,900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/styles.css?v=104">
+<link rel="stylesheet" href="css/styles.css?v=105">
 </head>
 <body>
 
@@ -36,7 +36,7 @@
     <p class="case__back reveal"><a href="index.html#work">&larr; Back to work</a></p>
 
     <div class="case__copy">
-      <p class="case__lead reveal">A ship's certificate can read 2030 on the paper and have stopped being valid months ago. Flagged is built on that gap.</p>
+      <p class="case__lead reveal">A ship's certificate can read 2030 on the paper and have stopped being valid months ago. The same is true of the licence in a seafarer's pocket. Flagged is built on that gap, and on eight years of watching it open from inside a consulate.</p>
 
       <figure class="case__fig reveal">
         <img src="assets/work-01-flagged-2.webp" alt="Flagged — the dashboard on a laptop" width="1846" height="852">
@@ -44,15 +44,29 @@
       </figure>
 
       <div class="case__block reveal">
+        <h3>Where this came from</h3>
+        <p>For eight years I worked in the maritime department of the Consulate of Panama in London. Panama is the largest ship registry in the world, which means a quiet office in London sits on the paperwork of a great many vessels and a great many seafarers — and I spent those years watching how that paperwork actually moves between a consulate, a classification society and a shipping company.</p>
+        <p>So this is not a market gap spotted from the outside. It is a thing I watched work, and more often fail, from inside the institution that issues the documents. The crew half of the product is not an extension bolted on to make the idea bigger either: &ldquo;gente de mar&rdquo; is the real name of the Panamanian authority that handles it, the Dirección General de Gente de Mar, and it is the half where I saw people get hurt.</p>
+      </div>
+
+      <div class="case__block reveal">
         <h3>The problem</h3>
         <p>A statutory certificate is issued for five years, but that validity is conditional. It hangs on surveys that have to happen inside a window — three months either side of the anniversary date. If a window closes without an endorsement, the certificate is no longer valid, whatever the printed expiry says.</p>
-        <p>Small ship agents track this in a spreadsheet, and a spreadsheet holds the expiry date and nothing else. So it stays green on a certificate that would ground the vessel, and by the time the printed date is a problem, the problem is already months old. The inspector finds it before the agent does.</p>
+        <p>Seafarer licences work the same way, and carry the same trap. Small agents track both in spreadsheets, and a spreadsheet holds the expiry date and nothing else. So it stays green on a certificate that would ground the vessel, and by the time the printed date is a problem, the problem is already months old. The inspector finds it before the agent does.</p>
       </div>
 
       <figure class="case__fig reveal">
         <img src="assets/fl-03-problema.webp" alt="Flagged — a certificate that looks valid and is not" width="2000" height="700" loading="lazy">
         <figcaption>The expiry says 2030. The survey window closed without an endorsement, so the certificate is already dead.</figcaption>
       </figure>
+
+      <div class="case__block reveal">
+        <h3>What the research said</h3>
+        <p>I wrote a survey for shipping agents and fleet managers and got four long, specific answers back. One question asked them to rate, from one to five, how painful it is to coordinate vessel and crew documentation at the same time. Two of them answered eight and ten. All four went off the end of the scale, which is the single strongest thing the research produced: the problem is not annoying, it is serious, and it is serious for everybody.</p>
+        <p class="case__quote">&ldquo;When a document expires, the seafarer is discharged at the first convenient port.&rdquo;<br><span>— Crew and flag administration department</span></p>
+        <p>Every consequence they described was a person's, not a vessel's: crew put ashore, a ship held in port over somebody's medical certificate, an extra fee paid to rush a renewal that should have been started three months earlier. The half of the product I was least sure about turned out to be where the pain actually lives.</p>
+        <p>Two other things came back that I did not expect. All four were already keeping vessels and crew in the same spreadsheet — the unified view is not a feature I invented for them, it is the way they already work, badly. And none of them used specialised software. Not Certware, not MariApps. One of them described themselves as waiting for the right solution, which is a market gap stated out loud.</p>
+      </div>
 
       <div class="case__block reveal">
         <h3>The decision everything else hangs on</h3>
@@ -72,9 +86,10 @@
       </div>
 
       <div class="case__block reveal">
-        <h3>The alert belongs to the ship, not to the person</h3>
-        <p>An expiry only becomes a warning once it has been crossed with who is actually aboard and with what the minimum safe manning document requires. A master whose certificate lapses while they are ashore is not an emergency; the same lapse at sea, on a ship that needs that rank aboard, is.</p>
-        <p>Without that filter the list fills with false positives, and a list of false positives stops being read — which is the same as having no alerts at all.</p>
+        <h3>One system, because the pain is already one problem</h3>
+        <p>This is the line that separates Flagged from what already exists. MariApps and DNV both build serious software, but they build naval ERPs — payroll, dry-docking, business intelligence — for operators with hundreds of vessels, and they tend to be strong on ships or strong on crew rather than on both. The generic expiry-reminder tools go the other way: one of them even has a shipping page, but it knows nothing about survey windows and nothing about seafarers.</p>
+        <p>Nobody serves the small agent, who is the person actually holding two spreadsheets. So vessels and seafarers are the same kind of object here, with the same screens and the same states.</p>
+        <p>Which also means an expiry has to be crossed with who is on board and with what the minimum safe manning document requires before it becomes an alert. A master whose licence lapses while they are ashore is not an emergency; the same lapse at sea, on a ship that needs that rank aboard, is. Without the filter the list fills with false positives, and a list of false positives stops being read — which is the same as having no alerts at all.</p>
       </div>
 
       <figure class="case__fig reveal">
@@ -110,7 +125,7 @@
         <p>What isn't built yet, in order of how much it matters: real email delivery — the dispatch is calculated and exposed, but there is no transport behind it; attaching the actual PDF to a certificate; registering vessels and seafarers from the interface rather than through the API; and self-service signup for new organisations.</p>
       </div>
 
-      <p class="case__credit reveal">Flagged is mine end to end — the domain model, the product decisions, the interface and the front end. <a href="https://flagged-production.up.railway.app" target="_blank" rel="noopener">See it live</a>.</p>
+      <p class="case__credit reveal">Flagged is mine end to end — the research, the domain model, the product decisions, the interface and the front end. It started as something I watched go wrong for eight years and did not have a tool for. <a href="https://flagged-production.up.railway.app" target="_blank" rel="noopener">See it live</a>.</p>
     </div>
 
   </section>

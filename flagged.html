@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Flagged — Dario Capalbi</title>
-<meta name="description" content="Flagged — ship certificate and seafarer tracking that reads the survey calendar, not the printed date. Product and UI case study by Dario Capalbi.">
+<meta name="description" content="Flagged — making maritime documentation easier to understand, before it becomes a problem. UX/UI and product design case study by Dario Capalbi.">
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0A'/%3E%3Ctext x='32' y='42' font-family='Arial, sans-serif' font-weight='900' font-size='28' fill='%23F5F4F1' text-anchor='middle'%3EDC%3C/text%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700,800,900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/styles.css?v=106">
+<link rel="stylesheet" href="css/styles.css?v=107">
 </head>
 <body>
 
@@ -36,7 +36,9 @@
     <p class="case__back reveal"><a href="index.html#work">&larr; Back to work</a></p>
 
     <div class="case__copy">
-      <p class="case__lead reveal">A ship's certificate can read 2030 on the paper and have stopped being valid months ago. The same is true of the licence in a seafarer's pocket. Flagged is built on that gap, and on eight years of watching it open from inside a consulate.</p>
+      <p class="case__meta reveal">UX/UI · Product Design · Maritime · 2026</p>
+
+      <p class="case__lead reveal">Making maritime documentation easier to understand, before it becomes a problem.</p>
 
       <figure class="case__fig reveal">
         <img src="assets/work-01-flagged-2.webp" alt="Flagged — the dashboard on a laptop" width="1846" height="852">
@@ -44,94 +46,151 @@
       </figure>
 
       <div class="case__block reveal">
-        <h3>Where this came from</h3>
-        <p>For eight years I worked in the maritime department of the Consulate of Panama in London. Panama is the largest ship registry in the world, which means a quiet office in London sits on the paperwork of a great many vessels and a great many seafarers — and I spent those years watching how that paperwork actually moves between a consulate, a classification society and a shipping company.</p>
-        <p>So this is not a market gap spotted from the outside. It is a thing I watched work, and more often fail, from inside the institution that issues the documents. The crew half of the product is not an extension bolted on to make the idea bigger either: &ldquo;gente de mar&rdquo; is the real name of the Panamanian authority that handles it, the Dirección General de Gente de Mar, and it is the half where I saw people get hurt.</p>
+        <p>Flagged is a digital product designed to help maritime teams stay ahead of vessel certificates and crew documentation.</p>
+        <p>It was born from my eight years at the Consulate of Panama in London, where I worked closely with maritime companies, crew documentation and certification processes. After seeing first-hand how much of that work depended on manual checks and fragmented information, I wanted to explore how a digital product could make the process proactive.</p>
+        <p>Instead of discovering a documentation problem when it becomes urgent, Flagged helps teams see it coming.</p>
       </div>
 
       <div class="case__block reveal">
         <h3>The problem</h3>
-        <p>A statutory certificate is issued for five years, but that validity is conditional. It hangs on surveys that have to happen inside a window — three months either side of the anniversary date. If a window closes without an endorsement, the certificate is no longer valid, whatever the printed expiry says.</p>
-        <p>Seafarer licences work the same way, and carry the same trap. Small agents track both in spreadsheets, and a spreadsheet holds the expiry date and nothing else. So it stays green on a certificate that would ground the vessel, and by the time the printed date is a problem, the problem is already months old. The inspector finds it before the agent does.</p>
+        <p>A certificate can be valid on paper and still require attention.</p>
+        <p>During my years working with maritime documentation, I saw how much of the process relied on spreadsheets, emails, shared folders and manual checks. A simple expiry date doesn't always tell the full story: depending on the document, its convention, class requirements, survey window or possible extensions, the actual situation can be far more nuanced.</p>
+        <p>When you're managing documentation across vessels and crew, discovering an issue too late means urgent renewals, operational disruption and unnecessary cost.</p>
+        <p>The problem wasn't simply keeping documents somewhere. It was knowing what those documents actually meant, and what needed to happen next.</p>
       </div>
 
       <figure class="case__fig reveal">
-        <img src="assets/fl-03-problema.webp" alt="Flagged — a certificate that looks valid and is not" width="2000" height="700" loading="lazy">
-        <figcaption>The expiry says 2030. The survey window closed without an endorsement, so the certificate is already dead.</figcaption>
+        <img src="assets/fl-app-certificado.webp" alt="Flagged — a certificate due in 2030 and already not valid" width="2000" height="1267" loading="lazy">
+        <figcaption>Due date 04/07/2030, in 3.7 years. Status: not valid — the annual survey window closed with no endorsement.</figcaption>
       </figure>
 
-      <div class="case__block reveal">
-        <h3>What the research said</h3>
-        <p>I wrote a survey for shipping agents and fleet managers and got four long, specific answers back. One question asked them to rate, from one to five, how painful it is to coordinate vessel and crew documentation at the same time. Two of them answered eight and ten. All four went off the end of the scale, which is the single strongest thing the research produced: the problem is not annoying, it is serious, and it is serious for everybody.</p>
-        <p class="case__quote">&ldquo;When a document expires, the seafarer is discharged at the first convenient port.&rdquo;<br><span>— Crew and flag administration department</span></p>
-        <p>Every consequence they described was a person's, not a vessel's: crew put ashore, a ship held in port over somebody's medical certificate, an extra fee paid to rush a renewal that should have been started three months earlier. The half of the product I was least sure about turned out to be where the pain actually lives.</p>
-        <p>Two other things came back that I did not expect. All four were already keeping vessels and crew in the same spreadsheet — the unified view is not a feature I invented for them, it is the way they already work, badly. And none of them used specialised software. Not Certware, not MariApps. One of them described themselves as waiting for the right solution, which is a market gap stated out loud.</p>
+      <div class="case__block case__block--origin reveal">
+        <h3>From experience to product</h3>
+        <p>I spent the last eight years at the Consulate of Panama in London, where I coordinated the Crew Department and worked closely with the maritime industry. My role involved managing crew documentation, processing certificates and endorsements, communicating with international shipping companies and helping clients navigate complex regulatory requirements.</p>
+        <p>With a background in graphic and digital design, I naturally started looking at these processes not only from an operational perspective, but from the perspective of how information is organised, communicated and understood.</p>
+        <p>The difficult part was never simply knowing when a certificate expired. After completing my UX/UI training I decided to bring the two sides of my experience together, and the question that started the project was this:</p>
+        <p class="case__statement">What if maritime teams could know what needs attention before it becomes a problem?</p>
       </div>
 
       <div class="case__block reveal">
-        <h3>The decision everything else hangs on</h3>
-        <p>Status comes from the next required action, not from the date printed on the document. That single rule is what separates Flagged from a reminder app, and it is the one the test suite guards hardest, because it is the one that must never quietly regress.</p>
-        <p>Everything downstream follows from it: the survey windows are derived from the convention and the class that certificate answers to, rather than typed in by hand, and flag extensions are applied to the effective expiry rather than noted in a comment nobody reads.</p>
+        <h3>The challenge</h3>
+        <p>The goal wasn't another generic document management platform. The challenge was more specific:</p>
+        <p class="case__statement case__statement--light">How might we help maritime teams understand what needs attention before a certificate becomes a problem?</p>
+        <p>That meant moving away from a system that stores documents and dates, towards one that helps users understand, prioritise and act.</p>
+      </div>
+
+      <div class="case__block reveal">
+        <h3>Defining the MVP</h3>
+        <p>A maritime documentation platform could manage a great many things. For the MVP I wanted one clear problem: avoiding surprises. That gave three core needs.</p>
+        <ol class="case__needs">
+          <li>
+            <span class="case__needs-num">01</span>
+            <span class="case__needs-title">See what's coming</span>
+            <span class="case__needs-text">An early warning when certificates or licences approach an important deadline.</span>
+          </li>
+          <li>
+            <span class="case__needs-num">02</span>
+            <span class="case__needs-title">Know what to do</span>
+            <span class="case__needs-text">Turn each upcoming renewal into a clear next step, rather than leaving users to work it out themselves.</span>
+          </li>
+          <li>
+            <span class="case__needs-num">03</span>
+            <span class="case__needs-title">See everything in one place</span>
+            <span class="case__needs-text">Vessels, crew and documentation in a single overview.</span>
+          </li>
+        </ol>
+      </div>
+
+      <div class="case__block reveal">
+        <h3>Information architecture</h3>
+        <p>The product is structured around three areas, kept deliberately shallow so a user can move from a high-level overview to the one document that needs attention without getting lost on the way.</p>
       </div>
 
       <figure class="case__fig reveal">
-        <img src="assets/fl-02-producto.webp" alt="Flagged — Fleet, every certificate with its real status" width="2000" height="864" loading="lazy">
-        <figcaption>Fleet: not a list of dates, a list of states.</figcaption>
+        <img src="assets/fl-app-fleet.webp" alt="Flagged — the Fleet overview" width="2000" height="1267" loading="lazy">
+        <figcaption>Fleet — vessels and the current status of their certificates.</figcaption>
+      </figure>
+
+      <figure class="case__fig reveal">
+        <img src="assets/fl-app-crew.webp" alt="Flagged — the Crew list" width="2000" height="1267" loading="lazy">
+        <figcaption>Crew — seafarer documentation and licences, with who is on board today.</figcaption>
+      </figure>
+
+      <figure class="case__fig reveal">
+        <img src="assets/fl-app-calendar.webp" alt="Flagged — the Calendar view" width="2000" height="1267" loading="lazy">
+        <figcaption>Calendar — expiries, survey windows and required actions on one timeline.</figcaption>
       </figure>
 
       <div class="case__block reveal">
-        <h3>What isn't known doesn't get painted green</h3>
-        <p>Coverage — confirmed, pending, not applicable — is a separate axis from the traffic light. A row nobody has filled in yet shows as a gap, not as a pass, and it clears nobody to sail.</p>
-        <p>It sounds like a detail. It is the difference between a dashboard you can act on and one you have to go and re-check by hand, which is the spreadsheet again with better typography.</p>
-      </div>
-
-      <div class="case__block reveal">
-        <h3>One system, because the pain is already one problem</h3>
-        <p>This is the line that separates Flagged from what already exists. MariApps and DNV both build serious software, but they build naval ERPs — payroll, dry-docking, business intelligence — for operators with hundreds of vessels, and they tend to be strong on ships or strong on crew rather than on both. The generic expiry-reminder tools go the other way: one of them even has a shipping page, but it knows nothing about survey windows and nothing about seafarers.</p>
-        <p>Nobody serves the small agent, who is the person actually holding two spreadsheets. So vessels and seafarers are the same kind of object here, with the same screens and the same states.</p>
-        <p>Which also means an expiry has to be crossed with who is on board and with what the minimum safe manning document requires before it becomes an alert. A master whose licence lapses while they are ashore is not an emergency; the same lapse at sea, on a ship that needs that rank aboard, is. Without the filter the list fills with false positives, and a list of false positives stops being read — which is the same as having no alerts at all.</p>
+        <h3>Designing the status system</h3>
+        <p>The most important design decision was moving away from a simple expiry-date system. A certificate isn't just valid or expired: its status depends on survey windows, conventions, class requirements and extensions.</p>
+        <p>Rather than asking users to interpret all of those dates themselves, Flagged translates the underlying information into three statuses you can act on.</p>
+        <dl class="case__statuses">
+          <div>
+            <dt><span class="case__dot case__dot--bad"></span>Not valid</dt>
+            <dd>The certificate or documentation is no longer valid and requires attention.</dd>
+          </div>
+          <div>
+            <dt><span class="case__dot case__dot--open"></span>Window open</dt>
+            <dd>The relevant survey or renewal window is open and action can be taken now.</dd>
+          </div>
+          <div>
+            <dt><span class="case__dot case__dot--ok"></span>Up to date</dt>
+            <dd>Nothing currently requires attention.</dd>
+          </div>
+        </dl>
+        <p>This makes the dashboard less about reading information and more about understanding what to do next. It is also why the interface separates what is actually wrong from what is simply missing — a row nobody has filled in yet is a gap, not a pass, and the two are not the same problem.</p>
       </div>
 
       <figure class="case__fig reveal">
-        <img src="assets/fl-04-antes.webp" alt="Flagged — the same fleet, with and without the derived calendar" width="2000" height="921" loading="lazy">
-        <figcaption>The same fleet, with and without the derived calendar.</figcaption>
+        <img src="assets/fl-app-buque.webp" alt="Flagged — a vessel's certificates with the next required action" width="2000" height="1267" loading="lazy">
+        <figcaption>Every certificate carries its next required action. &ldquo;No data&rdquo; sits apart from &ldquo;not valid&rdquo;.</figcaption>
       </figure>
 
       <div class="case__block reveal">
-        <h3>Nobody starts from an empty table</h3>
-        <p>The surest way to kill this product would be to open it on a blank grid and ask a shipping agent to build their own compliance catalogue. So registering a vessel scaffolds the roughly twenty-eight rows the catalogue expects for that flag and that ship type, all marked pending.</p>
-        <p>From there the user confirms one date per row — the date of issue — and the expiry, the survey calendar and the renewal steps are all derived from it. Crew works the same way, scaffolded by rank.</p>
+        <h3>From data to interface</h3>
+        <p>The interface was designed around one principle: show the important information first. A maritime administrator shouldn't have to open several documents, or compare spreadsheets, just to learn whether a vessel needs attention.</p>
+        <p>So the Fleet view leads with vessel status, certificate status, upcoming actions, relevant deadlines and missing information — in that order. The visual language is deliberately restrained, carrying the weight in hierarchy and status rather than in decoration. The aim was to make a complex system feel clear without making it simplistic.</p>
+        <p>The first interaction with the product should answer one question: <em>is there anything I need to worry about?</em></p>
+      </div>
+
+      <div class="case__block reveal">
+        <h3>The calendar changes the order of events</h3>
+        <p>Putting documentation on a timeline turns the whole workflow around. Instead of meeting deadlines one document at a time, you see them in relation to each other.</p>
+        <p class="case__flow"><span class="case__flow--good">See → Understand → Prepare → Renew</span><br><span class="case__flow--bad">rather than Expire → Discover → React</span></p>
+      </div>
+
+      <div class="case__block reveal">
+        <h3>The final product</h3>
+        <p>Flagged brings fleet management, crew documentation and time-sensitive certification into one interface. The MVP focuses on making complex maritime requirements easier to understand without removing the complexity that actually matters.</p>
+        <p>It doesn't try to hide the rules. It translates them into information people can act on.</p>
       </div>
 
       <figure class="case__fig reveal">
-        <img src="assets/fl-05-como.webp" alt="Flagged — from the date on paper to the real calendar" width="2000" height="836" loading="lazy">
-        <figcaption>Three steps, and only one of them asks the user for anything.</figcaption>
+        <img src="assets/fl-app-dashboard.webp" alt="Flagged — the dashboard" width="2000" height="1267" loading="lazy">
+        <figcaption>The dashboard: what is critical interrupts, everything else is grouped into one summary.</figcaption>
       </figure>
 
       <div class="case__block reveal">
-        <h3>How it looks</h3>
-        <p>The interface had to carry a lot of state without ever feeling like an alarm panel. Three statuses, each with its own ink, its own tint and its own border, so they separate on a laptop screen in daylight on a desk by a window — which is where this gets read. Plus Jakarta Sans throughout, tight tracking on the headlines, and no colour doing a job that a word could do better.</p>
-        <p>The whole thing runs in Spanish and English, switched from one button, because the users are Panamanian-flag agents working with crews and authorities that do not share a language.</p>
+        <h3>What I learned</h3>
+        <p>The biggest challenge wasn't creating the interface. It was understanding the system behind it.</p>
+        <p>Maritime documentation is full of rules, exceptions, dates and dependencies. A good interface can't just make that information look cleaner — it has to make the underlying logic understandable.</p>
+        <p>Having worked on both sides, design and maritime administration, I wasn't only thinking about how the product should look, but about the processes, constraints and people behind it. It reinforced something I've learned throughout my career: good design starts with understanding how things actually work.</p>
       </div>
-
-      <figure class="case__fig reveal">
-        <img src="assets/fl-01-landing.webp" alt="Flagged — the landing page" width="2000" height="1067" loading="lazy">
-        <figcaption>The landing page, in its English state.</figcaption>
-      </figure>
 
       <div class="case__block reveal">
-        <h3>Where it is now</h3>
-        <p>Live, multi-tenant, and in use as a working product rather than a prototype. Every table carries an organisation, no query is written without filtering on it, and a record belonging to someone else returns a 404 rather than a 403 — refusing to confirm that it exists at all.</p>
-        <p>What isn't built yet, in order of how much it matters: real email delivery — the dispatch is calculated and exposed, but there is no transport behind it; attaching the actual PDF to a certificate; registering vessels and seafarers from the interface rather than through the API; and self-service signup for new organisations.</p>
+        <h3>The outcome</h3>
+        <p>Flagged started with a simple question: what if you could know about a documentation problem before it became one? The result is an MVP with one clear goal — making the status of maritime documentation visible before it becomes urgent.</p>
       </div>
 
-      <p class="case__credit reveal">Flagged is mine end to end — the research, the domain model, the product decisions, the interface and the front end. It started as something I watched go wrong for eight years and did not have a tool for. <a href="https://flagged-production.up.railway.app" target="_blank" rel="noopener">See it live</a>.</p>
+      <p class="case__credit reveal">Flagged is mine end to end — the research, the domain model, the product decisions, the interface and the front end. <a href="https://flagged-production.up.railway.app" target="_blank" rel="noopener">See it live</a>.</p>
     </div>
 
   </section>
 
   <section class="section section--contact" id="contact">
     <h2 class="contact__headline emerge">Let's connect.</h2>
+    <p class="contact__note reveal">Currently based in Barcelona &mdash; available for remote work</p>
     <a class="contact__email reveal" href="mailto:dario.capalbi@gmail.com">dario.capalbi@gmail.com</a>
     <div class="contact__socials reveal">
       <a href="https://www.linkedin.com/in/dario-capalbi-668a0b32" target="_blank" rel="noopener">LinkedIn</a>

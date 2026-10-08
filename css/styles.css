@@ -213,6 +213,135 @@ html.has-custom-cursor a.case__slot {
   color: var(--ink);
 }
 
+/* ---- case study Flagged ---- */
+
+.case__meta {
+  margin: 0 0 clamp(14px, 2vw, 20px);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+/* La frase che regge una sezione: staccata, grande, senza virgolette. */
+.case__block .case__statement {
+  margin: clamp(24px, 3.5vw, 40px) 0 0;
+  font-size: clamp(21px, 2.3vw, 30px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--paper);
+}
+
+.case__block .case__statement--light {
+  margin: clamp(22px, 3vw, 32px) 0;
+  color: var(--ink);
+}
+
+/* L'origine del progetto e il punto che distingue Flagged dagli altri
+   lavori, quindi e l'unico blocco su fondo scuro: a pagina chiara, e cio
+   che l'occhio trova per primo scorrendo. */
+.case__block--origin {
+  background: var(--dark);
+  color: var(--paper);
+  margin: clamp(48px, 7vw, 88px) calc(-1 * clamp(20px, 4vw, 48px));
+  padding: clamp(32px, 5vw, 64px) clamp(20px, 4vw, 48px);
+  border-radius: 4px;
+}
+
+.case__block--origin h3 {
+  color: rgba(245, 244, 241, 0.5);
+}
+
+.case__block--origin p {
+  color: rgba(245, 244, 241, 0.78);
+}
+
+.case__needs {
+  margin: clamp(26px, 4vw, 40px) 0 0;
+  list-style: none;
+  display: grid;
+  gap: clamp(22px, 3vw, 34px);
+}
+
+.case__needs li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: clamp(16px, 2.4vw, 28px);
+  align-items: baseline;
+  padding-top: clamp(16px, 2.4vw, 24px);
+  border-top: 1px solid var(--ink-ghost);
+}
+
+.case__needs-num {
+  grid-row: span 2;
+  font-size: clamp(13px, 1.2vw, 15px);
+  font-weight: 700;
+  color: var(--ink-mute);
+  font-variant-numeric: tabular-nums;
+}
+
+.case__needs-title {
+  font-size: clamp(17px, 1.7vw, 22px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.case__needs-text {
+  margin-top: 6px;
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+/* I tre stati, con i colori veri del prodotto: la legenda e le catture
+   devono dire la stessa cosa. */
+.case__statuses {
+  margin: clamp(26px, 4vw, 36px) 0;
+  display: grid;
+  gap: clamp(16px, 2.2vw, 22px);
+}
+
+.case__statuses dt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(16px, 1.4vw, 19px);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.case__statuses dd {
+  margin: 4px 0 0 22px;
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+.case__dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.case__dot--bad { background: #175CD3; }
+.case__dot--open { background: #6035CC; }
+.case__dot--ok { background: #0F7A70; }
+
+.case__block .case__flow {
+  margin: clamp(22px, 3vw, 30px) 0 0;
+  font-size: clamp(16px, 1.5vw, 20px);
+  font-weight: 700;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+}
+
+.case__flow--good { color: var(--ink); }
+.case__flow--bad { color: var(--ink-mute); font-weight: 500; }
+
 .case__credit {
   margin: 0;
   padding-top: clamp(20px, 3vw, 28px);

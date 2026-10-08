@@ -35,7 +35,11 @@ if (cursorBall && canHover && !reduceMotion) {
       // screen: growing the ball there would park a 64px disc on top of the
       // title. Those sections are sticky, so they make their own stacking
       // context and no z-index on the title can lift it over the ball.
-      if (e.target.closest('a, button') && !e.target.closest('.work__slot, .case__slot')) {
+      // The test is on the link itself, not on its ancestors: the Flagged
+      // slot is not a link and holds two real buttons, and those should
+      // grow the ball like any other button on the page.
+      const interactive = e.target.closest('a, button');
+      if (interactive && !interactive.matches('.work__slot, .case__slot')) {
         cursorBall.classList.add('is-hovering');
       }
     },

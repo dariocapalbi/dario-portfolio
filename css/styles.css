@@ -689,6 +689,53 @@ html.has-custom-cursor a.case__slot {
   transition: color 0.4s var(--ease);
 }
 
+/* Flagged ha due destinazioni -il prodotto in funzione e il case study-
+   quindi il suo slot non puo essere un unico link grande come la carta,
+   come lo sono gli altri tre. */
+.work__actions {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(10px, 1.4vw, 16px);
+}
+
+.work__btn {
+  display: inline-flex;
+  align-items: center;
+  /* Sul telefono il solo padding lasciava il bersaglio a 41px. */
+  min-height: 44px;
+  padding: clamp(10px, 1.2vw, 14px) clamp(18px, 2.2vw, 28px);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  font-size: clamp(13px, 1.1vw, 15px);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.work__btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.work__btn--solid {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.work__btn--solid:hover {
+  background: transparent;
+  color: var(--ink);
+}
+
+/* Gli altri slot sono link per intero e il puntatore a mano ha senso su
+   tutta la carta. Questo no: cliccabili sono i due bottoni. */
+div.work__slot {
+  cursor: default;
+}
+
 /* Hover state, ahead of these slots becoming real links. */
 .work__slot {
   cursor: pointer;

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flagged — Dario Capalbi</title>
+<meta name="description" content="Flagged — ship certificate and seafarer tracking that reads the survey calendar, not the printed date. Product and UI case study by Dario Capalbi.">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0A'/%3E%3Ctext x='32' y='42' font-family='Arial, sans-serif' font-weight='900' font-size='28' fill='%23F5F4F1' text-anchor='middle'%3EDC%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css?v=104">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<div class="cursor-ball" id="cursor-ball" aria-hidden="true"><div class="cursor-ball__dot"></div></div>
+
+<nav class="nav">
+  <a href="index.html#work">Work</a>
+  <a href="index.html#services">Services</a>
+  <a href="index.html#about">About</a>
+  <a href="index.html#contact">Contact</a>
+</nav>
+
+<main>
+
+  <section class="section" id="top">
+    <div class="section__head section__head--wide">
+      <h2 class="emerge">Flagged</h2>
+    </div>
+
+    <p class="case__back reveal"><a href="index.html#work">&larr; Back to work</a></p>
+
+    <div class="case__copy">
+      <p class="case__lead reveal">A ship's certificate can read 2030 on the paper and have stopped being valid months ago. Flagged is built on that gap.</p>
+
+      <figure class="case__fig reveal">
+        <img src="assets/work-01-flagged-2.webp" alt="Flagged — the dashboard on a laptop" width="1846" height="852">
+        <figcaption>Flagged.</figcaption>
+      </figure>
+
+      <div class="case__block reveal">
+        <h3>The problem</h3>
+        <p>A statutory certificate is issued for five years, but that validity is conditional. It hangs on surveys that have to happen inside a window — three months either side of the anniversary date. If a window closes without an endorsement, the certificate is no longer valid, whatever the printed expiry says.</p>
+        <p>Small ship agents track this in a spreadsheet, and a spreadsheet holds the expiry date and nothing else. So it stays green on a certificate that would ground the vessel, and by the time the printed date is a problem, the problem is already months old. The inspector finds it before the agent does.</p>
+      </div>
+
+      <figure class="case__fig reveal">
+        <img src="assets/fl-03-problema.webp" alt="Flagged — a certificate that looks valid and is not" width="2000" height="700" loading="lazy">
+        <figcaption>The expiry says 2030. The survey window closed without an endorsement, so the certificate is already dead.</figcaption>
+      </figure>
+
+      <div class="case__block reveal">
+        <h3>The decision everything else hangs on</h3>
+        <p>Status comes from the next required action, not from the date printed on the document. That single rule is what separates Flagged from a reminder app, and it is the one the test suite guards hardest, because it is the one that must never quietly regress.</p>
+        <p>Everything downstream follows from it: the survey windows are derived from the convention and the class that certificate answers to, rather than typed in by hand, and flag extensions are applied to the effective expiry rather than noted in a comment nobody reads.</p>
+      </div>
+
+      <figure class="case__fig reveal">
+        <img src="assets/fl-02-producto.webp" alt="Flagged — Fleet, every certificate with its real status" width="2000" height="864" loading="lazy">
+        <figcaption>Fleet: not a list of dates, a list of states.</figcaption>
+      </figure>
+
+      <div class="case__block reveal">
+        <h3>What isn't known doesn't get painted green</h3>
+        <p>Coverage — confirmed, pending, not applicable — is a separate axis from the traffic light. A row nobody has filled in yet shows as a gap, not as a pass, and it clears nobody to sail.</p>
+        <p>It sounds like a detail. It is the difference between a dashboard you can act on and one you have to go and re-check by hand, which is the spreadsheet again with better typography.</p>
+      </div>
+
+      <div class="case__block reveal">
+        <h3>The alert belongs to the ship, not to the person</h3>
+        <p>An expiry only becomes a warning once it has been crossed with who is actually aboard and with what the minimum safe manning document requires. A master whose certificate lapses while they are ashore is not an emergency; the same lapse at sea, on a ship that needs that rank aboard, is.</p>
+        <p>Without that filter the list fills with false positives, and a list of false positives stops being read — which is the same as having no alerts at all.</p>
+      </div>
+
+      <figure class="case__fig reveal">
+        <img src="assets/fl-04-antes.webp" alt="Flagged — the same fleet, with and without the derived calendar" width="2000" height="921" loading="lazy">
+        <figcaption>The same fleet, with and without the derived calendar.</figcaption>
+      </figure>
+
+      <div class="case__block reveal">
+        <h3>Nobody starts from an empty table</h3>
+        <p>The surest way to kill this product would be to open it on a blank grid and ask a shipping agent to build their own compliance catalogue. So registering a vessel scaffolds the roughly twenty-eight rows the catalogue expects for that flag and that ship type, all marked pending.</p>
+        <p>From there the user confirms one date per row — the date of issue — and the expiry, the survey calendar and the renewal steps are all derived from it. Crew works the same way, scaffolded by rank.</p>
+      </div>
+
+      <figure class="case__fig reveal">
+        <img src="assets/fl-05-como.webp" alt="Flagged — from the date on paper to the real calendar" width="2000" height="836" loading="lazy">
+        <figcaption>Three steps, and only one of them asks the user for anything.</figcaption>
+      </figure>
+
+      <div class="case__block reveal">
+        <h3>How it looks</h3>
+        <p>The interface had to carry a lot of state without ever feeling like an alarm panel. Three statuses, each with its own ink, its own tint and its own border, so they separate on a laptop screen in daylight on a desk by a window — which is where this gets read. Plus Jakarta Sans throughout, tight tracking on the headlines, and no colour doing a job that a word could do better.</p>
+        <p>The whole thing runs in Spanish and English, switched from one button, because the users are Panamanian-flag agents working with crews and authorities that do not share a language.</p>
+      </div>
+
+      <figure class="case__fig reveal">
+        <img src="assets/fl-01-landing.webp" alt="Flagged — the landing page" width="2000" height="1067" loading="lazy">
+        <figcaption>The landing page, in its English state.</figcaption>
+      </figure>
+
+      <div class="case__block reveal">
+        <h3>Where it is now</h3>
+        <p>Live, multi-tenant, and in use as a working product rather than a prototype. Every table carries an organisation, no query is written without filtering on it, and a record belonging to someone else returns a 404 rather than a 403 — refusing to confirm that it exists at all.</p>
+        <p>What isn't built yet, in order of how much it matters: real email delivery — the dispatch is calculated and exposed, but there is no transport behind it; attaching the actual PDF to a certificate; registering vessels and seafarers from the interface rather than through the API; and self-service signup for new organisations.</p>
+      </div>
+
+      <p class="case__credit reveal">Flagged is mine end to end — the domain model, the product decisions, the interface and the front end. <a href="https://flagged-production.up.railway.app" target="_blank" rel="noopener">See it live</a>.</p>
+    </div>
+
+  </section>
+
+  <section class="section section--contact" id="contact">
+    <h2 class="contact__headline emerge">Let's connect.</h2>
+    <a class="contact__email reveal" href="mailto:dario.capalbi@gmail.com">dario.capalbi@gmail.com</a>
+    <div class="contact__socials reveal">
+      <a href="https://www.linkedin.com/in/dario-capalbi-668a0b32" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span class="footer__name">Dario Capalbi</span>
+  <span class="footer__copy">© <span id="year"></span> — All rights reserved</span>
+  <span class="footer__clock" id="clock">Local time — --:--</span>
+  <a href="#top" class="footer__top">Back to top ↑</a>
+</footer>
+
+<script src="js/main.js?v=14"></script>
+</body>
+</html>

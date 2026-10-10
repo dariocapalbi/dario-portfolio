@@ -224,19 +224,22 @@ html.has-custom-cursor a.case__slot {
   color: var(--ink-mute);
 }
 
-/* La frase che regge una sezione: staccata, grande, senza virgolette. */
+/* La frase che regge una sezione: staccata, grande, senza virgolette.
+   Inchiostro su carta come tutto il resto; e il blocco scuro, se c'e, a
+   ribaltarla -non il contrario, sennu ogni pagina chiara deve chiedere la
+   variante e la regola base non serve a nessuno-. */
 .case__block .case__statement {
-  margin: clamp(24px, 3.5vw, 40px) 0 0;
+  margin: clamp(22px, 3vw, 32px) 0;
   font-size: clamp(21px, 2.3vw, 30px);
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.015em;
-  color: var(--paper);
+  color: var(--ink);
 }
 
-.case__block .case__statement--light {
-  margin: clamp(22px, 3vw, 32px) 0;
-  color: var(--ink);
+.case__block--origin .case__statement {
+  margin: clamp(24px, 3.5vw, 40px) 0 0;
+  color: var(--paper);
 }
 
 /* L'origine del progetto e il punto che distingue Flagged dagli altri

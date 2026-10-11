@@ -809,9 +809,11 @@ html.has-custom-cursor a.case__slot {
   aspect-ratio: 2000 / 1001;
 }
 
+/* Niente override di proporzione qui: il banner nuovo e 1846x852, cioe
+   gia quella condivisa, e lasciare il vecchio 2000/995 avrebbe ritagliato
+   via una fetta sopra e sotto. */
 .work__box--04 {
-  background: url("../assets/work-04-polaroid.webp") center / cover no-repeat;
-  aspect-ratio: 2000 / 995;
+  background: url("../assets/work-04-polaroid-2.webp") center / cover no-repeat;
 }
 
 /* No "+" placeholder over a slot that already has real artwork. */

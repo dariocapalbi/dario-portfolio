@@ -762,7 +762,7 @@ html.has-custom-cursor a.case__slot {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(20px, 3vw, 32px);
+  gap: clamp(14px, 2.2vw, 26px);
   text-align: center;
 }
 
@@ -777,9 +777,15 @@ html.has-custom-cursor a.case__slot {
 /* Matches the artwork's own 1846x852 proportions so nothing gets
    cropped. The third min() term caps the height at the previous 68vh
    by capping width instead, which keeps the ratio intact. */
+/* `flex: none` perche il riquadro e un elemento flessibile dentro lo slot e
+   si restringeva per far stare il resto: su Flagged, che al posto della
+   riga di stato ha due bottoni alti 44px, perdeva 44px di altezza e
+   `cover` gli tagliava una fascia sopra e sotto. Ora non cede lui, e il
+   tetto in vh scende da 147 a 138 perche il conto torni anche li. */
 .work__box {
   position: relative;
-  width: min(96vw, 1320px, 147vh);
+  flex: none;
+  width: min(96vw, 1320px, 138vh);
   aspect-ratio: 1846 / 852;
 }
 
@@ -795,7 +801,7 @@ html.has-custom-cursor a.case__slot {
 }
 
 .work__box--01 {
-  background: url("../assets/work-01-flagged-2.webp") center / cover no-repeat;
+  background: url("../assets/work-01-flagged-3.webp") center / cover no-repeat;
 }
 
 .work__box--02 {

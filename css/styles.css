@@ -670,17 +670,15 @@ html.has-custom-cursor a.case__slot {
 /* Work's own heading pins and gets covered by the first slot, same as
    every other section - #work isn't itself the thing that pins (unlike
    About), so its heading needs the sticky treatment directly. */
-/* Qui sotto la testata non lascia niente -la prima carta e a tutta
-   larghezza e deve combaciare-, quindi il pari lo fa con margine zero
-   sopra: il titolo resta centrato nella sua fascia e basta. */
-#work {
-  padding-top: 0;
-}
-
+/* Il margine sotto era zero perche la prima carta combaciasse col titolo.
+   Faceva pero la fascia di Work 182px contro i 294 di Services, e la
+   differenza si vedeva. Adesso tiene lo stesso spazio degli altri due
+   sopra e sotto: la carta scorre comunque a coprire la testata, solo
+   partendo 56px piu in giu. */
 #work .section__head--wide {
   position: sticky;
   top: 0;
-  margin-bottom: 0;
+  margin-bottom: clamp(32px, 7vh, 80px);
   overflow: hidden;
 }
 

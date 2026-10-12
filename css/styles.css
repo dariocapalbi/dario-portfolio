@@ -657,9 +657,26 @@ html.has-custom-cursor a.case__slot {
   padding: clamp(14px, 3vh, 30px) var(--gutter);
 }
 
+/* I titoli stavano bassi nel loro blocco: sopra avevano il padding della
+   sezione -88px a 1280x800- e sotto il margine della testata, 56 o zero.
+   Misurato, 89 contro 56. Adesso la sezione apre con lo stesso valore che
+   la testata lascia sotto di se, cosi il titolo e centrato fra i due. */
+#work,
+#services,
+#about {
+  padding-top: clamp(32px, 7vh, 80px);
+}
+
 /* Work's own heading pins and gets covered by the first slot, same as
    every other section - #work isn't itself the thing that pins (unlike
    About), so its heading needs the sticky treatment directly. */
+/* Qui sotto la testata non lascia niente -la prima carta e a tutta
+   larghezza e deve combaciare-, quindi il pari lo fa con margine zero
+   sopra: il titolo resta centrato nella sua fascia e basta. */
+#work {
+  padding-top: 0;
+}
+
 #work .section__head--wide {
   position: sticky;
   top: 0;
@@ -704,8 +721,10 @@ html.has-custom-cursor a.case__slot {
   padding-bottom: clamp(32px, 5vw, 64px);
 }
 
+/* Questa regola vince su quella piu sopra, quindi il pari fra lo spazio
+   sopra il titolo e quello sotto va rifatto anche qui. */
 #about {
-  padding-top: var(--section-pad);
+  padding-top: clamp(32px, 7vh, 80px);
   padding-bottom: clamp(80px, 12vw, 140px);
 }
 

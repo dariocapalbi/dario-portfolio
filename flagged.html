@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700,800,900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/styles.css?v=116">
+<link rel="stylesheet" href="css/styles.css?v=118">
 </head>
 <body>
 
@@ -41,7 +41,7 @@
       <p class="case__lead reveal">Making maritime documentation easier to understand, before it becomes a problem.</p>
 
       <figure class="case__fig reveal">
-        <img src="assets/work-01-flagged-2.webp" alt="Flagged — the dashboard on a laptop" width="1846" height="852">
+        <img src="assets/work-01-flagged-3.webp" alt="Flagged — the banner" width="1846" height="852">
         <figcaption>Flagged.</figcaption>
       </figure>
 
@@ -177,6 +177,27 @@
         <img src="assets/fl-app-dashboard.webp" alt="Flagged — the dashboard" width="2000" height="1267" loading="lazy">
         <figcaption>The dashboard: what is critical interrupts, everything else is grouped into one summary.</figcaption>
       </figure>
+
+      <div class="case__block reveal">
+        <h3>Built with AI, end to end</h3>
+        <p>Flagged was built with AI from the first line — the domain model, the server, the front end and the interface. I did the deciding: what a status means, which rules matter, what a user has to see first. The implementation came out of a conversation.</p>
+        <p>What that changed about my process is where the iterations happen. I wasn't moving rectangles in Figma and handing them over: every version was a running application, with real data, that I could open and use. The design evolved inside the product rather than beside it.</p>
+        <p>It also moves where the care has to go. The parts that must not be wrong — how a survey window is derived, when a certificate stops being valid — are pinned by tests, because a confident wrong answer is exactly what this kind of tool cannot afford.</p>
+        <p>The history shows the rest. Three weeks from the first screen to what is live now, and 117 commits from the moment the project was worth putting under version control.</p>
+      </div>
+
+      <figure class="case__fig reveal">
+        <img src="assets/fl-processo.webp" alt="Flagged — five stages of the interface, from the first concept to today" width="2000" height="7387" loading="lazy">
+        <figcaption>Three weeks, five stages: the concept under its first name, the first interface in code, the first version in the repository, the redesign, and the palette the product uses today.</figcaption>
+      </figure>
+
+      <div class="case__block reveal">
+        <h3>What changed between the stages</h3>
+        <p>It didn't start as Flagged. The first four screens belonged to something called SeaSafe Compliance, and the name changed the same afternoon. The first interface in code was blue from edge to edge and had an Alerts section — a page of thresholds and sliders — which is now gone: tuning your own warnings is work, and the product should be doing that work for you.</p>
+        <p>For the first week status read as a red, amber and green traffic light, which is what every compliance tool does. It took using it to see the problem: a traffic light has no colour for <em>the window is open and you can act now</em>, and that is the single state that makes this product worth having.</p>
+        <p>Then the shell changed — warm cream instead of cold grey, navy instead of black — and finally the traffic light gave way to the state palette, with a badge colour per section.</p>
+        <p>None of those steps came from a brief. They came from opening the thing and finding it wanting, which is the part building with AI makes cheap, and the part that still has to be done by a person.</p>
+      </div>
 
       <div class="case__block reveal">
         <h3>What I learned</h3>

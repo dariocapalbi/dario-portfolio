@@ -1,7 +1,8 @@
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Custom yellow cursor ball: follows the pointer 1:1 and grows over links,
-// mix-blend-mode: difference does the color inversion. Mouse/trackpad only.
+// Custom yellow cursor ball: follows the pointer 1:1 and grows over links.
+// It sits above everything and blends instead of covering (see styles.css).
+// Mouse/trackpad only.
 const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const cursorBall = document.getElementById('cursor-ball');
 
@@ -9,10 +10,29 @@ if (cursorBall && canHover && !reduceMotion) {
   document.documentElement.classList.add('has-custom-cursor');
   const dot = cursorBall.querySelector('.cursor-ball__dot');
 
+  // Which blend keeps the ball yellow depends on what is under it, so we
+  // read the ground: the first ancestor of the element under the pointer
+  // that actually paints a background wins. Sections with artwork paint it
+  // as a background-image over the page's own paper, so those count as
+  // light ground, which is what their frame is.
+  const isDarkGround = (x, y) => {
+    let el = document.elementFromPoint(x, y);
+    while (el && el !== document.documentElement) {
+      const parts = getComputedStyle(el).backgroundColor.match(/[\d.]+/g);
+      if (parts && (parts.length < 4 || parseFloat(parts[3]) > 0.5)) {
+        const [r, g, b] = parts.map(Number);
+        return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 < 0.5;
+      }
+      el = el.parentElement;
+    }
+    return false;
+  };
+
   const moveTo = (x, y) => {
     const w = dot.offsetWidth;
     const h = dot.offsetHeight;
     cursorBall.style.transform = `translate(${x - w / 2}px, ${y - h / 2}px)`;
+    cursorBall.classList.toggle('is-on-dark', isDarkGround(x, y));
   };
 
   window.addEventListener(
@@ -31,15 +51,13 @@ if (cursorBall && canHover && !reduceMotion) {
   document.addEventListener(
     'mouseover',
     (e) => {
-      // Whole-card links (a Work slot, a case-study shot) are the size of the
-      // screen: growing the ball there would park a 64px disc on top of the
-      // title. Those sections are sticky, so they make their own stacking
-      // context and no z-index on the title can lift it over the ball.
-      // The test is on the link itself, not on its ancestors: the Flagged
-      // slot is not a link and holds two real buttons, and those should
-      // grow the ball like any other button on the page.
-      const interactive = e.target.closest('a, button');
-      if (interactive && !interactive.matches('.work__slot, .case__slot')) {
+      // Everything clickable grows the ball, whole-card Work links included.
+      // They used to be the one exception: the slot is the size of the screen
+      // and sticky, so it makes its own stacking context, and a 64px opaque
+      // disc parked on the title could not be lifted back over by any
+      // z-index. In multiply the disc can only darken what is under it, so
+      // the title shows through and the exception is no longer needed.
+      if (e.target.closest('a, button')) {
         cursorBall.classList.add('is-hovering');
       }
     },

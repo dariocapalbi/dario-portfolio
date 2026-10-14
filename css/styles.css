@@ -60,19 +60,38 @@ img { max-width: 100%; display: block; }
 }
 
 /* -------------------- custom cursor -------------------- */
-/* A small yellow ball that follows the pointer and grows over links —
-   solid yellow at all times, no blend-mode color shifting. Position
-   tracks the mouse directly (no lag); size change is what's animated.
-   Desktop/mouse only — left inert (and invisible) on touch devices. */
+/* A small yellow ball that follows the pointer and grows over links.
+   Position tracks the mouse directly (no lag); size change is what's
+   animated. Desktop/mouse only — left inert (and invisible) on touch. */
 
+/* La pallina sta sopra a tutto e si fonde, non copre.
+   Era a z-index 2 e piena: bastava un contesto di impilamento -una carta
+   di Work ha `position: sticky`, un paragrafo con `.reveal` ha una
+   trasformazione- perche il testo dentro si dipingesse in blocco sotto di
+   lei, e si mangiava le lettere. Nessuno z-index puo rimediare dall'interno
+   di un contesto; la fusione si, perche non dipende dall'ordine.
+   Deve restare gialla sia sulla carta chiara sia sul nero, e nessuna
+   fusione da sola fa le due cose: `multiply` tiene il giallo sul chiaro
+   -e le lettere nere restano nere- ma sul nero si spegne; `difference`
+   sul nero ridà quasi lo stesso giallo -e ribalta le lettere chiare in
+   blu scuro, leggibili- ma sul chiaro diventa blu. Quindi main.js guarda
+   cosa c'e sotto il puntatore e mette `.is-on-dark` dove serve.
+   La modalita sta QUI e non sul pallino: il pallino si fonderebbe col suo
+   genitore -che ha una trasformazione, quindi fa gruppo- invece che con la
+   pagina. */
 .cursor-ball {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 500;
   pointer-events: none;
   opacity: 0;
+  mix-blend-mode: multiply;
   transition: opacity 0.25s ease;
+}
+
+.cursor-ball.is-on-dark {
+  mix-blend-mode: difference;
 }
 
 .cursor-ball.is-active {

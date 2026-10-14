@@ -1149,6 +1149,16 @@ div.work__slot {
    slots are sized by the artwork's own 1771x878 rather than a fixed height,
    so nothing is cropped. */
 
+/* `.reveal` trasla, e una trasformazione apre un contesto di impilamento:
+   il link dentro ha z-index 3 ma quel 3 vale solo dentro il paragrafo, che
+   alla radice sta a zero. La pallina gialla, che sta a 2, ci passava sopra
+   e copriva le parole. Stessa cura gia usata per la mail e i social. */
+.case__back,
+.case__credit {
+  position: relative;
+  z-index: 4;
+}
+
 .case__back {
   margin: 0 0 clamp(32px, 5vw, 56px);
   font-size: 13px;

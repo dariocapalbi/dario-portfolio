@@ -1018,6 +1018,29 @@ div.work__slot {
   }
 }
 
+/* Tolto il mazzo da Work, su telefono la sovrapposizione riparte da
+   Services. La lista dei servizi si incolla gia -lo fa anche qui- ma non
+   veniva mai coperta: About comincia esattamente dove finisce il suo
+   contenitore, cioe nell'istante in cui lo sticky si stacca, quindi i due
+   scorrevano in fila senza mai toccarsi. Qui About viene tirato su dentro
+   l'ultimo tratto di Services e gli sale sopra, come faceva una carta di
+   Work con quella prima.
+   Perche opaco e z-index 2: il contenitore di Services e posizionato con
+   z-index 1, quindi una sezione non posizionata gli passerebbe sotto.
+   Quanto tirarlo su: almeno l'altezza della lista incollata, se no un
+   pezzo di lista resta scoperto sopra ad About mentre se ne vanno. La
+   lista e alta quanto i suoi nomi, che crescono con la larghezza -da 391px
+   su un 320 a 568 su un 860- da cui il termine in vw, col fondo per i
+   telefoni stretti dove i nomi sono gia al minimo. */
+@media (max-width: 860px) {
+  #about {
+    position: relative;
+    z-index: 2;
+    background: var(--paper);
+    margin-top: calc(-1 * max(440px, 82vw));
+  }
+}
+
 
 /* -------------------- services -------------------- */
 /* Pinned like the hero→work transition: the list stays fixed in the

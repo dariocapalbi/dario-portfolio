@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitmate — prototype</title>
+<meta name="description" content="Fitmate, rebuilt as a running prototype after the bootcamp: workouts, meetups and trainers in one app.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%237830FC'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='900' font-size='34' fill='%23fff' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --viola:#7830FC; --viola-cupo:#4726AA; --viola-lav:#EDE5FF;
+  --rosa:#EC338B;  --rosa-cupo:#C3286E;  --rosa-pal:#FFE4F1;
+  --giallo:#F7B500; --giallo-pal:#FFF3D6;
+  --azzurro:#2E9BF0; --azzurro-pal:#E2F1FE;
+  --verde:#15B67D; --verde-pal:#D9F6EB;
+  --ink:#1A1125; --ink-2:#6B5E7B; --ink-3:#A79DB4;
+  --carta:#FFFFFF; --sfondo:#F7F4FB; --bordo:#EFE9F6;
+  --r:18px; --r-s:14px; --ombra:0 10px 30px -12px rgba(66,26,110,.28);
+}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:'Urbanist',system-ui,sans-serif;background:
+    radial-gradient(1100px 620px at 12% -8%, #FBD9EC 0%, rgba(251,217,236,0) 62%),
+    radial-gradient(1000px 680px at 92% 8%, #E3D4FF 0%, rgba(227,212,255,0) 60%),
+    #F4EFF9;
+  min-height:100vh;display:grid;place-items:center;padding:40px 20px;color:var(--ink);
+}
+.scena{display:grid;grid-template-columns:auto auto;gap:clamp(28px,5vw,72px);align-items:center}
+@media (max-width:900px){ .scena{grid-template-columns:1fr;gap:28px} }
+
+/* --- la parte a sinistra, fuori dal telefono --- */
+.intro{max-width:400px}
+.intro .occhiello{font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--viola);margin-bottom:10px}
+.intro p b{color:var(--ink);font-weight:700}
+.intro .marchio{font-size:34px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.intro .marchio b{color:var(--viola)} .intro .marchio i{font-style:normal;color:var(--rosa)}
+.intro p{margin-top:14px;font-size:16px;line-height:1.6;color:var(--ink-2)}
+.intro .nota{margin-top:22px;font-size:13px;line-height:1.6;color:var(--ink-3)}
+.intro a{color:var(--viola);font-weight:600;text-decoration:none;border-bottom:1.5px solid rgba(120,48,252,.3)}
+
+/* --- telefono --- */
+.telefono{
+  width:390px;height:812px;border-radius:46px;background:#120A1E;padding:11px;
+  box-shadow:0 50px 90px -30px rgba(50,16,92,.55), 0 0 0 1px rgba(255,255,255,.4) inset;
+  position:relative;flex:none;
+}
+.schermo{width:100%;height:100%;border-radius:36px;overflow:hidden;background:var(--sfondo);
+  display:flex;flex-direction:column;position:relative}
+.tacca{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:118px;height:30px;
+  background:#120A1E;border-radius:0 0 18px 18px;z-index:40}
+
+.stato{display:flex;justify-content:space-between;align-items:center;padding:14px 22px 6px;
+  font-size:13.5px;font-weight:700;flex:none}
+.stato .dx{display:flex;gap:5px;align-items:center;opacity:.85}
+
+.corpo{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 18px 100px;scrollbar-width:none}
+.corpo::-webkit-scrollbar{display:none}
+
+.capo{display:flex;align-items:center;justify-content:space-between;padding:6px 0 14px}
+.capo h1{font-size:25px;font-weight:800;letter-spacing:-.02em}
+.capo .tondi{display:flex;gap:9px;align-items:center}
+.tondo{width:38px;height:38px;border-radius:50%;background:var(--carta);display:grid;place-items:center;
+  border:1px solid var(--bordo);cursor:pointer;position:relative}
+.tondo .pallino{position:absolute;top:8px;right:9px;width:7px;height:7px;border-radius:50%;background:var(--rosa)}
+.ritratto{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--bordo);object-fit:cover;cursor:pointer;display:block}
+
+/* eroe */
+.eroe{position:relative;border-radius:var(--r);overflow:hidden;height:186px;color:#fff;
+  background:linear-gradient(120deg,#7830FC,#B537C8 52%,#EC338B);box-shadow:var(--ombra)}
+.eroe .vel{position:absolute;inset:0;background:radial-gradient(120% 90% at 85% 15%, rgba(255,255,255,.28), rgba(255,255,255,0) 55%)}
+.eroe .testo{position:absolute;left:18px;bottom:16px;right:86px}
+.eroe .et{font-size:12.5px;font-weight:600;opacity:.82}
+.eroe h2{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-top:2px}
+.eroe .meta{display:flex;gap:14px;margin-top:9px;font-size:12.5px;font-weight:600;opacity:.9}
+.eroe .meta span{display:flex;align-items:center;gap:5px}
+.vai{position:absolute;right:16px;bottom:16px;width:52px;height:52px;border-radius:50%;border:0;cursor:pointer;
+  background:var(--rosa);color:#fff;display:grid;place-items:center;box-shadow:0 8px 20px -6px rgba(236,51,139,.7);
+  transition:transform .15s ease}
+.vai:active{transform:scale(.94)}
+
+/* La foto del banner conteneva gia un play rosa cotto dentro, nello stesso
+   angolo dove sta il bottone vero: ritagliata piu stretta, il play e uno. */
+/* La foto parte larga e il velo la spegne con calma: a meta larghezza il
+   bordo sinistro della foto faceva una riga netta contro il viola pieno. */
+.eroe .foto{position:absolute;right:0;top:0;bottom:0;width:76%;
+  background-size:cover;background-position:center 30%}
+.eroe .sfuma{position:absolute;inset:0;
+  background:linear-gradient(90deg,#7830FC 12%,rgba(120,48,252,.97) 26%,rgba(132,52,230,.72) 44%,
+    rgba(170,62,200,.22) 68%,rgba(236,51,139,0) 86%)}
+
+/* azioni rapide */
+.azioni{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:16px}
+.azione{background:var(--carta);border:1px solid var(--bordo);border-radius:var(--r-s);padding:12px 6px 10px;
+  text-align:center;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease}
+.azione:active{transform:scale(.96)}
+.azione .ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;margin:0 auto 7px}
+.azione span{display:block;font-size:10.5px;font-weight:700;line-height:1.25;color:var(--ink)}
+
+.riga-tit{display:flex;align-items:baseline;justify-content:space-between;margin:22px 0 11px}
+.riga-tit h3{font-size:17.5px;font-weight:800;letter-spacing:-.01em}
+.guida{font-size:13.5px;line-height:1.55;color:var(--ink-2);margin:-4px 0 14px}
+.riga-tit a{font-size:12.5px;font-weight:700;color:var(--viola);cursor:pointer}
+
+/* progresso */
+.progresso{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.stat{background:var(--carta);border:1px solid var(--bordo);border-radius:var(--r-s);padding:11px 11px 12px;
+  display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0}
+.anello{width:30px;height:30px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:0}
+.stat > span:last-child{display:flex;flex-direction:column;min-width:0;width:100%}
+.stat .et{display:block;font-size:9.5px;font-weight:700;color:var(--ink-3);letter-spacing:.02em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat .val{display:block;font-size:14.5px;font-weight:800;letter-spacing:-.015em;margin-top:2px;white-space:nowrap}
+
+/* scheda incontro in lista */
+.incontro{background:var(--carta);border:1px solid var(--bordo);border-radius:var(--r);overflow:hidden;
+  display:grid;grid-template-columns:104px 1fr;box-shadow:var(--ombra)}
+.incontro .foto{background:linear-gradient(140deg,#FFB3D9,#C9A6FF);position:relative;background-size:cover;background-position:center}
+.incontro .foto .tag{position:absolute;left:8px;top:8px;background:rgba(255,255,255,.92);border-radius:999px;
+  padding:3px 9px;font-size:9.5px;font-weight:800;letter-spacing:.02em}
+.incontro .det{padding:12px 13px}
+.incontro h4{font-size:15.5px;font-weight:800;letter-spacing:-.01em}
+.incontro .r{display:flex;align-items:center;gap:6px;margin-top:5px;font-size:11.5px;color:var(--ink-2);font-weight:500}
+.incontro .pie{display:flex;align-items:center;justify-content:space-between;margin-top:9px}
+.facce{display:flex}
+.facce i{width:21px;height:21px;border-radius:50%;border:2px solid var(--carta);margin-left:-7px;display:block;
+  background-size:cover;background-position:center}
+.facce i:first-child{margin-left:0}
+.vanno{font-size:11px;font-weight:700;color:var(--ink-2);margin-left:7px}
+.unisci{border:0;cursor:pointer;border-radius:999px;padding:7px 15px;font-size:12.5px;font-weight:800;
+  background:var(--rosa);color:#fff;font-family:inherit;transition:transform .14s ease, background .2s ease}
+.unisci:active{transform:scale(.94)}
+.unisci.dentro{background:var(--viola-lav);color:var(--viola-cupo)}
+
+/* carosello orizzontale -- Home: "Upcoming meetup" */
+.carosello{display:flex;gap:11px;overflow-x:auto;scroll-snap-type:x mandatory;
+  margin:0 -18px;padding:2px 18px 6px;scrollbar-width:none}
+.carosello::-webkit-scrollbar{display:none}
+.mcard{flex:none;width:208px;scroll-snap-align:start;background:var(--carta);border:1px solid var(--bordo);
+  border-radius:var(--r);overflow:hidden;box-shadow:var(--ombra);cursor:pointer}
+.mcard .ph{height:104px;background-size:cover;background-position:center;position:relative}
+.mcard .ph .tag{position:absolute;left:9px;top:9px;background:rgba(255,255,255,.93);border-radius:999px;
+  padding:3px 9px;font-size:9.5px;font-weight:800}
+.mcard .ph .gio{position:absolute;right:9px;top:9px;background:rgba(26,17,37,.72);color:#fff;border-radius:999px;
+  padding:3px 9px;font-size:9.5px;font-weight:800}
+.mcard .dt{padding:11px 12px 12px}
+.mcard h4{font-size:14.5px;font-weight:800;letter-spacing:-.01em;line-height:1.25}
+.mcard .r{font-size:11px;color:var(--ink-2);font-weight:600;margin-top:5px}
+.mcard .pie{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+
+/* chips che scorrono (filtri) */
+.chips{display:flex;gap:7px;overflow-x:auto;margin:0 -18px 13px;padding:2px 18px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--bordo);background:var(--carta);color:var(--ink-2);cursor:pointer;
+  font-family:inherit;border-radius:999px;padding:8px 15px;font-size:12.5px;font-weight:700}
+.chip.on{background:var(--viola);color:#fff;border-color:var(--viola)}
+
+.segmenti{display:flex;gap:7px;margin:4px 0 14px}
+.segmento{border:0;cursor:pointer;font-family:inherit;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:700;
+  background:var(--carta);border:1px solid var(--bordo);color:var(--ink-2)}
+.segmento.on{background:var(--viola);color:#fff;border-color:var(--viola)}
+.cerca{display:flex;align-items:center;gap:9px;background:var(--carta);border:1px solid var(--bordo);
+  border-radius:999px;padding:10px 15px;margin-bottom:13px}
+.cerca input{border:0;outline:0;font-family:inherit;font-size:13.5px;width:100%;background:transparent;color:var(--ink)}
+.cerca input::placeholder{color:var(--ink-3)}
+
+.lista{display:grid;gap:11px}
+.quanti{font-size:11.5px;font-weight:700;color:var(--ink-3);margin-bottom:10px}
+
+/* allenamenti */
+.allen{background:var(--carta);border:1px solid var(--bordo);border-radius:var(--r);padding:13px;
+  display:grid;grid-template-columns:46px 1fr auto;gap:12px;align-items:center;cursor:pointer}
+.allen .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center}
+.allen h4{font-size:15px;font-weight:800;letter-spacing:-.01em}
+.allen .r{font-size:11.5px;color:var(--ink-2);font-weight:500;margin-top:3px}
+.fatto{font-size:10.5px;font-weight:800;color:var(--viola-cupo);background:var(--viola-lav);
+  border-radius:999px;padding:4px 9px}
+
+/* ─── Personal Trainer ─── */
+.pt-tabs{display:flex;gap:9px;margin:2px 0 15px}
+.pt-tab{flex:1;border:0;cursor:pointer;font-family:inherit;border-radius:10px;padding:10px 6px;
+  font-size:13px;font-weight:700;background:#C9A6F2;color:#fff;transition:background .2s ease}
+.pt-tab.on{background:var(--viola)}
+.pt-banner{height:150px;border-radius:var(--r);overflow:hidden;background-size:cover;background-position:center 38%;
+  box-shadow:var(--ombra);position:relative}
+.pt-banner .vl{position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,17,37,0) 45%,rgba(26,17,37,.62))}
+.pt-banner .tx{position:absolute;left:15px;bottom:13px;color:#fff}
+.pt-banner .tx b{display:block;font-size:17px;font-weight:800;letter-spacing:-.01em}
+.pt-banner .tx span{font-size:11.5px;opacity:.88;font-weight:600}
+
+.reco{display:flex;gap:16px;overflow-x:auto;margin:0 -18px;padding:2px 18px 4px;scrollbar-width:none}
+.reco::-webkit-scrollbar{display:none}
+.reco figure{flex:none;width:94px;text-align:center;cursor:pointer}
+.reco img{width:88px;height:88px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 9px;
+  box-shadow:0 8px 18px -8px rgba(66,26,110,.5);transition:transform .18s ease}
+.reco figure:active img{transform:scale(.95)}
+.reco b{display:block;font-size:13.5px;font-weight:800}
+.reco span{display:block;font-size:11.5px;color:var(--ink-2);margin-top:2px}
+
+.cat-riga{display:flex;gap:11px;overflow-x:auto;margin:0 -18px;padding:2px 18px 6px;scrollbar-width:none}
+.cat-riga::-webkit-scrollbar{display:none}
+.cat{flex:none;width:128px;height:150px;border-radius:var(--r-s);overflow:hidden;position:relative;cursor:pointer;
+  display:flex;align-items:flex-start}
+.cat .ph{position:absolute;right:0;top:0;bottom:0;width:62%;background-size:cover;background-position:center top;
+  mix-blend-mode:multiply;opacity:.95}
+.cat b{position:relative;z-index:2;color:#fff;font-size:15px;font-weight:800;line-height:1.15;padding:13px 12px;
+  letter-spacing:-.01em;text-shadow:0 1px 6px rgba(0,0,0,.18)}
+.vedi-tutto{font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer;
+  border-bottom:2px solid var(--rosa);padding-bottom:1px}
+
+.pt-riga{background:var(--carta);border:1px solid var(--bordo);border-radius:var(--r);padding:11px 13px;
+  display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;cursor:pointer}
+.pt-riga img{width:52px;height:52px;border-radius:50%;object-fit:cover;display:block}
+.pt-riga h4{font-size:15px;font-weight:800;letter-spacing:-.01em}
+.pt-riga .r{font-size:11.5px;color:var(--ink-2);font-weight:500;margin-top:3px}
+.stelle{color:var(--giallo);font-size:12px;letter-spacing:1px}
+.stelle i{color:var(--bordo);font-style:normal}
+
+/* scheda personale del trainer */
+.indietro{display:flex;align-items:center;gap:7px;border:0;background:none;cursor:pointer;font-family:inherit;
+  font-size:25px;font-weight:800;letter-spacing:-.02em;color:var(--ink);padding:0}
+.pt-dett{text-align:center;padding-top:10px}
+.pt-dett > img{width:148px;height:148px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;
+  box-shadow:0 16px 34px -16px rgba(66,26,110,.6)}
+.pt-dett h2{font-size:21px;font-weight:800;margin-top:14px;letter-spacing:-.01em}
+.pt-dett .bio{font-size:13.5px;line-height:1.6;color:var(--ink-2);margin-top:9px}
+.numeri{display:flex;justify-content:space-around;margin-top:16px}
+.numeri div{font-size:12.5px;color:var(--ink-2);font-weight:600}
+.numeri b{display:block;font-size:16px;font-weight:800;color:var(--ink)}
+.recensioni{display:flex;gap:11px;overflow-x:auto;margin:0 -18px;padding:2px 18px 6px;scrollbar-width:none}
+.recensioni::-webkit-scrollbar{display:none}
+.rec{flex:none;width:196px;background:var(--carta);border:1.5px solid var(--bordo);border-radius:var(--r-s);padding:12px}
+.rec .cap{display:flex;align-items:center;gap:8px}
+.rec .cap img{width:26px;height:26px;border-radius:50%;object-fit:cover;display:block}
+.rec .cap b{font-size:13.5px;font-weight:800}
+.rec p{font-size:12px;line-height:1.5;color:var(--ink-2);margin-top:8px}
+.rec .stelle{margin-top:9px;display:block}
+.wk-riga{display:flex;gap:11px;overflow-x:auto;margin:0 -18px;padding:2px 18px 6px;scrollbar-width:none}
+.wk-riga::-webkit-scrollbar{display:none}
+.wk{flex:none;width:136px;height:104px;border-radius:var(--r-s);overflow:hidden;position:relative;cursor:pointer;
+  background-size:cover;background-position:center}
+.wk .vl{position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,17,37,.45),rgba(26,17,37,.15) 45%,rgba(26,17,37,.72))}
+.wk b{position:absolute;left:10px;top:9px;right:10px;color:#fff;font-size:13px;font-weight:800;line-height:1.2}
+.wk span{position:absolute;left:10px;bottom:9px;color:#fff;font-size:11px;font-weight:700;opacity:.9}
+.fab{position:absolute;right:20px;bottom:92px;width:62px;height:62px;border-radius:50%;border:0;cursor:pointer;
+  background:var(--viola);color:#fff;display:grid;place-items:center;z-index:22;
+  box-shadow:0 14px 28px -10px rgba(120,48,252,.8);transition:transform .15s ease}
+.fab:active{transform:scale(.93)}
+
+/* ─── scheda di un incontro ─── */
+/* Unirsi non e piu un bottone in lista e basta: prima si vede di cosa si
+   tratta, chi lo organizza e chi ci va, come su Meetup. */
+.ev-foto{height:208px;border-radius:var(--r);overflow:hidden;position:relative;background-size:cover;
+  background-position:center;box-shadow:var(--ombra)}
+.ev-foto .vl{position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,17,37,.28) 0 30%,rgba(26,17,37,.78))}
+.ev-foto .tag{position:absolute;left:13px;top:12px;background:rgba(255,255,255,.93);border-radius:999px;
+  padding:4px 11px;font-size:10px;font-weight:800;letter-spacing:.03em}
+.ev-foto .data{position:absolute;right:13px;top:12px;background:var(--carta);border-radius:12px;
+  padding:7px 11px;text-align:center;line-height:1}
+.ev-foto .data b{display:block;font-size:17px;font-weight:800}
+.ev-foto .data span{display:block;font-size:9.5px;font-weight:800;color:var(--rosa);letter-spacing:.06em;margin-top:2px}
+.ev-foto h2{position:absolute;left:14px;right:14px;bottom:13px;color:#fff;font-size:23px;font-weight:800;
+  letter-spacing:-.02em;line-height:1.15}
+.ev-righe{display:grid;gap:11px;margin-top:16px}
+.ev-riga{display:grid;grid-template-columns:38px 1fr;gap:11px;align-items:center}
+.ev-riga .ic{width:38px;height:38px;border-radius:12px;background:var(--viola-lav);display:grid;place-items:center}
+.ev-riga b{display:block;font-size:14px;font-weight:800}
+.ev-riga span{display:block;font-size:11.5px;color:var(--ink-2);font-weight:600;margin-top:1px}
+.ev-host{background:var(--carta);border:1px solid var(--bordo);border-radius:var(--r);padding:12px 13px;
+  display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;margin-top:14px}
+.ev-host img{width:48px;height:48px;border-radius:50%;object-fit:cover;display:block}
+.ev-host .et{font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.ev-host h4{font-size:15px;font-weight:800;letter-spacing:-.01em;margin-top:2px}
+.ev-host .r{font-size:11.5px;color:var(--ink-2);font-weight:600}
+.ev-host button{border:1px solid var(--viola);background:var(--carta);color:var(--viola);cursor:pointer;
+  font-family:inherit;border-radius:999px;padding:8px 14px;font-size:12.5px;font-weight:800}
+.ev-testo{font-size:13.5px;line-height:1.6;color:var(--ink-2);margin-top:12px}
+.ev-vanno{display:flex;align-items:center;gap:10px;margin-top:12px}
+.ev-vanno .facce i{width:34px;height:34px;margin-left:-11px;border-width:2.5px}
+.ev-mappa{height:118px;border-radius:var(--r-s);margin-top:12px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#E8E2F4,#F3EDFB);border:1px solid var(--bordo)}
+.ev-mappa svg{position:absolute;inset:0;width:100%;height:100%}
+.ev-mappa .pin{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:30px;height:30px;
+  border-radius:50%;background:var(--rosa);display:grid;place-items:center;color:#fff;
+  box-shadow:0 8px 18px -6px rgba(236,51,139,.8)}
+.ev-mappa .dove{position:absolute;left:11px;bottom:10px;background:var(--carta);border-radius:999px;
+  padding:5px 12px;font-size:11px;font-weight:800;box-shadow:var(--ombra)}
+/* Sopra la barra delle schede, non al suo posto: se no per uscire resta
+   solo la freccia indietro. */
+.ev-pie{position:absolute;left:0;right:0;bottom:76px;z-index:21;background:rgba(255,255,255,.97);
+  backdrop-filter:blur(12px);border-top:1px solid var(--bordo);padding:11px 18px 12px;
+  display:none;align-items:center;gap:12px}
+.ev-pie.on{display:flex}
+.ev-pie .pr{flex:1}
+.ev-pie .pr b{display:block;font-size:16px;font-weight:800}
+.ev-pie .pr span{display:block;font-size:11.5px;color:var(--ink-2);font-weight:600}
+.ev-pie button{border:0;cursor:pointer;font-family:inherit;border-radius:999px;padding:14px 30px;
+  font-size:15px;font-weight:800;background:var(--rosa);color:#fff;transition:transform .14s ease}
+.ev-pie button:active{transform:scale(.95)}
+.ev-pie button.dentro{background:var(--viola-lav);color:var(--viola-cupo)}
+
+/* ─── lettore degli esercizi ─── */
+/* Il lettore sta su carta bianca come il resto dell'app: solo la clip
+   resta scura, perche e una foto e il testo ci va sopra. */
+.player{position:absolute;inset:0;z-index:30;background:var(--carta);color:var(--ink);display:none;
+  flex-direction:column;padding:46px 18px 20px}
+.player.on{display:flex}
+.p-capo{display:flex;align-items:center;gap:12px;flex:none}
+.p-capo h2{font-size:18px;font-weight:800;letter-spacing:-.01em}
+.p-capo .p-et{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.p-chiudi{width:34px;height:34px;flex:none;border-radius:50%;border:1px solid var(--bordo);cursor:pointer;
+  font-family:inherit;background:var(--sfondo);color:var(--ink);font-size:15px;display:grid;place-items:center}
+.p-conta{margin-left:auto;font-size:12.5px;font-weight:800;background:var(--viola-lav);color:var(--viola-cupo);
+  border-radius:999px;padding:5px 11px}
+/* Il lettore e su bianco, ma dentro la clip si scrive sopra una foto
+   scura: il colore torna chiaro qui e i figli lo ereditano. */
+.clip{position:relative;border-radius:var(--r);overflow:hidden;height:214px;margin-top:14px;flex:none;
+  background:#241539;color:#fff}
+.clip-foto{position:absolute;inset:0;background-size:cover;background-position:center;
+  transform:scale(1.04);transition:opacity .35s ease}
+.clip-velo{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,12,34,.35),rgba(20,12,34,.25) 40%,rgba(20,12,34,.9))}
+.clip.pausa .clip-foto{filter:grayscale(.55) brightness(.75)}
+.clip-live{position:absolute;left:13px;top:12px;display:flex;align-items:center;gap:6px;
+  background:rgba(20,12,34,.6);border-radius:999px;padding:5px 11px;font-size:10.5px;font-weight:800;letter-spacing:.04em}
+.clip-live i{width:7px;height:7px;border-radius:50%;background:#FF4D6D;display:block;animation:pulsa 1.4s ease-in-out infinite}
+.clip.pausa .clip-live i{animation:none;background:var(--ink-3)}
+@keyframes pulsa{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.72)}}
+.clip-conto{position:absolute;right:13px;top:11px;font-size:26px;font-weight:800;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+.clip-testo{position:absolute;left:14px;right:14px;bottom:20px}
+.clip-testo h3{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.clip-testo p{font-size:12.5px;opacity:.82;margin-top:3px;font-weight:600}
+.clip-barra{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.18)}
+.clip-barra i{display:block;height:100%;background:linear-gradient(90deg,#7830FC,#EC338B);width:0%;
+  transition:width .3s linear}
+.p-controlli{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:9px;margin-top:14px;flex:none}
+.p-controlli button{border:1px solid var(--bordo);cursor:pointer;font-family:inherit;border-radius:999px;
+  padding:13px 6px;font-size:13.5px;font-weight:800;background:var(--sfondo);color:var(--ink-2)}
+.p-controlli button.pieno{background:var(--viola);border-color:var(--viola);color:#fff}
+.p-tit{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin:18px 0 9px;flex:none}
+.p-lista{flex:1;overflow-y:auto;display:grid;gap:8px;align-content:start;scrollbar-width:none}
+.p-lista::-webkit-scrollbar{display:none}
+.es{display:grid;grid-template-columns:54px 1fr auto;gap:11px;align-items:center;
+  background:var(--sfondo);border-radius:var(--r-s);padding:8px;border:0;cursor:pointer}
+.es.ora{background:var(--rosa-pal)}
+.es.ora b{color:var(--rosa-cupo)}
+.es.ok{opacity:.5}
+.es .mini{width:54px;height:40px;border-radius:9px;background-size:cover;background-position:center}
+.es b{font-size:13.5px;font-weight:800;display:block}
+.es span{font-size:11px;color:var(--ink-2);font-weight:600}
+.es .dur{font-size:12px;font-weight:800;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.p-fine{margin-top:12px;flex:none;border:0;cursor:pointer;font-family:inherit;border-radius:999px;padding:15px;
+  font-size:15px;font-weight:800;background:linear-gradient(120deg,#7830FC,#EC338B);color:#fff}
+
+/* ─── chat ─── */
+.chat{position:absolute;inset:0;z-index:32;background:var(--carta);display:none;flex-direction:column}
+.chat.on{display:flex}
+.c-capo{display:flex;align-items:center;gap:10px;padding:48px 18px 13px;border-bottom:1px solid var(--bordo);flex:none}
+.c-capo img{width:44px;height:44px;border-radius:50%;object-fit:cover;display:block}
+.c-capo h2{font-size:19px;font-weight:800;letter-spacing:-.01em}
+.c-capo .st{font-size:11.5px;color:var(--verde);font-weight:700}
+.c-capo .back{border:0;background:none;cursor:pointer;font-family:inherit;font-size:22px;color:var(--ink);padding:0 2px}
+.c-corpo{flex:1;overflow-y:auto;padding:16px 18px;display:grid;gap:12px;align-content:start;scrollbar-width:none}
+.c-corpo::-webkit-scrollbar{display:none}
+.bolla{display:flex;gap:9px;align-items:flex-end;max-width:84%;animation:entraBolla .35s cubic-bezier(.2,.9,.3,1) both}
+.bolla img{width:30px;height:30px;border-radius:50%;object-fit:cover;flex:none;display:block}
+.bolla p{background:var(--sfondo);border:1px solid var(--bordo);border-radius:16px 16px 16px 5px;
+  padding:11px 13px;font-size:13.5px;line-height:1.5}
+.bolla.io{margin-left:auto;flex-direction:row-reverse}
+.bolla.io p{background:var(--viola-lav);border-color:#DFD0FF;border-radius:16px 16px 5px 16px}
+@keyframes entraBolla{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.scrive{display:flex;gap:5px;padding:12px 14px;background:var(--sfondo);border:1px solid var(--bordo);
+  border-radius:16px;width:fit-content}
+.scrive i{width:8px;height:8px;border-radius:50%;background:var(--viola);display:block;animation:salta 1.1s infinite}
+.scrive i:nth-child(2){animation-delay:.16s} .scrive i:nth-child(3){animation-delay:.32s}
+@keyframes salta{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-5px)}}
+.rapide{display:flex;gap:7px;overflow-x:auto;padding:0 18px 10px;flex:none;scrollbar-width:none}
+.rapide::-webkit-scrollbar{display:none}
+.c-pie{display:flex;align-items:center;gap:9px;padding:11px 18px 24px;border-top:1px solid var(--bordo);flex:none}
+.c-pie .campo{flex:1;display:flex;align-items:center;background:var(--sfondo);border:1px solid var(--bordo);
+  border-radius:999px;padding:11px 15px}
+.c-pie input{border:0;outline:0;background:transparent;font-family:inherit;font-size:13.5px;width:100%;color:var(--ink)}
+.c-pie button{width:42px;height:42px;flex:none;border-radius:50%;border:0;cursor:pointer;background:var(--viola);
+  color:#fff;display:grid;place-items:center}
+
+/* profilo e progresso */
+.pannello{background:var(--carta);border:1px solid var(--bordo);border-radius:var(--r);padding:16px}
+.barre{display:flex;align-items:flex-end;gap:9px;height:124px;margin-top:4px}
+.barre div{flex:1;border-radius:7px 7px 3px 3px;background:var(--viola-lav);position:relative;transition:height .5s cubic-bezier(.2,.9,.3,1)}
+.barre div.forte{background:linear-gradient(180deg,#7830FC,#EC338B)}
+.barre span{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:10px;font-weight:700;color:var(--ink-3)}
+.vocep{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-top:1px solid var(--bordo);font-size:14.5px;font-weight:600}
+.vocep:first-of-type{border-top:0}
+
+/* barra in fondo */
+.fondo{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.93);backdrop-filter:blur(12px);
+  border-top:1px solid var(--bordo);display:grid;grid-template-columns:repeat(5,1fr);padding:9px 6px 22px;z-index:20}
+.fondo .tab{font-size:9.5px}
+.tab{border:0;background:none;cursor:pointer;font-family:inherit;display:grid;justify-items:center;gap:4px;
+  font-size:9.5px;font-weight:700;color:var(--ink-3);padding:4px 0}
+.tab.on{color:var(--viola)}
+.tab svg{display:block}
+
+.vista{display:none} .vista.on{display:block}
+
+/* saluto in cima alla Home */
+.saluto{font-size:13.5px;color:var(--ink-2);font-weight:600;margin-top:-6px}
+
+/* ─── questionario d'ingresso ─── */
+.survey{position:absolute;inset:0;z-index:50;background:linear-gradient(165deg,#F7F1FF,#FFEAF4 60%,#FFF);
+  display:flex;flex-direction:column;padding:62px 24px 28px;
+  transition:opacity .42s ease, transform .5s cubic-bezier(.4,0,.2,1)}
+.survey.esce{opacity:0;transform:translateY(-30px) scale(.97);pointer-events:none}
+.survey.via{display:none}
+.survey .passo{font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--viola)}
+.survey h2{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.18;margin-top:8px}
+.survey p.sp{font-size:14px;color:var(--ink-2);margin-top:8px;line-height:1.55}
+.scelte{display:grid;gap:10px;margin-top:20px;overflow-y:auto;scrollbar-width:none}
+.scelte::-webkit-scrollbar{display:none}
+.scelta{background:var(--carta);border:1.5px solid var(--bordo);border-radius:var(--r-s);padding:14px 16px;
+  cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14.5px;font-weight:700;text-align:left;
+  font-family:inherit;color:var(--ink);transition:border-color .15s ease, background .15s ease}
+.scelta .em{font-size:19px}
+.scelta.on{border-color:var(--viola);background:var(--viola-lav)}
+/* la casella appare solo dove si puo scegliere piu di una cosa */
+.scelta .box{margin-left:auto;width:21px;height:21px;border-radius:7px;border:1.5px solid var(--bordo);
+  display:grid;place-items:center;flex:none;color:#fff;background:var(--carta)}
+.scelta.on .box{background:var(--viola);border-color:var(--viola)}
+.scelta .box svg{opacity:0;transition:opacity .12s ease}
+.scelta.on .box svg{opacity:1}
+.multi-nota{font-size:11.5px;font-weight:700;color:var(--viola);margin-top:12px;display:none}
+.multi-nota.on{display:block}
+.survey .fondo-s{margin-top:auto;padding-top:18px;display:flex;gap:10px;align-items:center}
+.survey .avanti{flex:1;border:0;cursor:pointer;font-family:inherit;border-radius:999px;padding:15px;
+  font-size:15px;font-weight:800;background:var(--viola);color:#fff}
+.survey .avanti[disabled]{opacity:.4;cursor:default}
+.survey .salta{border:0;background:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:700;color:var(--ink-3)}
+.puntini{display:flex;gap:6px;justify-content:center;margin-bottom:16px}
+.puntini i{width:7px;height:7px;border-radius:50%;background:var(--bordo);display:block}
+.puntini i.on{background:var(--viola);width:20px;border-radius:999px}
+
+/* ─── entrata nella Home dopo il questionario ─── */
+@keyframes saleEntra{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.vista.entra > *{opacity:0;animation:saleEntra .6s cubic-bezier(.2,.9,.3,1) forwards;
+  animation-delay:calc(var(--i,0) * 75ms)}
+.lampo{position:absolute;inset:0;z-index:45;pointer-events:none;background:#fff;opacity:0}
+.lampo.on{animation:lampeggia .55s ease-out forwards}
+@keyframes lampeggia{from{opacity:.85}to{opacity:0}}
+
+.brindisi{position:absolute;left:50%;bottom:104px;transform:translateX(-50%) translateY(14px);z-index:35;
+  background:var(--ink);color:#fff;border-radius:999px;padding:11px 20px;font-size:13px;font-weight:700;
+  opacity:0;transition:opacity .25s ease, transform .25s ease;pointer-events:none;white-space:nowrap}
+.brindisi.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Su un telefono vero la cornice non serve, e un finto telefono da 390px
+   piu i margini non ci sta: qui diventa la pagina. `.scena` smette di
+   essere una griglia -una colonna 1fr non scende sotto la larghezza
+   minima del suo contenuto, e il contenuto e un telefono- e i due blocchi
+   si impilano. Il blocco sta in fondo al foglio perche le imbottiture che
+   schivano la tacca sono dichiarate piu sotto e vincerebbero loro. */
+@media (max-width: 520px){
+  html,body{overflow-x:hidden}
+  body{display:block;padding:0;min-height:0}
+  .scena{display:block;width:100vw;max-width:100vw}
+  .intro{max-width:100vw;padding:32px 22px 30px}
+  .telefono{width:100vw;max-width:100vw;height:100vh;height:100svh;min-height:580px;
+    border-radius:0;padding:0;box-shadow:none}
+  .schermo{border-radius:0}
+  .tacca{display:none}
+  .stato{padding:10px 20px 6px}
+  .survey{padding-top:34px}
+  .player{padding-top:22px}
+  .c-capo{padding-top:24px}
+}
+
+</style>
+</head>
+<body>
+
+<div class="scena">
+  <div class="intro">
+    <p class="occhiello">Built after the bootcamp</p>
+    <p class="marchio"><b>FIT</b><i>MATE</i></p>
+    <p>Fitmate was the fourth project of my UX/UI bootcamp at Ironhack, and it ended where projects like that usually end — <b>a Figma prototype and a presentation</b>.</p>
+    <p>It didn't stay there. <b>I kept building it on my own once the bootcamp was over</b>, now with AI, and this is where that got to: not a picture of an app, an app. Every version runs, which is the only way to find out that a flow reads well on a board and badly in a hand.</p>
+    <p class="nota">Try it. The onboarding survey takes more than one answer, and what you pick sets your weekly target and chooses today's workout. Press play and the exercises run one after another, each with its own countdown. Join a meetup and the numbers move. Open a trainer, read the reviews, send a message.<br><br>
+      Designed and built by Dario Capalbi · <a href="fitmate.html">Back to the case study &rarr;</a></p>
+  </div>
+
+  <div class="telefono">
+    <div class="schermo">
+      <div class="tacca"></div>
+
+      <div class="stato">
+        <span>9:41</span>
+        <span class="dx">
+          <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+          <svg width="16" height="11" viewBox="0 0 16 11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1 4.2a10 10 0 0 1 14 0"/><path d="M3.6 6.9a6.3 6.3 0 0 1 8.8 0"/><circle cx="8" cy="9.6" r="1" fill="currentColor" stroke="none"/></svg>
+          <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x=".6" y=".6" width="20" height="9.8" rx="3" stroke="currentColor" stroke-opacity=".45"/><rect x="2.2" y="2.2" width="15" height="6.6" rx="1.8" fill="currentColor"/><path d="M22.4 4v3a2 2 0 0 0 0-3" fill="currentColor" fill-opacity=".45"/></svg>
+        </span>
+      </div>
+
+      <div class="corpo" id="corpo">
+
+        <!-- ───────────── HOME ───────────── -->
+        <section class="vista on" data-vista="home" id="vista-home">
+          <div class="capo">
+            <div>
+              <h1>Hi, Emma</h1>
+              <p class="saluto" id="saluto-obiettivo">Let's keep the week going</p>
+            </div>
+            <div class="tondi">
+              <button class="tondo" data-brindisi="No new notifications">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1125" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
+                <i class="pallino"></i>
+              </button>
+              <img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account">
+            </div>
+          </div>
+
+          <div class="eroe">
+            <div class="foto" style="background-image:url('assets/proto/fm-p-hero2.webp')"></div>
+            <div class="sfuma"></div>
+            <div class="testo">
+              <p class="et">Today's workout</p>
+              <h2 id="oggi-nome">Full Body Boost</h2>
+              <div class="meta">
+                <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b id="oggi-min">30</b>&nbsp;min</span>
+                <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 18V9M10 18V4M16 18v-7M22 18v-4"/></svg><span id="oggi-liv">Intermediate</span></span>
+              </div>
+            </div>
+            <button class="vai" id="oggi-vai"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg></button>
+          </div>
+
+          <div class="azioni">
+            <div class="azione" data-vai="workout">
+              <span class="ic" style="background:var(--viola-lav)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7830FC" stroke-width="2" stroke-linecap="round"><path d="M6.5 9v6M17.5 9v6M3.5 10.5v3M20.5 10.5v3M6.5 12h11"/></svg></span>
+              <span>Start a<br>Workout</span>
+            </div>
+            <div class="azione" data-vai="trainer">
+              <span class="ic" style="background:var(--rosa-pal)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EC338B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3 2.7-5 6-5s6 2 6 5"/><path d="M16 5.4a3.2 3.2 0 0 1 0 5.2"/></svg></span>
+              <span>Talk to a<br>Trainer</span>
+            </div>
+            <div class="azione" data-vai="meetup">
+              <span class="ic" style="background:var(--giallo-pal)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F7B500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><circle cx="5" cy="11" r="2.4"/><circle cx="19" cy="11" r="2.4"/><path d="M5.5 20c0-2.6 2.9-4.5 6.5-4.5s6.5 1.9 6.5 4.5"/></svg></span>
+              <span>Join a<br>Meetup</span>
+            </div>
+            <div class="azione" data-vai="account">
+              <span class="ic" style="background:var(--azzurro-pal)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E9BF0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18V12M10 18V6M16 18v-9M4 18h16"/></svg></span>
+              <span>Track<br>Activity</span>
+            </div>
+          </div>
+
+          <div class="riga-tit"><h3>Your progress</h3><a data-vai="account">See more &rsaquo;</a></div>
+          <div class="progresso">
+            <div class="stat"><span class="anello" id="h-an-w"></span><span><span class="et">Workouts</span><span class="val" id="h-v-w">3/5</span></span></div>
+            <div class="stat"><span class="anello" id="h-an-t"></span><span><span class="et">Active time</span><span class="val" id="h-v-t">120 min</span></span></div>
+            <div class="stat"><span class="anello" id="h-an-c"></span><span><span class="et">Calories</span><span class="val" id="h-v-c">850 kcal</span></span></div>
+          </div>
+
+          <div class="riga-tit"><h3>Upcoming meetup</h3><a data-vai="meetup">All &rsaquo;</a></div>
+          <div class="carosello" id="casa-incontri"></div>
+        </section>
+
+        <!-- ───────────── MEETUP ───────────── -->
+        <section class="vista" data-vista="meetup">
+          <div class="capo">
+            <h1>Meetup</h1>
+            <div class="tondi">
+              <button class="tondo" data-brindisi="No new notifications">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1125" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
+                <i class="pallino"></i>
+              </button>
+              <img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account">
+            </div>
+          </div>
+          <p class="guida">Find people training nearby and make the workout the plan with friends, instead of the thing competing with it.</p>
+          <div class="cerca">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A79DB4" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+            <input id="filtro" placeholder="Search activities, locations…">
+          </div>
+          <div class="chips" id="chip-incontri"></div>
+          <div class="chips" id="chip-quando"></div>
+          <p class="quanti" id="quanti-incontri"></p>
+          <div class="lista" id="lista-meetups"></div>
+        </section>
+
+        <!-- ───────────── SCHEDA DI UN INCONTRO ───────────── -->
+        <section class="vista" data-vista="evento">
+          <div class="capo">
+            <button class="indietro" data-vai="meetup">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg>
+              Meetup
+            </button>
+            <div class="tondi"><img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account"></div>
+          </div>
+          <div id="ev-scheda"></div>
+        </section>
+
+        <!-- ───────────── WORKOUT ───────────── -->
+        <section class="vista" data-vista="workout">
+          <div class="capo"><h1>Workout</h1></div>
+
+          <div class="eroe">
+            <div class="foto" style="background-image:url('assets/proto/fm-p-hero2.webp')"></div>
+            <div class="sfuma"></div>
+            <div class="testo">
+              <p class="et">Today's workout</p>
+              <h2 id="w-oggi-nome">Full Body Boost</h2>
+              <div class="meta">
+                <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b id="w-oggi-min">30</b>&nbsp;min</span>
+                <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 18V9M10 18V4M16 18v-7M22 18v-4"/></svg><span id="w-oggi-liv">Intermediate</span></span>
+              </div>
+            </div>
+            <button class="vai" id="w-oggi-vai"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg></button>
+          </div>
+
+          <div class="chips" id="filtri-allen" style="margin-top:16px"></div>
+          <p class="quanti" id="quanti-allen"></p>
+          <div class="lista" id="lista-allen"></div>
+        </section>
+
+        <!-- ───────────── PERSONAL TRAINER ───────────── -->
+        <section class="vista" data-vista="trainer">
+          <div class="capo">
+            <h1>Trainer</h1>
+            <div class="tondi"><img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account"></div>
+          </div>
+
+          <div class="pt-tabs" id="pt-tabs">
+            <button class="pt-tab" data-pt="attivita">Your Activity</button>
+            <button class="pt-tab" data-pt="esercizi">Exercises</button>
+            <button class="pt-tab on" data-pt="trainers">Trainers</button>
+          </div>
+
+          <div id="pt-pannello"></div>
+        </section>
+
+        <!-- ───────────── SCHEDA DI UN TRAINER ───────────── -->
+        <section class="vista" data-vista="pt-dett">
+          <div class="capo">
+            <button class="indietro" data-vai="trainer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg>
+              Trainer
+            </button>
+            <div class="tondi"><img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account"></div>
+          </div>
+          <div id="pt-scheda"></div>
+        </section>
+
+        <!-- ───────────── ACCOUNT ───────────── -->
+        <section class="vista" data-vista="account">
+          <div class="capo"><h1>Account</h1></div>
+
+          <div class="pannello" style="display:flex;align-items:center;gap:14px">
+            <img src="assets/proto/pt-emma.webp" alt="Emma" style="width:58px;height:58px;border-radius:50%;object-fit:cover;flex:none;display:block">
+            <span>
+              <span style="display:block;font-size:19px;font-weight:800;letter-spacing:-.01em">Emma</span>
+              <span style="display:block;font-size:13px;color:var(--ink-2);margin-top:2px">30 · Recruiter · London</span>
+            </span>
+          </div>
+
+          <div class="riga-tit"><h3>This week</h3><span style="font-size:12.5px;color:var(--ink-3)">8 – 14 Apr</span></div>
+          <div class="progresso">
+            <div class="stat"><span class="anello" id="an-w"></span><span><span class="et">Workouts</span><span class="val" id="v-w">3/5</span></span></div>
+            <div class="stat"><span class="anello" id="an-t"></span><span><span class="et">Active time</span><span class="val" id="v-t">120 min</span></span></div>
+            <div class="stat"><span class="anello" id="an-c"></span><span><span class="et">Calories</span><span class="val" id="v-c">850 kcal</span></span></div>
+          </div>
+
+          <div class="pannello" style="margin-top:12px">
+            <div class="barre" id="barre"></div>
+            <div style="height:22px"></div>
+          </div>
+
+          <div class="riga-tit"><h3>Done this week</h3></div>
+          <div class="lista" id="storico"></div>
+
+          <div class="riga-tit"><h3>Meetups joined</h3><span style="font-size:12.5px;color:var(--ink-3)" id="p-meet">0</span></div>
+          <div class="lista" id="miei-incontri"></div>
+
+          <div class="pannello" style="margin-top:12px;padding:4px 16px">
+            <div class="vocep">Goals &amp; preferences <span style="color:var(--ink-3)">&rsaquo;</span></div>
+            <div class="vocep">Notifications <span style="color:var(--ink-3)">&rsaquo;</span></div>
+            <div class="vocep">Help <span style="color:var(--ink-3)">&rsaquo;</span></div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- barra dell'incontro aperto: resta sotto, come su Meetup -->
+      <div class="ev-pie" id="ev-pie">
+        <div class="pr"><b id="ev-prezzo">Free</b><span id="ev-quando">Sat, 12 Apr · 8:00</span></div>
+        <button id="ev-join">Join this meetup</button>
+      </div>
+
+      <!-- bottone fisso per scrivere al trainer aperto -->
+      <button class="fab" id="fab-chat" style="display:none">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.3 9.3 0 0 1-3-.5L4 21l1.7-4.3A8.2 8.2 0 0 1 3 11.5 8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5Z"/></svg>
+      </button>
+
+      <!-- ───────────── QUESTIONARIO D'INGRESSO ───────────── -->
+      <div class="survey" id="survey">
+        <div class="puntini" id="puntini"></div>
+        <p class="passo" id="s-passo">Step 1 of 3</p>
+        <h2 id="s-domanda">What brings you here?</h2>
+        <p class="sp" id="s-aiuto">We'll use this to pick what you see first.</p>
+        <div class="scelte" id="s-scelte"></div>
+        <p class="multi-nota" id="s-multi">Pick as many as you like</p>
+        <div class="fondo-s">
+          <button class="avanti" id="s-avanti" disabled>Continue</button>
+          <button class="salta" id="s-salta">Skip</button>
+        </div>
+      </div>
+
+      <div class="lampo" id="lampo"></div>
+      <div class="brindisi" id="brindisi"></div>
+
+      <!-- ───────────── LETTORE DEGLI ESERCIZI ───────────── -->
+      <div class="player" id="player">
+        <div class="p-capo">
+          <button class="p-chiudi" id="p-chiudi">&#10005;</button>
+          <div><p class="p-et">Workout</p><h2 id="p-nome">Full Body Boost</h2></div>
+          <span class="p-conta" id="p-conta">1 / 5</span>
+        </div>
+
+        <div class="clip" id="clip">
+          <div class="clip-foto" id="clip-foto"></div>
+          <div class="clip-velo"></div>
+          <span class="clip-live" id="clip-live"><i></i>PLAYING</span>
+          <p class="clip-conto" id="clip-conto">0:45</p>
+          <div class="clip-testo">
+            <h3 id="clip-nome">Squats</h3>
+            <p id="clip-nota">3 × 12 · chest up, knees out</p>
+          </div>
+          <div class="clip-barra"><i id="clip-barra"></i></div>
+        </div>
+
+        <div class="p-controlli">
+          <button id="p-prec">&#8249; Back</button>
+          <button id="p-pausa" class="pieno">Pause</button>
+          <button id="p-succ">Skip &#8250;</button>
+        </div>
+
+        <p class="p-tit">Exercises in this workout</p>
+        <div class="p-lista" id="p-lista"></div>
+        <button class="p-fine" id="p-fine">Finish workout</button>
+      </div>
+
+      <!-- ───────────── CHAT ───────────── -->
+      <div class="chat" id="chat">
+        <div class="c-capo">
+          <button class="back" id="c-back">&#8249;</button>
+          <img id="c-foto" src="assets/proto/pt-laura.webp" alt="">
+          <div><h2 id="c-nome">Laura</h2><p class="st">Online now</p></div>
+        </div>
+        <div class="c-corpo" id="c-corpo"></div>
+        <div class="rapide" id="c-rapide"></div>
+        <div class="c-pie">
+          <div class="campo"><input id="c-input" placeholder="Message your PT…"></div>
+          <button id="c-invia">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12 2-12 2z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <nav class="fondo" id="fondo">
+        <button class="tab on" data-vai="home">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>Home</button>
+        <button class="tab" data-vai="meetup">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><circle cx="5" cy="11" r="2.4"/><circle cx="19" cy="11" r="2.4"/><path d="M5.5 20c0-2.6 2.9-4.5 6.5-4.5s6.5 1.9 6.5 4.5"/></svg>Meetup</button>
+        <button class="tab" data-vai="workout">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6.5 9v6M17.5 9v6M3.5 10.5v3M20.5 10.5v3M6.5 12h11"/></svg>Workout</button>
+        <button class="tab" data-vai="trainer">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3 2.7-5 6-5s6 2 6 5"/><path d="M16 5.4a3.2 3.2 0 0 1 0 5.2"/></svg>Trainer</button>
+        <button class="tab" data-vai="account">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-3.6 3.4-6 7.5-6s7.5 2.4 7.5 6"/></svg>Account</button>
+      </nav>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════ foto ═══════════ */
+const F = n => 'assets/proto/' + n + '.webp';
+
+/* ═══════════ icone per categoria ═══════════ */
+/* Ogni categoria ha la sua, se no dodici allenamenti sono dodici manubri. */
+const ICONE = {
+  Strength: '<path d="M6.5 9v6M17.5 9v6M3.5 10.5v3M20.5 10.5v3M6.5 12h11"/>',
+  Cardio:   '<path d="M3 12h3.5l2-5 3 10 2.5-7 1.5 2H21"/>',
+  Mobility: '<circle cx="12" cy="4.6" r="2"/><path d="M12 7v5m0 0-3.5 2.6M12 12l3.5 2.6M8.5 14.6 7 20m8.5-5.4L17 20M6 9.4l6-1.2 6 1.2"/>',
+  HIIT:     '<path d="M13.5 2 5 13h5.5L9.5 22 19 10h-5.8z"/>',
+  Yoga:     '<circle cx="12" cy="4.4" r="2"/><path d="M12 6.8v4.4M4 11.2c2.6 2.4 5.2 3.4 8 3.4s5.4-1 8-3.4M8.4 20.4 12 14.6l3.6 5.8"/>',
+  Core:     '<path d="M12 3c3.6 0 6.4 2.3 6.4 5.6 0 2.6-1.4 4-1.4 6.4 0 2.1 1 3.2 1 3.2H6c0 0 1-1.1 1-3.2 0-2.4-1.4-3.8-1.4-6.4C5.6 5.3 8.4 3 12 3Z"/><path d="M8.6 10h6.8M9.2 14h5.6"/>',
+};
+const COLORI = {
+  Strength: ['var(--viola-lav)', '#7830FC'],
+  Cardio:   ['var(--rosa-pal)',  '#EC338B'],
+  Mobility: ['var(--azzurro-pal)','#2E9BF0'],
+  HIIT:     ['var(--giallo-pal)','#F7B500'],
+  Yoga:     ['var(--verde-pal)', '#15B67D'],
+  Core:     ['var(--viola-lav)', '#4726AA'],
+};
+const iconaCat = (cat, lato=20) => {
+  const [, ink] = COLORI[cat] || COLORI.Strength;
+  return `<svg width="${lato}" height="${lato}" viewBox="0 0 24 24" fill="none" stroke="${ink}"
+    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONE[cat] || ICONE.Strength}</svg>`;
+};
+
+/* ═══════════ esercizi, per categoria ═══════════ */
+/* Il lettore li fa partire uno dopo l'altro: il conto alla rovescia e vero,
+   finito un esercizio passa al successivo da solo. */
+const ESERCIZI = {
+  Strength: [
+    ['Air squats',      45, '3 × 12 · chest up, knees out',  'cat-ph-weightloss'],
+    ['Push-ups',        40, '3 × 10 · elbows at 45°',         'gy-manubri'],
+    ['Walking lunges',  50, '12 per leg · slow on the way down', 'cat-ph-cardio'],
+    ['Glute bridge',    40, '3 × 15 · squeeze at the top',    'gy-palla'],
+    ['Plank hold',      35, '3 × 30 s · ribs down',           'gy-tappeto'],
+  ],
+  Cardio: [
+    ['Easy warm-up',    60, '5 min · nose breathing',         'fm-p-run'],
+    ['Steady effort',   55, '4 min · you can still talk',     'cat-ph-cardio'],
+    ['Pick-ups',        45, '6 × 30 s · fast but smooth',     'fm-p-run'],
+    ['Hill push',       50, '3 × 1 min · short strides',      'pt-banner'],
+    ['Cool down',       40, '5 min · let it drop',            'gy-tappeto'],
+  ],
+  Mobility: [
+    ['Cat–cow',         40, '10 slow rounds · follow the breath', 'gy-tappeto'],
+    ['Hip opener',      45, '45 s per side',                  'gy-palla'],
+    ['Thoracic twist',  40, '8 per side · eyes follow the hand', 'gy-bottiglia'],
+    ['Hamstring flow',  40, '10 per side',                    'gy-palla'],
+    ['Deep squat hold', 35, '60 s · heels down',              'cat-ph-weightloss'],
+  ],
+  HIIT: [
+    ['Jumping jacks',   30, '40 s on · 20 s off',             'gy-manubri'],
+    ['Burpees',         30, '40 s on · pace yourself',        'cat-ph-cardio'],
+    ['Mountain climbers',30,'40 s on · hips low',             'gy-manubri'],
+    ['High knees',      30, '40 s on · fast feet',            'fm-p-run'],
+    ['Rest and repeat', 25, '1 min · breathe',                'gy-bottiglia'],
+  ],
+  Yoga: [
+    ['Sun salutation',  50, '3 rounds · move with the breath','gy-tappeto'],
+    ['Warrior II',      45, '45 s per side',                  'gy-palla'],
+    ['Triangle',        40, '40 s per side',                  'gy-tappeto'],
+    ['Seated twist',    40, '40 s per side',                  'gy-palla'],
+    ['Savasana',        45, '2 min · nothing to do',          'gy-tappeto'],
+  ],
+  Core: [
+    ['Dead bug',        40, '3 × 10 · low back glued down',   'gy-manubri'],
+    ['Russian twist',   35, '3 × 20 · slow',                  'cat-ph-weightloss'],
+    ['Hollow hold',     30, '3 × 25 s',                       'gy-palla'],
+    ['Side plank',      40, '30 s per side',                  'gy-tappeto'],
+    ['Crunch finisher', 35, '3 × 15',                         'gy-manubri'],
+  ],
+};
+
+/* ═══════════ stato ═══════════ */
+const S = {
+  allenamentiFatti: 3, obiettivo: 5, minuti: 120, calorie: 850,
+  settimana: [35, 0, 45, 0, 40, 0, 0],
+  oggi: 4,
+  storico: ['Full Body Boost · 30 min', 'Core & Mobility · 25 min', 'Morning Run · 45 min'],
+
+  incontri: [
+    { id:'beach', nome:'Beach Run Barcelona', tag:'Running',  quando:'Sat, 12 Apr · 8:00',  gio:'SAT', g:'12', m:'APR', dove:'Barceloneta Beach', vanno:12, dentro:false, foto:'fm-p-run', vicino:true, host:'dani', prezzo:'Free',
+      desc:'Five kilometres along the sand, then coffee at the kiosk. We split into two paces at the start so nobody runs alone, and nobody waits around at the end.' },
+    { id:'yoga',  nome:'Sunrise Yoga Flow',   tag:'Yoga',     quando:'Sun, 13 Apr · 7:00',  gio:'SUN', g:'13', m:'APR', dove:'Barceloneta Beach', vanno:8,  dentro:false, foto:'gy-tappeto', vicino:true, host:'aisha', prezzo:'Free',
+      desc:'An hour of slow vinyasa facing the water, finishing before the beach fills up. Bring a towel — the sand does the rest. All levels, genuinely.' },
+    { id:'hiit',  nome:'Outdoor HIIT',        tag:'HIIT',     quando:'Tue, 15 Apr · 18:30', gio:'TUE', g:'15', m:'APR', dove:'Ciutadella Park',   vanno:8,  dentro:false, foto:'gy-manubri', vicino:true, host:'marta', prezzo:'€5',
+      desc:'Forty minutes of intervals on the grass: twenty seconds hard, forty easy, repeated until it stops feeling clever. Scaled options for every round.' },
+    { id:'swim',  nome:'Open Water Swim',     tag:'Swimming', quando:'Sat, 19 Apr · 9:00',  gio:'SAT', g:'19', m:'APR', dove:'Platja del Bogatell', vanno:5, dentro:false, foto:'cat-ph-cardio', vicino:false, host:'dani', prezzo:'Free',
+      desc:'A 1 km loop between the buoys with a kayak alongside. Wetsuit optional in April — most of us wish we had one by the second lap.' },
+    { id:'flow',  nome:'Animal Flow Session', tag:'Mobility', quando:'Wed, 16 Apr · 19:00', gio:'WED', g:'16', m:'APR', dove:'Parc del Fòrum',    vanno:6,  dentro:false, foto:'gy-palla', vicino:true, host:'marta', prezzo:'€8',
+      desc:'Ground-based movement: crawls, switches, beast holds. Harder than it looks and the best thing you can do for stiff hips after a week at a desk.' },
+    { id:'ride',  nome:'Coastal Ride',        tag:'Cycling',  quando:'Sun, 20 Apr · 8:30',  gio:'SUN', g:'20', m:'APR', dove:'Castelldefels',     vanno:14, dentro:false, foto:'pt-banner', vicino:false, host:'dani', prezzo:'Free',
+      desc:'Forty-five flat kilometres down the coast and back, no-drop. We stop halfway for coffee and the group reforms there, so pace yourself however you like.' },
+    { id:'lift',  nome:'Lift Club',           tag:'Strength', quando:'Thu, 17 Apr · 19:30', gio:'THU', g:'17', m:'APR', dove:'Gràcia Gym',        vanno:9,  dentro:false, foto:'cat-ph-weightloss', vicino:true, host:'james', prezzo:'€12',
+      desc:'Squat, bench, row — one main lift and two accessories, in pairs so someone is always watching your bar. Bring whatever shoes you own.' },
+    { id:'walk',  nome:'Sunset Walk & Talk',  tag:'Walking',  quando:'Fri, 18 Apr · 20:00', gio:'FRI', g:'18', m:'APR', dove:'Montjuïc',          vanno:21, dentro:false, foto:'gy-bottiglia', vicino:true, host:'melanie', prezzo:'Free',
+      desc:'An hour uphill at a pace where you can still hold a conversation — that is the whole point. We watch the sun go down over the port and walk back.' },
+    { id:'pilat', nome:'Reformer Pilates',    tag:'Mobility', quando:'Mon, 21 Apr · 10:00', gio:'MON', g:'21', m:'APR', dove:'Eixample Studio',   vanno:7,  dentro:false, foto:'gy-tappeto', vicino:false, host:'aisha', prezzo:'€15',
+      desc:'Six reformers, six people, one hour. Slow and precise rather than sweaty, and the one class people who hate classes tend to keep coming back to.' },
+    { id:'trail', nome:'Collserola Trail',    tag:'Running',  quando:'Sat, 26 Apr · 8:00',  gio:'SAT', g:'26', m:'APR', dove:'Collserola Park',   vanno:11, dentro:false, foto:'fm-p-run', vicino:false, host:'dani', prezzo:'Free',
+      desc:'Twelve kilometres on dirt with about 300 m of climbing. We walk the steep parts without apologising for it. Trail shoes help, road shoes survive.' },
+    { id:'tabata',nome:'Park Tabata',         tag:'HIIT',     quando:'Tue, 22 Apr · 18:00', gio:'TUE', g:'22', m:'APR', dove:'Parc Joan Miró',    vanno:10, dentro:false, foto:'gy-manubri', vicino:true, host:'marta', prezzo:'€5',
+      desc:'Eight rounds of twenty on, ten off, four blocks, twenty minutes door to door. The shortest thing on this list and the one people talk about afterwards.' },
+    { id:'swim2', nome:'Lane Swim Meet',      tag:'Swimming', quando:'Thu, 24 Apr · 7:30',  gio:'THU', g:'24', m:'APR', dove:'Picornell Pools',   vanno:4,  dentro:false, foto:'cat-ph-cardio', vicino:false, host:'laura', prezzo:'€6',
+      desc:'A structured 1500 m set in the Olympic pool, split by lane speed. Entry is paid at the door. Good if you want technique feedback between sets.' },
+  ],
+  filtroIncontri: 'All',
+  quandoIncontri: 'Anytime',
+
+  trainers: [
+    { id:'laura', nome:'Laura', cognome:'Vidal', cat:'Weight loss', foto:'pt-laura', big:'pt-laura-big',
+      anni:6, voto:4.9, seguaci:'350', seguiti:'50', mi:'1.2k',
+      bio:'Weight loss specialist with over 6 years of experience. She helps clients achieve their goals through personalized plans and a focus on exercise, nutrition, and lifestyle changes.',
+      wk:['Vinyasa Yoga','HIIT Express','Animal Flow'] },
+    { id:'james', nome:'James', cognome:'Okoye', cat:'Muscle build', foto:'pt-james', big:'pt-james',
+      anni:9, voto:4.8, seguaci:'610', seguiti:'38', mi:'2.4k',
+      bio:'Strength coach with nine years under the bar. James builds slow, boring, repeatable programmes — and that is exactly why they work. Technique first, load second.',
+      wk:['Upper Body Burn','Glute Builder','Full Body Boost'] },
+    { id:'melanie', nome:'Melanie', cognome:'Costa', cat:'Nutrition', foto:'pt-melanie', big:'pt-melanie',
+      anni:7, voto:4.9, seguaci:'480', seguiti:'64', mi:'1.8k',
+      bio:'Nutritionist and PT. Melanie starts from what you already eat instead of handing you someone else\'s meal plan, then trains around it. No foods are banned.',
+      wk:['Core Crusher','Easy Spin','Evening Stretch'] },
+    { id:'marta', nome:'Marta', cognome:'Ruiz', cat:'Strength', foto:'rev-3', big:'rev-3',
+      anni:8, voto:4.7, seguaci:'290', seguiti:'41', mi:'940',
+      bio:'Strength and mobility. Marta came to coaching from physiotherapy, so the warm-up is never the part you skip.',
+      wk:['Full Body Boost','Core & Mobility','Tabata Blast'] },
+    { id:'dani', nome:'Dani', cognome:'Oliveira', cat:'Cardio', foto:'rev-2', big:'rev-2',
+      anni:6, voto:4.6, seguaci:'220', seguiti:'77', mi:'710',
+      bio:'Running and endurance. Dani coaches first-timers to their first 10k and swears most people run their easy runs far too fast.',
+      wk:['Morning Run','Easy Spin','Tabata Blast'] },
+    { id:'aisha', nome:'Aisha', cognome:'Karim', cat:'Yoga', foto:'rev-1', big:'rev-1',
+      anni:10, voto:5.0, seguaci:'730', seguiti:'52', mi:'3.1k',
+      bio:'Yoga and breathwork, ten years in. Aisha teaches the kind of class you leave taller than you walked in.',
+      wk:['Vinyasa Yoga','Evening Stretch','Animal Flow'] },
+  ],
+  catTrainer: 'All',
+
+  recensioni: [
+    { chi:'Francesca', foto:'rev-1', st:2, t:'Patient, clear and never once made me feel like the slowest person in the room.' },
+    { chi:'Paul',      foto:'rev-2', st:4, t:'Changed my plan twice when my shifts changed. That alone was worth it.' },
+    { chi:'Nadia',     foto:'rev-3', st:5, t:'Six weeks in and the warm-up finally makes sense to me. Good at explaining why.' },
+  ],
+
+  allenamenti: [
+    { nome:'Full Body Boost', liv:'Intermediate', min:30, kcal:260, cat:'Strength' },
+    { nome:'Core & Mobility', liv:'Beginner',     min:25, kcal:180, cat:'Mobility' },
+    { nome:'HIIT Express',    liv:'Advanced',     min:20, kcal:240, cat:'HIIT' },
+    { nome:'Morning Run',     liv:'Intermediate', min:45, kcal:420, cat:'Cardio' },
+    { nome:'Evening Stretch', liv:'Beginner',     min:15, kcal:70,  cat:'Mobility' },
+    { nome:'Upper Body Burn', liv:'Advanced',     min:35, kcal:290, cat:'Strength' },
+    { nome:'Vinyasa Yoga',    liv:'Beginner',     min:20, kcal:120, cat:'Yoga' },
+    { nome:'Animal Flow',     liv:'Intermediate', min:50, kcal:300, cat:'Mobility' },
+    { nome:'Glute Builder',   liv:'Intermediate', min:30, kcal:240, cat:'Strength' },
+    { nome:'Tabata Blast',    liv:'Advanced',     min:16, kcal:210, cat:'HIIT' },
+    { nome:'Easy Spin',       liv:'Beginner',     min:40, kcal:320, cat:'Cardio' },
+    { nome:'Core Crusher',    liv:'Intermediate', min:18, kcal:150, cat:'Core' },
+  ],
+  fatti: new Set(),
+  filtro: 'All',
+  ptTab: 'trainers',
+  ptAperto: null,
+  eventoAperto: null,
+};
+
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const perNome = n => S.allenamenti.find(a => a.nome === n);
+
+/* ═══════════ anelli ═══════════ */
+function anello(el, frazione, colore){
+  const g = Math.max(0, Math.min(1, frazione)) * 360;
+  el.style.background = `conic-gradient(${colore} ${g}deg, #EFE9F6 ${g}deg)`;
+  el.style.position = 'relative';
+  if (!el.querySelector('i')) {
+    const i = document.createElement('i');
+    i.style.cssText = 'position:absolute;inset:5px;border-radius:50%;background:#fff;display:block';
+    el.appendChild(i);
+  }
+}
+
+/* ═══════════ progresso ═══════════ */
+function disegnaProgresso(){
+  for (const pre of ['', 'h-']) {
+    const w = $('#'+pre+'an-w'); if(!w) continue;
+    anello(w, S.allenamentiFatti/S.obiettivo, '#7830FC');
+    $('#'+pre+'v-w').textContent = S.allenamentiFatti + '/' + S.obiettivo;
+    anello($('#'+pre+'an-t'), S.minuti/300, '#EC338B');
+    $('#'+pre+'v-t').textContent = S.minuti + ' min';
+    anello($('#'+pre+'an-c'), S.calorie/2000, '#F7B500');
+    $('#'+pre+'v-c').textContent = S.calorie + ' kcal';
+  }
+  $('#p-meet').textContent = S.incontri.filter(i=>i.dentro).length;
+}
+
+/* ═══════════ incontri ═══════════ */
+const FACCE = ['rev-1','rev-2','rev-3','pt-emma'];
+const facce = () => FACCE.map(f=>`<i style="background-image:url('${F(f)}')"></i>`).join('');
+
+function schedaIncontro(m){
+  return `<div class="incontro" data-evento="${m.id}">
+    <div class="foto" style="background-image:url('${F(m.foto)}')"><span class="tag">${m.tag}</span></div>
+    <div class="det">
+      <h4>${m.nome}</h4>
+      <p class="r"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#A79DB4" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 9.5h17"/></svg>${m.quando}</p>
+      <p class="r"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#A79DB4" stroke-width="2.2" stroke-linecap="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>${m.dove}</p>
+      <div class="pie">
+        <span style="display:flex;align-items:center">${facce()}<span class="vanno">+${m.vanno} going</span></span>
+        <button class="unisci ${m.dentro?'dentro':''}" data-unisci="${m.id}">${m.dentro?'Going':'Join'}</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function cartaIncontro(m){
+  return `<div class="mcard" data-evento="${m.id}">
+    <div class="ph" style="background-image:url('${F(m.foto)}')">
+      <span class="tag">${m.tag}</span><span class="gio">${m.gio}</span>
+    </div>
+    <div class="dt">
+      <h4>${m.nome}</h4>
+      <p class="r">${m.quando.split(' · ')[1]} · ${m.dove}</p>
+      <div class="pie">
+        <span style="display:flex;align-items:center">${facce()}<span class="vanno">+${m.vanno}</span></span>
+        <button class="unisci ${m.dentro?'dentro':''}" data-unisci="${m.id}">${m.dentro?'Going':'Join'}</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function disegnaIncontri(){
+  const cat = ['All', ...new Set(S.incontri.map(m=>m.tag))];
+  $('#chip-incontri').innerHTML = cat.map(c =>
+    `<button class="chip ${c===S.filtroIncontri?'on':''}" data-cinc="${c}">${c}</button>`).join('');
+  const quando = ['Anytime','This week','Weekend','Nearby'];
+  $('#chip-quando').innerHTML = quando.map(c =>
+    `<button class="chip ${c===S.quandoIncontri?'on':''}" data-qinc="${c}">${c}</button>`).join('');
+
+  const q = ($('#filtro')?.value || '').toLowerCase().trim();
+  const visibili = S.incontri.filter(m => {
+    if (q && !(m.nome+' '+m.dove+' '+m.tag).toLowerCase().includes(q)) return false;
+    if (S.filtroIncontri !== 'All' && m.tag !== S.filtroIncontri) return false;
+    if (S.quandoIncontri === 'Weekend' && !['SAT','SUN'].includes(m.gio)) return false;
+    if (S.quandoIncontri === 'This week' && !/1[2-8] Apr/.test(m.quando)) return false;
+    if (S.quandoIncontri === 'Nearby' && !m.vicino) return false;
+    return true;
+  });
+  $('#quanti-incontri').textContent = `${visibili.length} meetup${visibili.length===1?'':'s'}`;
+  $('#lista-meetups').innerHTML = visibili.length
+    ? visibili.map(schedaIncontro).join('')
+    : `<p style="text-align:center;color:var(--ink-3);font-size:13.5px;padding:26px 0">Nothing matches that. Try another filter.</p>`;
+
+  $('#casa-incontri').innerHTML = S.incontri.slice(0,5).map(cartaIncontro).join('');
+
+  const miei = S.incontri.filter(m => m.dentro);
+  $('#miei-incontri').innerHTML = miei.length
+    ? miei.map(schedaIncontro).join('')
+    : `<p style="color:var(--ink-3);font-size:13.5px">None yet. Join one from Meetup.</p>`;
+}
+
+function disegnaEvento(){
+  const m = S.incontri.find(x => x.id === S.eventoAperto);
+  if (!m) return;
+  const h = S.trainers.find(t => t.id === m.host) || S.trainers[0];
+  const [ora] = m.quando.split(' · ').slice(1);
+  $('#ev-scheda').innerHTML = `
+    <div class="ev-foto" style="background-image:url('${F(m.foto)}')">
+      <div class="vl"></div>
+      <span class="tag">${m.tag}</span>
+      <span class="data"><b>${m.g}</b><span>${m.m}</span></span>
+      <h2>${m.nome}</h2>
+    </div>
+
+    <div class="ev-righe">
+      <div class="ev-riga">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7830FC" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 9.5h17"/></svg></span>
+        <span><b>${m.quando.split(' · ')[0]}</b><span>${ora} · about 1 h</span></span>
+      </div>
+      <div class="ev-riga">
+        <span class="ic" style="background:var(--rosa-pal)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EC338B" stroke-width="2.2" stroke-linecap="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg></span>
+        <span><b>${m.dove}</b><span>Barcelona · meeting point shared the day before</span></span>
+      </div>
+      <div class="ev-riga">
+        <span class="ic" style="background:var(--giallo-pal)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F7B500" stroke-width="2.2" stroke-linecap="round"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></span>
+        <span><b>${m.prezzo}</b><span>${m.prezzo === 'Free' ? 'No ticket, just turn up' : 'Paid on the day'}</span></span>
+      </div>
+    </div>
+
+    <div class="ev-host">
+      <img src="${F(h.foto)}" alt="${h.nome}">
+      <span><span class="et">Hosted by</span><h4>${h.nome} ${h.cognome}</h4><span class="r">${h.cat} · ${h.anni} yrs · ${h.voto} ★</span></span>
+      <button data-pt-apri="${h.id}">Profile</button>
+    </div>
+
+    <div class="riga-tit"><h3>About this meetup</h3></div>
+    <p class="ev-testo">${m.desc}</p>
+
+    <div class="riga-tit"><h3>Who's going</h3><span style="font-size:12.5px;color:var(--ink-3)">${m.vanno}${m.dentro ? ' · you' : ''}</span></div>
+    <div class="ev-vanno">
+      <span class="facce">${facce()}</span>
+      <span style="font-size:12.5px;color:var(--ink-2);font-weight:600">
+        ${m.dentro ? "You and " + (m.vanno-1) + " others are going" : m.vanno + " people are going"}
+      </span>
+    </div>
+
+    <div class="riga-tit"><h3>Where</h3></div>
+    <div class="ev-mappa">
+      <svg viewBox="0 0 320 118" preserveAspectRatio="none">
+        <path d="M-10 86 L120 54 L210 78 L330 44" stroke="#D6CBEA" stroke-width="7" fill="none"/>
+        <path d="M46 -10 L74 128" stroke="#E3DAF2" stroke-width="5" fill="none"/>
+        <path d="M232 -10 L208 128" stroke="#E3DAF2" stroke-width="5" fill="none"/>
+        <path d="M-10 26 L330 14" stroke="#E9E2F6" stroke-width="4" fill="none"/>
+      </svg>
+      <span class="pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/></svg></span>
+      <span class="dove">${m.dove}</span>
+    </div>
+    <div style="height:86px"></div>`;
+
+  $('#ev-prezzo').textContent = m.prezzo;
+  $('#ev-quando').textContent = m.quando;
+  const b = $('#ev-join');
+  b.textContent = m.dentro ? "You're going ✓" : 'Join this meetup';
+  b.classList.toggle('dentro', m.dentro);
+}
+
+/* ═══════════ allenamenti ═══════════ */
+function disegnaAllenamenti(){
+  const cat = ['All', ...new Set(S.allenamenti.map(a=>a.cat))];
+  $('#filtri-allen').innerHTML = cat.map(c=>`<button class="chip ${c===S.filtro?'on':''}" data-filtro="${c}">${c}</button>`).join('');
+  const lista = S.allenamenti.filter(a => S.filtro==='All' || a.cat===S.filtro);
+  $('#quanti-allen').textContent = `${lista.length} workout${lista.length===1?'':'s'}`;
+  $('#lista-allen').innerHTML = lista.map(a=>{
+    const [sfondo] = COLORI[a.cat] || COLORI.Strength;
+    return `<div class="allen" data-avvia="${a.nome}">
+      <span class="ic" style="background:${sfondo}">${iconaCat(a.cat)}</span>
+      <span><h4>${a.nome}</h4><p class="r">${a.cat} · ${a.min} min · ${a.liv} · ${a.kcal} kcal</p></span>
+      ${S.fatti.has(a.nome) ? '<span class="fatto">Done</span>'
+        : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A79DB4" stroke-width="2.2" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg>`}
+    </div>`;
+  }).join('');
+}
+
+function disegnaSettimana(){
+  const g = ['M','T','W','T','F','S','S'];
+  const max = Math.max(60, ...S.settimana);
+  $('#barre').innerHTML = S.settimana.map((v,i)=>
+    `<div class="${i===S.oggi?'forte':''}" style="height:${Math.max(6, v/max*100)}%"><span>${g[i]}</span></div>`).join('');
+  $('#storico').innerHTML = S.storico.length
+    ? S.storico.map(t=>`<div class="allen" style="grid-template-columns:34px 1fr">
+        <span class="ic" style="width:34px;height:34px;border-radius:11px;background:var(--viola-lav)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7830FC" stroke-width="2.6" stroke-linecap="round"><path d="m5 13 4 4L19 7"/></svg></span>
+        <span><h4 style="font-size:14px">${t.split(' · ')[0]}</h4><p class="r">${t.split(' · ')[1]}</p></span>
+      </div>`).join('')
+    : `<p style="color:var(--ink-3);font-size:13.5px">Nothing yet this week.</p>`;
+}
+
+/* ═══════════ Personal Trainer ═══════════ */
+const CATEGORIE_PT = [
+  { n:'Weight loss',      c:'#F2768B', ph:'cat-ph-weightloss' },
+  { n:'Cardio',           c:'#58C8F0', ph:'cat-ph-cardio' },
+  { n:'Nutrition',        c:'#EC338B', ph:'pt-melanie' },
+  { n:'Muscle build',     c:'#5B3BD4', ph:'pt-james' },
+  { n:'Yoga',             c:'#15B67D', ph:'gy-tappeto' },
+  { n:'Strength',         c:'#F7B500', ph:'cat-ph-weightloss' },
+];
+
+const stelle = n => '★★★★★'.slice(0,n) + `<i>${'★★★★★'.slice(0, 5-n)}</i>`;
+
+function disegnaPT(){
+  $$('#pt-tabs .pt-tab').forEach(b => b.classList.toggle('on', b.dataset.pt === S.ptTab));
+  const p = $('#pt-pannello');
+
+  if (S.ptTab === 'attivita') {
+    p.innerHTML = `
+      <p class="guida">What you have done with a coach so far.</p>
+      <div class="progresso">
+        <div class="stat"><span style="font-size:22px">🗓</span><span><span class="et">Sessions</span><span class="val">6</span></span></div>
+        <div class="stat"><span style="font-size:22px">💬</span><span><span class="et">Messages</span><span class="val">41</span></span></div>
+        <div class="stat"><span style="font-size:22px">⭐️</span><span><span class="et">Your rating</span><span class="val">4.9</span></span></div>
+      </div>
+      <div class="riga-tit"><h3>Recent sessions</h3></div>
+      <div class="lista">
+        ${[['Laura','Form check · 30 min','laura'],['Melanie','Nutrition call · 20 min','melanie'],['Laura','Plan review · 25 min','laura']]
+          .map(([n,r,id])=>{
+            const t = S.trainers.find(x=>x.id===id);
+            return `<div class="pt-riga" data-pt-apri="${id}">
+              <img src="${F(t.foto)}" alt="${n}">
+              <span><h4>${n}</h4><p class="r">${r}</p></span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A79DB4" stroke-width="2.2" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg>
+            </div>`;}).join('')}
+      </div>`;
+    return;
+  }
+
+  if (S.ptTab === 'esercizi') {
+    p.innerHTML = `
+      <p class="guida">The exercises your trainers have assigned, grouped the way a session runs.</p>
+      ${Object.entries(ESERCIZI).map(([cat, lista]) => {
+        const [sfondo] = COLORI[cat];
+        return `<div class="riga-tit"><h3>${cat}</h3><span style="font-size:12.5px;color:var(--ink-3)">${lista.length} moves</span></div>
+        <div class="lista">${lista.slice(0,3).map(([n,s,nota,foto])=>`
+          <div class="allen" style="grid-template-columns:54px 1fr auto">
+            <span class="ic" style="width:54px;height:40px;border-radius:10px;background-image:url('${F(foto)}');background-size:cover;background-position:center"></span>
+            <span><h4 style="font-size:14px">${n}</h4><p class="r">${nota}</p></span>
+            <span class="ic" style="width:34px;height:34px;border-radius:11px;background:${sfondo}">${iconaCat(cat,17)}</span>
+          </div>`).join('')}</div>`;
+      }).join('')}`;
+    return;
+  }
+
+  const cat = ['All', ...new Set(S.trainers.map(t=>t.cat))];
+  const visibili = S.trainers.filter(t => S.catTrainer==='All' || t.cat===S.catTrainer);
+  p.innerHTML = `
+    <div class="pt-banner" style="background-image:url('${F('pt-banner')}')">
+      <div class="vl"></div>
+      <div class="tx"><b>Train with someone who is watching</b><span>Coaches from €25 a session</span></div>
+    </div>
+
+    <div class="riga-tit"><h3>Recommended PT</h3></div>
+    <div class="reco">
+      ${S.trainers.slice(0,4).map(t=>`
+        <figure data-pt-apri="${t.id}">
+          <img src="${F(t.foto)}" alt="${t.nome}">
+          <b>${t.nome}</b><span>${t.cat}</span>
+        </figure>`).join('')}
+    </div>
+
+    <div class="riga-tit"><h3>Search for categories</h3><span class="vedi-tutto" data-brindisi="All categories — prototype stops here">View all</span></div>
+    <div class="cat-riga">
+      ${CATEGORIE_PT.map(c=>`
+        <div class="cat" style="background:${c.c}" data-cat-pt="${c.n}">
+          <div class="ph" style="background-image:url('${F(c.ph)}')"></div>
+          <b>${c.n}</b>
+        </div>`).join('')}
+    </div>
+
+    <div class="riga-tit"><h3>All trainers</h3><span style="font-size:12.5px;color:var(--ink-3)">${visibili.length}</span></div>
+    <div class="chips" id="chip-pt">
+      ${cat.map(c=>`<button class="chip ${c===S.catTrainer?'on':''}" data-cpt="${c}">${c}</button>`).join('')}
+    </div>
+    <div class="lista">
+      ${visibili.map(t=>`
+        <div class="pt-riga" data-pt-apri="${t.id}">
+          <img src="${F(t.foto)}" alt="${t.nome}">
+          <span><h4>${t.nome} ${t.cognome}</h4><p class="r">${t.cat} · ${t.anni} yrs</p>
+            <p class="stelle">${stelle(Math.round(t.voto))} <span style="color:var(--ink-3);font-size:11px;letter-spacing:0">${t.voto}</span></p></span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A79DB4" stroke-width="2.2" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg>
+        </div>`).join('')}
+    </div>`;
+}
+
+function disegnaSchedaPT(){
+  const t = S.trainers.find(x => x.id === S.ptAperto);
+  if (!t) return;
+  $('#pt-scheda').innerHTML = `
+    <div class="pt-dett">
+      <img src="${F(t.big)}" alt="${t.nome}">
+      <h2>${t.nome} ${t.cognome}</h2>
+      <p class="bio">${t.bio}</p>
+      <div class="numeri">
+        <div><b>${t.mi}</b>Likes</div>
+        <div><b>${t.seguaci}</b>Followers</div>
+        <div><b>${t.seguiti}</b>Following</div>
+      </div>
+    </div>
+
+    <div class="riga-tit"><h3>Reviews</h3><span style="font-size:12.5px;color:var(--ink-3)">${t.voto} · ${t.anni} yrs</span></div>
+    <div class="recensioni">
+      ${S.recensioni.map(r=>`
+        <div class="rec">
+          <div class="cap"><img src="${F(r.foto)}" alt="${r.chi}"><b>${r.chi}</b></div>
+          <p>${r.t}</p>
+          <span class="stelle">${stelle(r.st)}</span>
+        </div>`).join('')}
+    </div>
+
+    <div class="riga-tit"><h3>Workouts</h3><span class="vedi-tutto" data-vai="workout">View all</span></div>
+    <div class="wk-riga">
+      ${t.wk.map((n,i)=>{
+        const a = perNome(n) || S.allenamenti[0];
+        const foto = ['gy-tappeto','gy-manubri','gy-palla'][i % 3];
+        return `<div class="wk" style="background-image:url('${F(foto)}')" data-avvia="${a.nome}">
+          <div class="vl"></div><b>${a.nome}</b><span>${a.min} Mins</span>
+        </div>`;}).join('')}
+    </div>
+    <div style="height:70px"></div>`;
+}
+
+/* ═══════════ navigazione ═══════════ */
+function vai(nome){
+  $$('.vista').forEach(v => v.classList.toggle('on', v.dataset.vista === nome));
+  $$('#fondo .tab').forEach(t => t.classList.toggle('on', t.dataset.vai === nome));
+  // la scheda di un trainer vive dentro Trainer, quindi la linguetta resta accesa li
+  if (nome === 'pt-dett') $$('#fondo .tab').forEach(t => t.classList.toggle('on', t.dataset.vai === 'trainer'));
+  if (nome === 'evento')  $$('#fondo .tab').forEach(t => t.classList.toggle('on', t.dataset.vai === 'meetup'));
+  $('#fab-chat').style.display = nome === 'pt-dett' ? 'grid' : 'none';
+  $('#ev-pie').classList.toggle('on', nome === 'evento');
+  // il messaggino non deve finire sopra al bottone Join
+  $('#brindisi').style.bottom = nome === 'evento' ? '168px' : '';
+  $('#corpo').scrollTop = 0;
+}
+
+let tempoBrindisi;
+function brindisi(testo){
+  const b = $('#brindisi');
+  b.textContent = testo; b.classList.add('on');
+  clearTimeout(tempoBrindisi);
+  tempoBrindisi = setTimeout(()=>b.classList.remove('on'), 1900);
+}
+
+/* ═══════════ lettore degli esercizi ═══════════ */
+/* Premere play non porta piu a un cronometro e basta: apre la sequenza
+   degli esercizi, uno alla volta, con il suo conto alla rovescia. */
+let P = null;
+
+function avvia(nome){
+  const a = perNome(nome) || S.allenamenti[0];
+  const lista = (ESERCIZI[a.cat] || ESERCIZI.Strength).map(([n,s,nota,foto]) => ({n,s,nota,foto}));
+  P = { a, lista, i:0, resta:lista[0].s, fermo:false, t:null };
+  $('#p-nome').textContent = a.nome;
+  $('#player').classList.add('on');
+  disegnaClip(); disegnaListaEs();
+  P.t = setInterval(battito, 1000);
+}
+
+function battito(){
+  if (!P || P.fermo) return;
+  P.resta--;
+  if (P.resta <= 0) {
+    if (P.i < P.lista.length - 1) { P.i++; P.resta = P.lista[P.i].s; disegnaClip(); disegnaListaEs(); }
+    else { chiudiPlayer(true); return; }
+  }
+  aggiornaConto();
+}
+
+const mmss = s => `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+
+function aggiornaConto(){
+  const e = P.lista[P.i];
+  $('#clip-conto').textContent = mmss(Math.max(0,P.resta));
+  $('#clip-barra').style.width = (100 - P.resta/e.s*100) + '%';
+}
+
+function disegnaClip(){
+  const e = P.lista[P.i];
+  $('#clip-foto').style.backgroundImage = `url('${F(e.foto)}')`;
+  $('#clip-nome').textContent = e.n;
+  $('#clip-nota').textContent = e.nota;
+  $('#p-conta').textContent = `${P.i+1} / ${P.lista.length}`;
+  aggiornaConto();
+}
+
+function disegnaListaEs(){
+  $('#p-lista').innerHTML = P.lista.map((e,k)=>`
+    <div class="es ${k===P.i?'ora':''} ${k<P.i?'ok':''}" data-es="${k}">
+      <span class="mini" style="background-image:url('${F(e.foto)}')"></span>
+      <span><b>${e.n}</b><span>${e.nota}</span></span>
+      <span class="dur">${k<P.i ? '✓' : mmss(e.s)}</span>
+    </div>`).join('');
+}
+
+function chiudiPlayer(conta){
+  if (!P) return;
+  clearInterval(P.t);
+  const a = P.a;
+  if (conta) {
+    S.allenamentiFatti = Math.min(S.obiettivo, S.allenamentiFatti + 1);
+    S.minuti += a.min;
+    S.calorie += a.kcal;
+    S.settimana[S.oggi] += a.min;
+    S.storico.unshift(`${a.nome} · ${a.min} min`);
+    S.fatti.add(a.nome);
+    brindisi(`${a.nome} done · +${a.min} min`);
+  }
+  P = null;
+  $('#player').classList.remove('on');
+  $('#clip').classList.remove('pausa');
+  disegnaProgresso(); disegnaSettimana(); disegnaAllenamenti();
+}
+
+$('#p-pausa').addEventListener('click', () => {
+  P.fermo = !P.fermo;
+  $('#p-pausa').textContent = P.fermo ? 'Resume' : 'Pause';
+  $('#clip').classList.toggle('pausa', P.fermo);
+  $('#clip-live').lastChild.textContent = P.fermo ? 'PAUSED' : 'PLAYING';
+});
+$('#p-succ').addEventListener('click', () => {
+  if (P.i < P.lista.length-1) { P.i++; P.resta = P.lista[P.i].s; disegnaClip(); disegnaListaEs(); }
+  else chiudiPlayer(true);
+});
+$('#p-prec').addEventListener('click', () => {
+  if (P.i > 0) { P.i--; }
+  P.resta = P.lista[P.i].s; disegnaClip(); disegnaListaEs();
+});
+$('#p-fine').addEventListener('click', () => chiudiPlayer(true));
+$('#p-chiudi').addEventListener('click', () => chiudiPlayer(false));
+
+/* ═══════════ chat col trainer ═══════════ */
+const RAPIDE = [
+  "I'd like to start doing yoga",
+  'Can you build me a plan?',
+  'How many days a week?',
+  'I only have 20 minutes',
+];
+const RISPOSTE = [
+  [/yoga|stretch|mobilit/i, "Perfect place to start. Two short sessions a week — Vinyasa Yoga is 20 minutes and it is the one I give almost everyone first. Shall I put it in your week?"],
+  [/plan|programme|program/i, "I can. Tell me how many days you can realistically train and whether you have any equipment at home, and I'll send it tonight."],
+  [/day|week|often/i, "Three is the number that sticks for most people. Two is fine too — consistency beats volume, every time."],
+  [/20|short|time|busy/i, "Twenty minutes is a real workout. HIIT Express is exactly that, and you can do it in a corridor."],
+  [/weight|lose|fat/i, "We start from what you already eat rather than a meal plan you'll abandon by Thursday. Nothing gets banned."],
+];
+let scriveTempo;
+
+function bolla(testo, mio){
+  const t = S.trainers.find(x => x.id === S.ptAperto) || S.trainers[0];
+  const d = document.createElement('div');
+  d.className = 'bolla' + (mio ? ' io' : '');
+  d.innerHTML = `<img src="${F(mio ? 'pt-emma' : t.foto)}" alt=""><p>${testo}</p>`;
+  $('#c-corpo').appendChild(d);
+  $('#c-corpo').scrollTop = $('#c-corpo').scrollHeight;
+}
+
+function rispondi(testo){
+  const d = document.createElement('div');
+  d.className = 'bolla'; d.id = 'scrive-ora';
+  const t = S.trainers.find(x => x.id === S.ptAperto) || S.trainers[0];
+  d.innerHTML = `<img src="${F(t.foto)}" alt=""><span class="scrive"><i></i><i></i><i></i></span>`;
+  $('#c-corpo').appendChild(d);
+  $('#c-corpo').scrollTop = $('#c-corpo').scrollHeight;
+  clearTimeout(scriveTempo);
+  scriveTempo = setTimeout(() => {
+    d.remove();
+    const r = RISPOSTE.find(([re]) => re.test(testo));
+    bolla(r ? r[1] : "Got it. Give me a moment to look at your week and I'll come back with something that fits around it.", false);
+  }, 1500);
+}
+
+function apriChat(){
+  const t = S.trainers.find(x => x.id === S.ptAperto) || S.trainers[0];
+  $('#c-nome').textContent = t.nome;
+  $('#c-foto').src = F(t.foto);
+  $('#c-corpo').innerHTML = '';
+  $('#c-rapide').innerHTML = RAPIDE.map(r=>`<button class="chip" data-rapida="${r}">${r}</button>`).join('');
+  $('#chat').classList.add('on');
+  bolla(`Hi Emma! My name is ${t.nome} and it's a pleasure to meet you. How can I help you?`, false);
+}
+
+function inviaChat(testo){
+  const t = (testo || $('#c-input').value).trim();
+  if (!t) return;
+  bolla(t, true);
+  $('#c-input').value = '';
+  rispondi(t);
+}
+
+$('#c-invia').addEventListener('click', () => inviaChat());
+$('#c-input').addEventListener('keydown', e => { if (e.key === 'Enter') inviaChat(); });
+$('#c-back').addEventListener('click', () => $('#chat').classList.remove('on'));
+$('#fab-chat').addEventListener('click', apriChat);
+
+/* ═══════════ eventi ═══════════ */
+document.addEventListener('click', e => {
+  const rap = e.target.closest('[data-rapida]');
+  if (rap) { inviaChat(rap.dataset.rapida); return; }
+
+  const apri = e.target.closest('[data-pt-apri]');
+  if (apri) { S.ptAperto = apri.dataset.ptApri; disegnaSchedaPT(); vai('pt-dett'); return; }
+
+  const catPt = e.target.closest('[data-cat-pt]');
+  if (catPt) {
+    const n = catPt.dataset.catPt;
+    S.catTrainer = S.trainers.some(t=>t.cat===n) ? n : 'All';
+    S.ptTab = 'trainers'; disegnaPT();
+    brindisi(S.catTrainer === 'All' ? `No trainer for ${n} yet` : `${n} trainers`);
+    return;
+  }
+
+  const ptTab = e.target.closest('[data-pt]');
+  if (ptTab) { S.ptTab = ptTab.dataset.pt; disegnaPT(); return; }
+
+  const cpt = e.target.closest('[data-cpt]');
+  if (cpt) { S.catTrainer = cpt.dataset.cpt; disegnaPT(); return; }
+
+  const avv = e.target.closest('[data-avvia]');
+  if (avv) { avvia(avv.dataset.avvia); return; }
+
+  const un = e.target.closest('[data-unisci]');
+  if (un) {
+    const m = S.incontri.find(x => x.id === un.dataset.unisci);
+    m.dentro = !m.dentro;
+    m.vanno += m.dentro ? 1 : -1;
+    brindisi(m.dentro ? `You're in · ${m.nome}` : `Left ${m.nome}`);
+    disegnaIncontri(); disegnaProgresso();
+    if (S.eventoAperto === m.id) disegnaEvento();
+    return;
+  }
+
+  const ev = e.target.closest('[data-evento]');
+  if (ev) { S.eventoAperto = ev.dataset.evento; disegnaEvento(); vai('evento'); return; }
+
+  const ci = e.target.closest('[data-cinc]');
+  if (ci) { S.filtroIncontri = ci.dataset.cinc; disegnaIncontri(); return; }
+  const qi = e.target.closest('[data-qinc]');
+  if (qi) { S.quandoIncontri = qi.dataset.qinc; disegnaIncontri(); return; }
+
+  const f = e.target.closest('[data-filtro]');
+  if (f) { S.filtro = f.dataset.filtro; disegnaAllenamenti(); return; }
+
+  const es = e.target.closest('[data-es]');
+  if (es && P) { P.i = +es.dataset.es; P.resta = P.lista[P.i].s; disegnaClip(); disegnaListaEs(); return; }
+
+  const v = e.target.closest('[data-vai]');
+  if (v) { vai(v.dataset.vai); return; }
+
+  const b = e.target.closest('[data-brindisi]');
+  if (b) { brindisi(b.dataset.brindisi); }
+});
+
+$('#ev-join').addEventListener('click', () => {
+  const m = S.incontri.find(x => x.id === S.eventoAperto); if (!m) return;
+  m.dentro = !m.dentro;
+  m.vanno += m.dentro ? 1 : -1;
+  brindisi(m.dentro ? `You're in · ${m.nome}` : `Left ${m.nome}`);
+  disegnaEvento(); disegnaIncontri(); disegnaProgresso();
+});
+
+$('#oggi-vai').addEventListener('click', () => avvia($('#oggi-nome').textContent));
+$('#w-oggi-vai').addEventListener('click', () => avvia($('#oggi-nome').textContent));
+$('#filtro').addEventListener('input', disegnaIncontri);
+
+/* ═══════════ questionario d'ingresso ═══════════ */
+/* La prima domanda accetta piu risposte: un obiettivo solo non descrive
+   nessuno. Le altre due restano a scelta singola perche una sola risposta
+   e vera: il livello di partenza e quanti giorni ci stanno in settimana. */
+const SPUNTA = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>';
+const DOMANDE = [
+  { k:'obiettivo', multi:true, d:'What brings you here?', a:"Pick everything that applies — we'll use it to choose what you see first.",
+    o:[['Feel stronger','💪','Strength'],['Move more often','🏃','Cardio'],['Stay loose and mobile','🧘','Mobility'],
+       ['Lose some weight','🔥','HIIT'],['Meet people while I train','🤝','Yoga']] },
+  { k:'livello', d:'How much have you trained lately?', a:'No wrong answer — it only sets the starting difficulty.',
+    o:[['Just starting','🌱','Beginner'],['On and off','🌤','Intermediate'],['Pretty consistent','🔥','Advanced']] },
+  { k:'giorni', d:'How many days a week feel realistic?', a:'Emma picked three. The target moves with you.',
+    o:[['Two','2',2],['Three','3',3],['Four','4',4],['Five','5',5]] },
+];
+let passo = 0;
+const risposte = {};
+const scelto = (q, v) => q.multi ? (risposte[q.k]||[]).includes(v) : risposte[q.k] === v;
+const haRisposta = q => q.multi ? (risposte[q.k]||[]).length > 0 : risposte[q.k] !== undefined;
+
+function disegnaSurvey(){
+  const q = DOMANDE[passo];
+  $('#s-passo').textContent = `Step ${passo+1} of ${DOMANDE.length}`;
+  $('#s-domanda').textContent = q.d;
+  $('#s-aiuto').textContent = q.a;
+  $('#s-multi').classList.toggle('on', !!q.multi);
+  $('#puntini').innerHTML = DOMANDE.map((_,i)=>`<i class="${i===passo?'on':''}"></i>`).join('');
+  $('#s-scelte').innerHTML = q.o.map((o,i)=>
+    `<button class="scelta ${scelto(q,o[2])?'on':''}" data-scelta="${i}">
+       <span class="em">${o[1]}</span>${o[0]}
+       ${q.multi ? `<span class="box">${SPUNTA}</span>` : ''}
+     </button>`).join('');
+  $('#s-avanti').disabled = !haRisposta(q);
+  $('#s-avanti').textContent = passo === DOMANDE.length-1 ? "Let's go" : 'Continue';
+}
+
+function chiudiSurvey(){
+  if (risposte.giorni) S.obiettivo = risposte.giorni;
+  const scelte = risposte.obiettivo || [];
+  if (risposte.livello) {
+    const candidati = S.allenamenti.filter(a =>
+      a.liv === risposte.livello && (!scelte.length || scelte.includes(a.cat)));
+    S.oggiAllenamento = candidati[0] || S.allenamenti.find(a => a.liv === risposte.livello) || S.allenamenti[0];
+  } else if (scelte.length) {
+    S.oggiAllenamento = S.allenamenti.find(a => scelte.includes(a.cat)) || S.allenamenti[0];
+  }
+  // con piu obiettivi il filtro parte dal primo, gli altri restano a un tocco
+  if (scelte.length) S.filtro = scelte.length === 1 ? scelte[0] : 'All';
+
+  const o = S.oggiAllenamento || S.allenamenti[0];
+  for (const pre of ['oggi', 'w-oggi']) {
+    $('#'+pre+'-nome').textContent = o.nome;
+    $('#'+pre+'-min').textContent = o.min;
+    $('#'+pre+'-liv').textContent = o.liv;
+  }
+  $('#saluto-obiettivo').textContent = scelte.length
+    ? `${scelte.slice(0,2).join(' · ')}${scelte.length>2?' +'+(scelte.length-2):''} · ${S.allenamentiFatti} of ${S.obiettivo}`
+    : "Let's keep the week going";
+
+  disegnaProgresso(); disegnaAllenamenti();
+  entraNellaHome();
+}
+
+/* L'app non appare di colpo: il questionario si solleva, un lampo bianco
+   copre lo stacco e la Home sale un blocco alla volta. */
+function entraNellaHome(){
+  const s = $('#survey');
+  s.classList.add('esce');
+  $('#lampo').classList.add('on');
+  setTimeout(()=> $('#lampo').classList.remove('on'), 600);
+  setTimeout(() => {
+    s.classList.add('via');
+    const home = $('#vista-home');
+    [...home.children].forEach((el,i) => el.style.setProperty('--i', i));
+    home.classList.remove('entra');
+    void home.offsetWidth;          // riavvia l'animazione
+    home.classList.add('entra');
+  }, 300);
+}
+
+$('#s-scelte').addEventListener('click', e => {
+  const b = e.target.closest('[data-scelta]'); if(!b) return;
+  const q = DOMANDE[passo];
+  const v = q.o[+b.dataset.scelta][2];
+  if (q.multi) {
+    const giu = risposte[q.k] || [];
+    risposte[q.k] = giu.includes(v) ? giu.filter(x => x !== v) : [...giu, v];
+  } else {
+    risposte[q.k] = v;
+  }
+  disegnaSurvey();
+});
+$('#s-avanti').addEventListener('click', () => {
+  if (passo < DOMANDE.length-1) { passo++; disegnaSurvey(); $('#s-scelte').scrollTop = 0; }
+  else chiudiSurvey();
+});
+$('#s-salta').addEventListener('click', chiudiSurvey);
+
+/* ═══════════ avvio ═══════════ */
+disegnaSurvey();
+disegnaProgresso(); disegnaIncontri(); disegnaAllenamenti();
+disegnaSettimana(); disegnaPT();
+</script>
+</body>
+</html>

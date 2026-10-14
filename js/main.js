@@ -225,6 +225,19 @@ if (hero) {
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncHeroPin);
 }
 
+// "Back to top". L'ancora a #top funziona sul desktop ma su iOS no: la
+// pagina e lunghissima, ha elementi sticky a ogni sezione e lo scorrimento
+// morbido sta nel CSS, e Safari mobile lascia il salto a meta o non parte
+// proprio. Qui lo scorrimento lo chiediamo noi, che e deterministico.
+// L'href resta al suo posto: senza JS il link funziona lo stesso.
+const backToTop = document.querySelector('.footer__top');
+if (backToTop) {
+  backToTop.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+}
+
 // Footer year
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();

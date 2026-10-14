@@ -987,6 +987,37 @@ div.work__slot {
   .work__slot:hover .work__box { transform: none; }
 }
 
+/* Sul telefono la carta era alta quanto lo schermo, perche e cosi che
+   funziona il mazzo: ogni carta riempie la finestra e la successiva le
+   scorre sopra. Ma il banner e 1846x852, e a 390px di larghezza diventa
+   173px di immagine dentro 844px di carta: due terzi di crema vuota, sopra
+   e sotto il titolo. Qui il mazzo si scioglie e le carte tornano una
+   colonna alta quanto quello che contiene.
+   Va tolto anche il pin alla testata: si fa coprire dalle carte perche
+   loro sono posizionate e lei pure, quindi vince l'ordine del documento.
+   Carte statiche, e "Work" resterebbe appeso davanti a tutto.
+   `a.work__slot` e ripetuto perche la regola del cursore personalizzato
+   -piu specifica di una classe sola- rimetterebbe lo sticky alle tre
+   carte che sono link, in una finestra stretta ma con il mouse. */
+@media (max-width: 860px) {
+  .work__slot,
+  html.has-custom-cursor a.work__slot {
+    position: static;
+    height: auto;
+    padding-block: clamp(36px, 9vw, 64px);
+  }
+
+  #work .section__head--wide {
+    position: static;
+  }
+
+  /* Lo spazio che serviva all'ultima carta per avere dove incollarsi.
+     Senza mazzo e solo uno schermo intero di crema in fondo a Work. */
+  .work__empty::after {
+    display: none;
+  }
+}
+
 
 /* -------------------- services -------------------- */
 /* Pinned like the hero→work transition: the list stays fixed in the

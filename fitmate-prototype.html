@@ -556,6 +556,78 @@ html.c-pila .tornare{display:grid}
 .lampo.on{animation:lampeggia .55s ease-out forwards}
 @keyframes lampeggia{from{opacity:.85}to{opacity:0}}
 
+/* ─── primo passo: chi sei ─── */
+.campo{margin-bottom:18px}
+.campo .et-c{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px}
+.campo .et-c b{font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.campo .et-c span{font-size:17px;font-weight:800;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.campo .et-c span i{font-style:normal;font-size:12.5px;font-weight:700;color:var(--ink-3);margin-left:2px}
+/* Quattro bottoni non bastavano a nominare tutti, e dodici in griglia
+   avrebbero mangiato lo schermo: il campo apre una finestra con la lista
+   intera, piu una riga per scriverselo da soli. */
+.scegli{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;
+  font-family:inherit;border:1.5px solid var(--bordo);background:var(--carta);border-radius:var(--r-s);
+  padding:13px 15px;font-size:14.5px;font-weight:700;color:var(--ink-3);text-align:left}
+.scegli.pieno{border-color:var(--viola);background:var(--viola-lav);color:var(--viola-cupo)}
+.velo-gen{z-index:56}
+.sheet-gen{z-index:57}
+.gen-riga{display:flex;align-items:center;gap:12px;padding:14px 2px;cursor:pointer;
+  border-bottom:1px solid var(--bordo);font-size:15px;font-weight:600;color:var(--ink)}
+.gen-riga:last-of-type{border-bottom:0}
+.gen-riga.on{font-weight:800;color:var(--viola-cupo)}
+.gen-riga .spunta{margin-left:auto;color:var(--viola);opacity:0;flex:none}
+.gen-riga.on .spunta{opacity:1}
+.gen-mio{display:flex;gap:8px;padding:12px 0 4px;border-top:1px solid var(--bordo)}
+.gen-mio input{flex:1;border:1.5px solid var(--bordo);background:var(--carta);border-radius:var(--r-s);
+  padding:11px 14px;font-family:inherit;font-size:14px;color:var(--ink);outline:0;min-width:0}
+.gen-mio input:focus{border-color:var(--viola)}
+.gen-mio button{flex:none;border:0;cursor:pointer;font-family:inherit;border-radius:999px;padding:0 18px;
+  font-size:13px;font-weight:800;background:var(--viola);color:#fff}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;
+  background:linear-gradient(90deg,var(--viola) var(--riempi,50%), var(--bordo) var(--riempi,50%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;
+  border-radius:50%;background:#fff;border:0;margin-top:-9px;box-shadow:0 2px 8px -1px rgba(66,26,110,.5), 0 0 0 2.5px var(--viola) inset}
+input[type=range]::-moz-range-track{height:6px;border-radius:999px;background:var(--bordo)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:2.5px solid var(--viola)}
+.scala{display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:var(--ink-3);margin-top:-4px}
+
+/* ─── accesso ─── */
+.accesso{position:absolute;inset:0;z-index:52;background:linear-gradient(170deg,#F7F1FF,#FFEAF4 58%,#FFF);
+  display:none;flex-direction:column;padding:46px 24px 20px;overflow-y:auto;scrollbar-width:none}
+.accesso.on{display:flex}
+.accesso::-webkit-scrollbar{display:none}
+.accesso h2{font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.18}
+.accesso .sp{font-size:14px;color:var(--ink-2);margin-top:8px;line-height:1.55}
+.doppio{display:flex;gap:6px;background:var(--bordo);border-radius:999px;padding:4px;margin:16px 0 13px}
+.doppio button{flex:1;border:0;cursor:pointer;font-family:inherit;border-radius:999px;padding:10px;
+  font-size:13.5px;font-weight:800;background:transparent;color:var(--ink-2)}
+.doppio button.on{background:var(--carta);color:var(--ink);box-shadow:0 2px 8px -3px rgba(66,26,110,.4)}
+.riga-i{margin-bottom:9px}
+.riga-i label{display:block;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:5px}
+.riga-i input{width:100%;border:1.5px solid var(--bordo);background:var(--carta);border-radius:var(--r-s);
+  padding:12px 15px;font-family:inherit;font-size:14.5px;color:var(--ink);outline:0}
+.riga-i input:focus{border-color:var(--viola)}
+.riga-i input.male{border-color:var(--rosa)}
+.riga-i .err{display:none;font-size:11.5px;font-weight:700;color:var(--rosa);margin-top:5px}
+.riga-i.male .err{display:block}
+.principale{width:100%;border:0;cursor:pointer;font-family:inherit;border-radius:999px;padding:14px;
+  font-size:15px;font-weight:800;background:var(--viola);color:#fff;margin-top:4px}
+.oppure{display:flex;align-items:center;gap:12px;margin:14px 0;color:var(--ink-3);font-size:11.5px;font-weight:700}
+.oppure::before,.oppure::after{content:'';flex:1;height:1px;background:var(--bordo)}
+/* Tre righe intere di "Continue with…" mandavano "Skip for now" sotto il
+   bordo dello schermo: in fila restano riconoscibili e ci sta tutto. */
+.social{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.social button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  width:100%;cursor:pointer;font-family:inherit;border-radius:var(--r-s);padding:13px 6px;
+  font-size:12.5px;font-weight:700;border:1.5px solid var(--bordo);background:var(--carta);color:var(--ink)}
+.social button.nero{background:#000;border-color:#000;color:#fff}
+.social button.blu{background:#1877F2;border-color:#1877F2;color:#fff}
+.accesso .salta{margin:13px auto 0;border:0;background:none;cursor:pointer;font-family:inherit;
+  font-size:13.5px;font-weight:700;color:var(--ink-3);padding:8px}
+.minuta{font-size:11px;line-height:1.5;color:var(--ink-3);text-align:center;margin-top:9px}
+
 .brindisi{position:absolute;left:50%;bottom:104px;transform:translateX(-50%) translateY(14px);z-index:35;
   background:var(--ink);color:#fff;border-radius:999px;padding:11px 20px;font-size:13px;font-weight:700;
   opacity:0;transition:opacity .25s ease, transform .25s ease;pointer-events:none;white-space:nowrap}
@@ -578,6 +650,7 @@ html.c-pila .tornare{display:grid}
   .tacca{display:none}
   .stato{padding:10px 20px 6px}
   .survey{padding-top:34px}
+  .accesso{padding-top:30px}
   .player{padding-top:22px}
   .c-capo{padding-top:24px}
 }
@@ -820,8 +893,8 @@ html.c-pila .tornare{display:grid}
           <div class="pannello" style="display:flex;align-items:center;gap:14px">
             <img src="assets/proto/pt-emma.webp" alt="Emma" style="width:58px;height:58px;border-radius:50%;object-fit:cover;flex:none;display:block">
             <span>
-              <span style="display:block;font-size:19px;font-weight:800;letter-spacing:-.01em">Emma</span>
-              <span style="display:block;font-size:13px;color:var(--ink-2);margin-top:2px">30 · Recruiter · London</span>
+              <span style="display:block;font-size:19px;font-weight:800;letter-spacing:-.01em" id="set-nome">Emma</span>
+              <span style="display:block;font-size:13px;color:var(--ink-2);margin-top:2px" id="set-sotto">30 · Recruiter · London</span>
             </span>
             <button class="unisci" style="margin-left:auto;background:var(--viola-lav);color:var(--viola-cupo)" data-brindisi="Editing your profile — prototype stops here">Edit</button>
           </div>
@@ -831,6 +904,7 @@ html.c-pila .tornare{display:grid}
             <div class="vocep" data-brindisi="Weekly goal: 5 workouts">Weekly goal <span style="color:var(--ink-3)">5 workouts &rsaquo;</span></div>
             <div class="vocep" data-brindisi="Starting level: Intermediate">Starting level <span style="color:var(--ink-3)">Intermediate &rsaquo;</span></div>
             <div class="vocep" data-brindisi="What you train for, from the survey">Goals <span style="color:var(--ink-3)" id="set-obiettivi">Strength &rsaquo;</span></div>
+            <div class="vocep" data-brindisi="From the first step of the survey">Body <span style="color:var(--ink-3)" id="set-corpo">64 kg · 168 cm &rsaquo;</span></div>
             <div class="vocep" data-brindisi="Units: metric">Units <span style="color:var(--ink-3)">Metric &rsaquo;</span></div>
           </div>
 
@@ -873,6 +947,49 @@ html.c-pila .tornare{display:grid}
           <button class="avanti" id="s-avanti" disabled>Continue</button>
           <button class="salta" id="s-salta">Skip</button>
         </div>
+      </div>
+
+      <!-- ───────────── ACCESSO ─────────────
+           Dopo il questionario e prima della Home: si puo entrare, iscriversi,
+           usare un servizio di terzi, o saltare e guardare prima. -->
+      <div class="accesso" id="accesso">
+        <h2 id="acc-tit">Create your account</h2>
+        <p class="sp" id="acc-sotto">So your week is still here tomorrow, and on your other phone.</p>
+
+        <div class="doppio" id="acc-doppio">
+          <button class="on" data-acc="iscrivi">Sign up</button>
+          <button data-acc="entra">Log in</button>
+        </div>
+
+        <div id="acc-campi"></div>
+        <button class="principale" id="acc-vai">Create account</button>
+
+        <p class="oppure">OR</p>
+        <div class="social">
+          <button data-social="Google">
+            <svg width="21" height="21" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.1 24.5c0-1.6-.1-2.8-.4-4H24v7.3h12.1c-.2 2-1.6 5-4.5 7l-.1.3 6.5 5 .5.1c4.1-3.8 6.6-9.4 6.6-15.7"/><path fill="#34A853" d="M24 46c5.9 0 10.9-1.9 14.5-5.3l-6.9-5.4c-1.8 1.3-4.3 2.2-7.6 2.2-5.8 0-10.7-3.8-12.5-9.1l-.3 0-6.7 5.2-.1.3C8 41.1 15.4 46 24 46"/><path fill="#FBBC05" d="M11.5 28.4c-.5-1.4-.8-2.9-.8-4.4s.3-3.1.7-4.4l0-.3-6.8-5.3-.2.1A22 22 0 0 0 2 24c0 3.5.9 6.9 2.4 9.9z"/><path fill="#EA4335" d="M24 9.5c4.1 0 6.9 1.8 8.5 3.3l6.2-6C34.9 3.4 29.9 1 24 1 15.4 1 8 5.9 4.4 13.1l7.1 5.5C13.3 13.3 18.2 9.5 24 9.5"/></svg>
+            Google
+          </button>
+          <button class="nero" data-social="Apple">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M16.3 12.7c0-2.6 2.1-3.9 2.2-4-1.2-1.8-3.1-2-3.8-2-1.6-.2-3.1.9-3.9.9s-2.1-.9-3.4-.9c-1.8 0-3.4 1-4.3 2.6-1.8 3.2-.5 7.9 1.3 10.5.9 1.3 1.9 2.7 3.2 2.6 1.3-.1 1.8-.8 3.4-.8s2 .8 3.4.8 2.3-1.3 3.1-2.5c1-1.5 1.4-2.9 1.4-3-.1 0-2.6-1-2.6-4.2M13.8 4.5c.7-.9 1.2-2.1 1-3.3-1 0-2.3.7-3 1.6-.7.8-1.3 2-1.1 3.2 1.1.1 2.3-.6 3.1-1.5"/></svg>
+            Apple
+          </button>
+          <button class="blu" data-social="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.5-3.91 3.77-3.91 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.89h2.78l-.45 2.91h-2.33V22c4.78-.79 8.44-4.94 8.44-9.94"/></svg>
+            Facebook
+          </button>
+        </div>
+
+        <button class="salta" id="acc-salta">Skip for now &rarr;</button>
+        <p class="minuta">Prototype — nothing is sent anywhere.</p>
+      </div>
+
+      <!-- la lista dei generi, sopra al questionario -->
+      <div class="velo velo-gen" id="velo-gen"></div>
+      <div class="sheet sheet-gen" id="sheet-gen">
+        <div class="maniglia"></div>
+        <div class="capo-s"><h3>Gender</h3><button class="pulisci" id="gen-chiudi">Done</button></div>
+        <div class="corpo-s" id="gen-lista"></div>
       </div>
 
       <div class="lampo" id="lampo"></div>
@@ -1892,6 +2009,7 @@ $('#filtro').addEventListener('input', disegnaIncontri);
    e vera: il livello di partenza e quanti giorni ci stanno in settimana. */
 const SPUNTA = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>';
 const DOMANDE = [
+  { k:'profilo', profilo:true, d:'About you', a:'Four things, and the rest of the app can do its job. Nothing leaves this phone.' },
   { k:'obiettivo', multi:true, d:'What brings you here?', a:"Pick everything that applies — we'll use it to choose what you see first.",
     o:[['Feel stronger','💪','Strength'],['Move more often','🏃','Cardio'],['Stay loose and mobile','🧘','Mobility'],
        ['Lose some weight','🔥','HIIT'],['Meet people while I train','🤝','Yoga']] },
@@ -1902,8 +2020,24 @@ const DOMANDE = [
 ];
 let passo = 0;
 const risposte = {};
+const PROF = { genere:null, eta:30, peso:64, altezza:168 };
+const GENERI = ['Woman','Man','Non-binary','Transgender woman','Transgender man','Agender',
+  'Genderfluid','Genderqueer','Bigender','Two-spirit','Intersex','Questioning','Prefer not to say'];
 const scelto = (q, v) => q.multi ? (risposte[q.k]||[]).includes(v) : risposte[q.k] === v;
-const haRisposta = q => q.multi ? (risposte[q.k]||[]).length > 0 : risposte[q.k] !== undefined;
+const haRisposta = q => q.profilo ? PROF.genere !== null
+  : q.multi ? (risposte[q.k]||[]).length > 0 : risposte[q.k] !== undefined;
+
+/* Il primo passo non e una lista di scelte ma quattro campi, quindi ha il
+   suo disegno: genere a bottoni, eta peso e altezza a cursore. */
+function cursore(k, min, max, unita){
+  const v = PROF[k], pc = Math.round((v - min) / (max - min) * 100);
+  return `<div class="campo">
+    <div class="et-c"><b>${k === 'eta' ? 'Age' : k === 'peso' ? 'Weight' : 'Height'}</b>
+      <span>${v}<i>${unita}</i></span></div>
+    <input type="range" min="${min}" max="${max}" value="${v}" data-prof="${k}" style="--riempi:${pc}%">
+    <div class="scala"><span>${min}${unita}</span><span>${max}${unita}</span></div>
+  </div>`;
+}
 
 function disegnaSurvey(){
   const q = DOMANDE[passo];
@@ -1912,13 +2046,28 @@ function disegnaSurvey(){
   $('#s-aiuto').textContent = q.a;
   $('#s-multi').classList.toggle('on', !!q.multi);
   $('#puntini').innerHTML = DOMANDE.map((_,i)=>`<i class="${i===passo?'on':''}"></i>`).join('');
-  $('#s-scelte').innerHTML = q.o.map((o,i)=>
-    `<button class="scelta ${scelto(q,o[2])?'on':''}" data-scelta="${i}">
-       <span class="em">${o[1]}</span>${o[0]}
-       ${q.multi ? `<span class="box">${SPUNTA}</span>` : ''}
-     </button>`).join('');
+
+  if (q.profilo) {
+    $('#s-scelte').innerHTML = `
+      <div class="campo">
+        <div class="et-c"><b>Gender</b></div>
+        <button class="scegli ${PROF.genere?'pieno':''}" id="apri-gen">
+          ${PROF.genere || 'Select'}
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="opacity:.6;flex:none"><path d="M6 9.5 12 16l6-6.5z"/></svg>
+        </button>
+      </div>
+      ${cursore('eta', 14, 80, '')}
+      ${cursore('peso', 40, 140, ' kg')}
+      ${cursore('altezza', 140, 210, ' cm')}`;
+  } else {
+    $('#s-scelte').innerHTML = q.o.map((o,i)=>
+      `<button class="scelta ${scelto(q,o[2])?'on':''}" data-scelta="${i}">
+         <span class="em">${o[1]}</span>${o[0]}
+         ${q.multi ? `<span class="box">${SPUNTA}</span>` : ''}
+       </button>`).join('');
+  }
   $('#s-avanti').disabled = !haRisposta(q);
-  $('#s-avanti').textContent = passo === DOMANDE.length-1 ? "Let's go" : 'Continue';
+  $('#s-avanti').textContent = passo === DOMANDE.length-1 ? 'Continue' : 'Continue';
 }
 
 function chiudiSurvey(){
@@ -1947,27 +2096,147 @@ function chiudiSurvey(){
     : "Let's keep the week going";
 
   disegnaProgresso(); disegnaAllenamenti();
-  entraNellaHome();
+
+  // il profilo del primo passo finisce dove si guardano queste cose
+  if (PROF.genere) {
+    $('#set-sotto').textContent = `${PROF.eta} · ${PROF.genere} · London`;
+    $('#set-corpo').innerHTML = `${PROF.peso} kg · ${PROF.altezza} cm &rsaquo;`;
+  }
+  mostraAccesso();
 }
+
+/* ═══════════ accesso ═══════════ */
+/* Sta fra l'ultima domanda e la Home: ci si puo iscrivere, entrare, usare
+   un servizio di terzi, oppure saltare e guardarsi intorno prima. */
+let modoAcc = 'iscrivi';
+const CAMPI = {
+  iscrivi: [['nome','Name','text','Emma','Tell us what to call you'],
+            ['mail','Email','email','emma@example.com','That does not look like an email'],
+            ['pw','Password','password','At least 6 characters','Use at least 6 characters'],
+            ['pw2','Confirm password','password','Type it again','The two passwords do not match']],
+  entra:   [['mail','Email','email','emma@example.com','That does not look like an email'],
+            ['pw','Password','password','Your password','Use at least 6 characters']],
+};
+
+function disegnaAccesso(){
+  $$('#acc-doppio button').forEach(b => b.classList.toggle('on', b.dataset.acc === modoAcc));
+  $('#acc-tit').textContent = modoAcc === 'iscrivi' ? 'Create your account' : 'Welcome back';
+  $('#acc-sotto').textContent = modoAcc === 'iscrivi'
+    ? 'So your week is still here tomorrow, and on your other phone.'
+    : 'Pick up the week where you left it.';
+  $('#acc-vai').textContent = modoAcc === 'iscrivi' ? 'Create account' : 'Log in';
+  $('#acc-campi').innerHTML = CAMPI[modoAcc].map(([k,et,t,ph,err]) => `
+    <div class="riga-i" data-riga="${k}">
+      <label for="acc-${k}">${et}</label>
+      <input id="acc-${k}" type="${t}" placeholder="${ph}" autocomplete="off">
+      <span class="err">${err}</span>
+    </div>`).join('');
+}
+
+function mostraAccesso(){
+  disegnaAccesso();
+  $('#survey').classList.add('esce');
+  setTimeout(() => { $('#survey').classList.add('via'); $('#accesso').classList.add('on'); }, 300);
+}
+
+function validaAccesso(){
+  let ok = true;
+  for (const [k] of CAMPI[modoAcc]) {
+    const el = $('#acc-' + k), v = el.value.trim();
+    let buono = true;
+    if (k === 'nome') buono = v.length > 0;
+    if (k === 'mail') buono = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    if (k === 'pw')   buono = v.length >= 6;
+    if (k === 'pw2')  buono = v === $('#acc-pw').value && v.length >= 6;
+    el.closest('.riga-i').classList.toggle('male', !buono);
+    el.classList.toggle('male', !buono);
+    if (!buono) ok = false;
+  }
+  return ok;
+}
+
+function entraDavvero(da){
+  const n = $('#acc-nome')?.value.trim();
+  if (n) {
+    const solo = n.split(' ')[0];
+    $('#vista-home h1').textContent = `Hi, ${solo}`;
+    $('#set-nome').textContent = n;
+  }
+  $('#accesso').classList.remove('on');
+  entraNellaHome();
+  if (da) setTimeout(() => brindisi(da), 900);
+}
+
+$('#acc-doppio').addEventListener('click', e => {
+  const b = e.target.closest('[data-acc]'); if (!b) return;
+  modoAcc = b.dataset.acc; disegnaAccesso();
+});
+$('#acc-vai').addEventListener('click', () => {
+  if (validaAccesso()) entraDavvero(modoAcc === 'iscrivi' ? 'Account created' : 'Welcome back');
+});
+$('#acc-campi').addEventListener('input', e => {
+  e.target.closest('.riga-i')?.classList.remove('male');
+  e.target.classList.remove('male');
+});
+document.querySelector('.social').addEventListener('click', e => {
+  const b = e.target.closest('[data-social]'); if (!b) return;
+  entraDavvero(`Signed in with ${b.dataset.social}`);
+});
+$('#acc-salta').addEventListener('click', () => entraDavvero(null));
 
 /* L'app non appare di colpo: il questionario si solleva, un lampo bianco
    copre lo stacco e la Home sale un blocco alla volta. */
 function entraNellaHome(){
-  const s = $('#survey');
-  s.classList.add('esce');
+  $('#survey').classList.add('via');
   $('#lampo').classList.add('on');
   setTimeout(()=> $('#lampo').classList.remove('on'), 600);
   setTimeout(() => {
-    s.classList.add('via');
     const home = $('#vista-home');
     [...home.children].forEach((el,i) => el.style.setProperty('--i', i));
     home.classList.remove('entra');
     void home.offsetWidth;          // riavvia l'animazione
     home.classList.add('entra');
-  }, 300);
+  }, 60);
 }
 
+$('#s-scelte').addEventListener('input', e => {
+  const r = e.target.closest('[data-prof]'); if(!r) return;
+  PROF[r.dataset.prof] = +r.value;
+  const min = +r.min, max = +r.max;
+  r.style.setProperty('--riempi', Math.round((r.value - min) / (max - min) * 100) + '%');
+  const et = r.closest('.campo').querySelector('.et-c span');
+  et.firstChild.textContent = r.value;
+});
+
+const SPUNTA_G = '<svg class="spunta" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>';
+
+function disegnaGeneri(){
+  $('#gen-lista').innerHTML = GENERI.map(g =>
+    `<div class="gen-riga ${PROF.genere===g?'on':''}" data-gen="${g}">${g}${SPUNTA_G}</div>`).join('')
+    + (PROF.genere && !GENERI.includes(PROF.genere)
+        ? `<div class="gen-riga on" data-gen="${PROF.genere}">${PROF.genere}${SPUNTA_G}</div>` : '')
+    + `<div class="gen-mio">
+         <input id="gen-mio" placeholder="Describe it yourself" maxlength="28">
+         <button id="gen-usa">Use</button>
+       </div>`;
+}
+function apriGeneri(){ disegnaGeneri(); $('#velo-gen').classList.add('on'); $('#sheet-gen').classList.add('on'); }
+function chiudiGeneri(){ $('#velo-gen').classList.remove('on'); $('#sheet-gen').classList.remove('on'); }
+
+$('#velo-gen').addEventListener('click', chiudiGeneri);
+$('#gen-chiudi').addEventListener('click', chiudiGeneri);
+$('#gen-lista').addEventListener('click', e => {
+  const r = e.target.closest('[data-gen]');
+  if (r) { PROF.genere = r.dataset.gen; disegnaSurvey(); chiudiGeneri(); return; }
+  if (e.target.closest('#gen-usa')) {
+    const v = $('#gen-mio').value.trim();
+    if (v) { PROF.genere = v; disegnaSurvey(); chiudiGeneri(); }
+  }
+});
+$('#gen-mio')?.addEventListener('keydown', e => { if (e.key === 'Enter') $('#gen-usa').click(); });
+
 $('#s-scelte').addEventListener('click', e => {
+  if (e.target.closest('#apri-gen')) { apriGeneri(); return; }
   const b = e.target.closest('[data-scelta]'); if(!b) return;
   const q = DOMANDE[passo];
   const v = q.o[+b.dataset.scelta][2];

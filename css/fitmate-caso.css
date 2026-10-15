@@ -1,0 +1,208 @@
+/* ───────────────────────────────────────────────────────────────
+   Fitmate — il case study, a parte.
+
+   Il resto del portfolio e Switzer su carta color avorio. Questa
+   pagina prende la grammatica di un pitch: titoli in serif grosso,
+   etichette in maiuscoletto spaziato, l'evidenziatore dietro una
+   parola, fondi a sfumatura morbida invece che piatti. I colori pero
+   sono quelli del prodotto -viola, rosa, lavanda, giallo- non quelli
+   del deck da cui viene l'idea.
+
+   Tutto sotto `body.caso-fm`, cosi Flagged, Bacardi e Polaroid
+   restano esattamente come sono: e un'eccezione dichiarata, non una
+   deriva.
+   ─────────────────────────────────────────────────────────────── */
+
+body.caso-fm {
+  --fm-viola: #7830FC;
+  --fm-viola-cupo: #4726AA;
+  --fm-lavanda: #EDE5FF;
+  --fm-rosa: #EC338B;
+  --fm-giallo: #F7B500;
+  /* il segno dell'evidenziatore: chiaro, perche ci va sopra testo scuro */
+  --fm-segno: #D9C2FF;
+  --fm-segno-rosa: #FFD1E8;
+
+  --ink: #1A1125;
+  --ink-soft: rgba(26, 17, 37, 0.68);
+  --ink-mute: rgba(26, 17, 37, 0.5);
+  --ink-ghost: rgba(26, 17, 37, 0.14);
+  --line: rgba(26, 17, 37, 0.12);
+
+  font-family: 'DM Sans', system-ui, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(900px 640px at 5% 1%,  rgba(176, 128, 252, 0.40) 0%, rgba(176, 128, 252, 0) 62%),
+    radial-gradient(860px 620px at 95% 5%, rgba(255, 183, 219, 0.48) 0%, rgba(255, 183, 219, 0) 60%),
+    radial-gradient(780px 660px at 92% 62%,rgba(255, 221, 170, 0.34) 0%, rgba(255, 221, 170, 0) 62%),
+    radial-gradient(720px 620px at 8% 88%, rgba(174, 201, 255, 0.34) 0%, rgba(174, 201, 255, 0) 64%),
+    #FBF8FF;
+  background-attachment: fixed;
+}
+
+/* ── i cerchi dietro, come sulla pagina del prototipo ── */
+.caso-fm .tondi-sfondo {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.caso-fm .tondi-sfondo span {
+  position: absolute;
+  border-radius: 50%;
+  display: block;
+}
+.caso-fm .tondi-sfondo .c1 { left: -13vw;  top: 12vh;  width: 26vw; height: 26vw;
+  background: linear-gradient(140deg, #B080FC, #7830FC); opacity: .10; }
+.caso-fm .tondi-sfondo .c2 { right: 4vw;  top: 62vh;  width: 10vw; height: 10vw;
+  background: #EC338B; opacity: .10; }
+.caso-fm .tondi-sfondo .c3 { left: 14vw;  bottom: 8vh; width: 6vw;  height: 6vw;
+  background: #F7B500; opacity: .14; }
+@media (max-width: 860px) { .caso-fm .tondi-sfondo { display: none; } }
+
+.caso-fm main,
+.caso-fm .nav,
+.caso-fm .footer { position: relative; z-index: 2; }
+
+/* Le sezioni sono dipinte color avorio: su questa pagina la sfumatura sta
+   sul `body` e loro devono lasciarla passare, se no si vede solo in cima. */
+.caso-fm .section,
+.caso-fm .section__head--wide,
+.caso-fm .footer { background: transparent; }
+.caso-fm .section { border-top-color: rgba(26, 17, 37, 0.1); }
+
+/* ── il serif, dove conta ── */
+.caso-fm .section__head--wide h2,
+.caso-fm .case__lead,
+.caso-fm .case__block h3,
+.caso-fm .case__block p.case__statement,
+.caso-fm .case__needs-title {
+  font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+.caso-fm .section__head--wide h2 {
+  letter-spacing: -0.015em;
+  line-height: 1;
+  /* il serif ha le grazie che sporgono: senza questo la "F" si taglia */
+  padding: 0 0.04em;
+}
+
+/* ── l'etichetta in cima: maiuscoletto spaziato, viola ── */
+.caso-fm .case__meta {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--fm-viola);
+}
+
+/* ── la frase che apre: grande, in serif, con l'evidenziatore ── */
+.caso-fm .case__lead {
+  font-size: clamp(30px, 4.3vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+/* L'evidenziatore sta dietro al testo, non sopra: un pseudo-elemento a
+   z-index negativo dentro un contesto creato dallo span stesso. Storto di
+   mezzo grado, se no sembra un rettangolo di Word. */
+.caso-fm .segno {
+  font-style: normal;
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+}
+.caso-fm .segno::before {
+  content: "";
+  position: absolute;
+  left: -0.08em;
+  right: -0.08em;
+  top: 0.16em;
+  bottom: 0.08em;
+  background: var(--fm-segno);
+  border-radius: 3px;
+  transform: rotate(-0.7deg);
+  z-index: -1;
+}
+.caso-fm .segno--rosa::before { background: var(--fm-segno-rosa); }
+
+/* ── i titoli di sezione: non piu etichette piccole, ma titoli ── */
+.caso-fm .case__block h3 {
+  margin: 0 0 clamp(14px, 1.8vw, 22px);
+  font-size: clamp(27px, 3.1vw, 42px);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-transform: none;
+  color: var(--ink);
+}
+.caso-fm .case__block h3 em {
+  font-style: italic;
+}
+
+.caso-fm .case__block p,
+.caso-fm .case__block li {
+  font-size: clamp(15px, 1.2vw, 17.5px);
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.caso-fm .case__block strong { color: var(--ink); font-weight: 700; }
+.caso-fm .case__block em { font-style: italic; }
+
+/* ── la frase che chiude una sezione, su un fondo suo ── */
+.caso-fm .case__block p.case__statement {
+  margin-top: clamp(22px, 3vw, 34px);
+  padding: clamp(24px, 3.2vw, 42px);
+  border-radius: 20px;
+  background: linear-gradient(118deg, rgba(120, 48, 252, 0.13), rgba(236, 51, 139, 0.15));
+  font-size: clamp(25px, 3.3vw, 42px);
+  line-height: 1.14;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+/* ── le fasi del processo: pillole viola ── */
+.caso-fm .case__fase {
+  display: inline-block;
+  margin-bottom: clamp(12px, 1.6vw, 18px);
+  padding: 7px 15px;
+  border-radius: 999px;
+  background: var(--fm-viola);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* ── l'elenco dei bisogni ── */
+.caso-fm .case__needs-num {
+  font-weight: 700;
+  color: var(--fm-viola);
+}
+.caso-fm .case__needs-title {
+  font-size: clamp(19px, 1.9vw, 26px);
+  letter-spacing: -0.01em;
+}
+.caso-fm .case__needs-text { color: var(--ink-soft); }
+
+/* ── le figure: angoli tondi e un'ombra viola, non nera ── */
+.caso-fm .case__fig img {
+  border-radius: 18px;
+  box-shadow: 0 34px 80px -46px rgba(66, 26, 110, 0.62);
+}
+.caso-fm .case__fig figcaption {
+  font-size: clamp(12px, 1vw, 13.5px);
+  color: var(--ink-mute);
+}
+
+/* ── coda ── */
+.caso-fm .case__back { color: var(--ink-mute); }
+.caso-fm .case__back a:hover { color: var(--fm-viola); }
+.caso-fm .case__credit { color: var(--ink-mute); }
+.caso-fm .case__credit a { color: var(--fm-viola); text-decoration-color: rgba(120, 48, 252, 0.4); }
+
+/* La barra in alto si fonde in differenza col fondo: su una pagina quasi
+   bianca resta scura, come sulle altre. Il pallino del cursore idem. */

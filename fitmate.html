@@ -284,8 +284,44 @@
       <div class="case__block reveal">
         <h3>What happened after the bootcamp</h3>
         <p>Fitmate was a school project with a deadline, and projects like that usually end where this one did: <strong>a Figma prototype and a presentation.</strong></p>
-        <p>It didn't stay there. <strong>I've kept building it, now with AI</strong> — the same way I built Flagged. What changes is where the iterations happen: instead of linking frames together, every version is <strong>an application that actually runs</strong>, which is the only way to find out that a flow reads well on a board and badly in a hand.</p>
-        <p>The onboarding survey is the clearest example. In Figma it was three screens you clicked through. Running, it has to <em>do</em> something — the answers set the weekly target and choose the workout the home screen suggests — and <strong>what was a step in a presentation became a product decision.</strong></p>
+        <p>It didn't stay there. <strong>I kept building it on my own once the bootcamp was over</strong>, now with AI — the same way I built Flagged. What changes is where the iterations happen: instead of linking frames together, every version is <strong>an application that actually runs</strong>, which is the only way to find out that a flow reads well on a board and badly in a hand.</p>
+      </div>
+
+      <figure class="case__fig reveal">
+        <img src="assets/fm-08-app.webp" alt="Fitmate — the rebuilt app: home, community, workouts, trainers, progress and settings" width="2200" height="1560" loading="lazy">
+        <figcaption>The same areas the case study defined, rebuilt as software: home, community, workouts, trainers, progress, settings.</figcaption>
+      </figure>
+
+      <div class="case__block reveal">
+        <h3>The onboarding had to <em>do</em> something</h3>
+        <p>In Figma the survey was three screens you clicked through and then forgot about. Running, it has to earn the time it takes, and that turned <strong>a step in a presentation into a handful of product decisions.</strong></p>
+        <p>It opens on <strong>About you</strong>: gender — picked from a list long enough to name people properly, with a line to describe it yourself, rather than four buttons that cover half of them — then age, weight and height on sliders. After that the goals, which take <strong>more than one answer</strong>, because a single goal describes nobody.</p>
+        <p>Then the answers go to work. <strong>What you pick sets the weekly target, chooses the workout the home screen suggests and opens the workout list on the category you came for.</strong> Nothing is collected and parked in a profile.</p>
+        <p>And between the last question and the home there is the part every real app has and no Figma file needs: <strong>an account</strong>. Sign up or log in, with the validation under each field, the three third-party buttons, and a way to skip — because asking someone to commit before they have seen anything is how you lose them.</p>
+      </div>
+
+      <figure class="case__fig reveal">
+        <img src="assets/fm-07-ingresso.webp" alt="Fitmate — About you, the gender list, the goals and the account screen" width="2200" height="1300" loading="lazy">
+        <figcaption>From "About you" to the account, in four steps you can skip.</figcaption>
+      </figure>
+
+      <div class="case__block reveal">
+        <h3>What only exists once it runs</h3>
+        <p>Three parts of Fitmate only became real when there was something to press.</p>
+        <p><strong>The filters.</strong> On a board a filter is a row of chips. In use, people look for a thing that is near them, this weekend, and free — so Community filters the way a meetup app actually filters: <strong>date, distance, category, type, price and sort</strong>, in a sheet, with a counter on the button and a way to clear it. Which meant the meetups needed a distance and a date to begin with: <strong>the filter forced the data model.</strong></p>
+        <p><strong>The workout player.</strong> "Start workout" used to be a button that led to a screen. Now it leads to the exercises themselves — one after another, each with its own countdown, moving on by itself when the time runs out — and <strong>what you finish moves the week</strong> on the progress screen.</p>
+        <p><strong>The trainer.</strong> A profile with reviews is easy to draw. A conversation is not: the chat answers, after a pause, with the three dots first, <strong>because the waiting is most of what makes it read like a person.</strong></p>
+      </div>
+
+      <figure class="case__fig reveal">
+        <img src="assets/fm-09-gira.webp" alt="Fitmate — the filter sheet, the workout player and the trainer chat" width="2200" height="1420" loading="lazy">
+        <figcaption>The filter sheet, the exercise player and the chat with a trainer.</figcaption>
+      </figure>
+
+      <div class="case__block reveal">
+        <h3>What building it taught me that designing it hadn't</h3>
+        <p>A screen you can only look at hides its own weak spots. <strong>The flows that broke were never the ones that looked fragile on the board</strong> — they were the ones that assumed data nobody had thought about: a distance, a date, a host, a price.</p>
+        <p>And the decisions that turned out to matter most were small and unglamorous: <strong>letting the goal question take more than one answer, putting a skip on the account screen, making the exercises advance by themselves.</strong> None of them would have shown up in a presentation.</p>
       </div>
 
       <div class="case__block reveal">
@@ -296,7 +332,7 @@
         <p class="case__statement">It's to make them want to keep going.</p>
       </div>
 
-      <p class="case__credit reveal">Fitmate was the fourth project of my UX/UI bootcamp at Ironhack, made with Antón and Giulia. The writing here is mine and so is the point of view; the work was ours. <a href="https://medium.com/@dario.capalbi/wellness-app-fitmate-lets-crush-on-your-fitness-goal-together-c882a0afaba1" target="_blank" rel="noopener">The full case study is on Medium</a>.</p>
+      <p class="case__credit reveal">Fitmate was the fourth project of my UX/UI bootcamp at Ironhack, made with Antón and Giulia. The writing here is mine and so is the point of view; the work was ours. The version you can open and press is a later rebuild, made on my own. <a href="https://medium.com/@dario.capalbi/wellness-app-fitmate-lets-crush-on-your-fitness-goal-together-c882a0afaba1" target="_blank" rel="noopener">The full case study is on Medium</a>.</p>
     </div>
 
   </section>

@@ -1,0 +1,225 @@
+/* ───────────────────────────────────────────────────────────────
+   Bacardí e Polaroid — le due pagine a mazzo.
+
+   Stessa lingua di Flagged e Fitmate: titoli in serif grosso,
+   etichette in maiuscoletto spaziato, l'evidenziatore dietro una
+   parola, fondi a sfumatura morbida. Qui pero non ci sono blocchi di
+   prosa: sono due decki di fotografie con una nota sotto ognuna,
+   quindi il lavoro e tutto sull'apertura, sulle note e sulla trama
+   del fondo.
+
+   I colori li porta ciascun marchio: l'oro e il rosso del pipistrello
+   per Bacardí, lo spettro per Polaroid. Le due pagine condividono la
+   struttura e si distinguono solo per le variabili in cima.
+   ─────────────────────────────────────────────────────────────── */
+
+/* ── Bacardí: oro, rame, il rosso del pipistrello ── */
+body.caso-bc {
+  --accento: #C8102E;
+  --oro: #D99A12;
+  --segno: #F6D070;
+  --segno-2: #F7C0AE;
+
+  --ink: #1A1410;
+  --ink-soft: rgba(26, 20, 16, 0.68);
+  --ink-mute: rgba(26, 20, 16, 0.5);
+  --ink-ghost: rgba(26, 20, 16, 0.14);
+  --line: rgba(26, 20, 16, 0.12);
+
+  --trama:
+    radial-gradient(880px 620px at 4% 2%,   rgba(242, 194, 48, 0.46) 0%, rgba(242, 194, 48, 0) 62%),
+    radial-gradient(840px 600px at 96% 4%,  rgba(230, 140, 70, 0.34) 0%, rgba(230, 140, 70, 0) 60%),
+    radial-gradient(760px 660px at 94% 66%, rgba(200, 16, 46, 0.16) 0%, rgba(200, 16, 46, 0) 62%),
+    radial-gradient(720px 620px at 4% 94%,  rgba(130, 150, 70, 0.26) 0%, rgba(130, 150, 70, 0) 64%),
+    #FBF6EC;
+  --carta: #FBF6EC;
+}
+
+/* ── Polaroid: lo spettro, in tinte pallide ── */
+body.caso-pl {
+  --accento: #0066B3;
+  --oro: #ED1C24;
+  --segno: #FFE071;
+  --segno-2: #B9DEF6;
+
+  --ink: #141414;
+  --ink-soft: rgba(20, 20, 20, 0.68);
+  --ink-mute: rgba(20, 20, 20, 0.5);
+  --ink-ghost: rgba(20, 20, 20, 0.14);
+  --line: rgba(20, 20, 20, 0.12);
+
+  --trama:
+    radial-gradient(780px 560px at 2% 2%,   rgba(0, 102, 179, 0.30) 0%, rgba(0, 102, 179, 0) 62%),
+    radial-gradient(700px 560px at 36% 0%,  rgba(0, 169, 79, 0.26) 0%, rgba(0, 169, 79, 0) 60%),
+    radial-gradient(720px 580px at 72% 2%,  rgba(255, 210, 0, 0.36) 0%, rgba(255, 210, 0, 0) 60%),
+    radial-gradient(760px 620px at 99% 32%, rgba(247, 148, 30, 0.30) 0%, rgba(247, 148, 30, 0) 62%),
+    radial-gradient(800px 640px at 86% 92%, rgba(237, 28, 36, 0.22) 0%, rgba(237, 28, 36, 0) 64%),
+    radial-gradient(700px 600px at 4% 90%,  rgba(0, 102, 179, 0.20) 0%, rgba(0, 102, 179, 0) 64%),
+    #F7F2E8;
+  --carta: #F7F2E8;
+}
+
+body.caso-bc,
+body.caso-pl {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--trama);
+  background-attachment: fixed;
+}
+
+/* Le sezioni sono dipinte color avorio e coprirebbero la trama: qui la
+   lasciano passare. I pannelli del mazzo no — devono restare coprenti, e
+   tutto il meccanismo e quello: ognuno nasconde quello prima. */
+.caso-bc .section,
+.caso-pl .section,
+.caso-bc .section__head--wide,
+.caso-pl .section__head--wide,
+.caso-bc .footer,
+.caso-pl .footer { background: transparent; }
+.caso-bc .section,
+.caso-pl .section { border-top-color: var(--line); }
+
+/* Dare ai pannelli la stessa trama del fondo non funziona: `fixed` sul
+   `body` si risolve sulla tela, sui pannelli sulla finestra, e al primo
+   bordo si vede la cucitura -misurata: 233,232,211 sopra contro
+   247,222,152 sotto. Quindi ogni pannello si tiene il suo colore, e i
+   colori avanzano scorrendo: l'oro che scalda fino al rosso su Bacardi,
+   lo spettro in ordine su Polaroid. Il mazzo diventa la storia del
+   colore invece di cinque fondi uguali. */
+.caso-bc .case__slot,
+.caso-pl .case__slot { background: var(--carta); }
+
+.caso-bc .case__slot:nth-of-type(1){background:radial-gradient(1200px 700px at 18% 0%, rgba(242,194,48,.40), rgba(242,194,48,0) 68%), var(--carta)}
+.caso-bc .case__slot:nth-of-type(2){background:radial-gradient(1200px 700px at 82% 0%, rgba(232,163,58,.38), rgba(232,163,58,0) 68%), var(--carta)}
+.caso-bc .case__slot:nth-of-type(3){background:radial-gradient(1200px 700px at 20% 10%, rgba(221,122,60,.34), rgba(221,122,60,0) 68%), var(--carta)}
+.caso-bc .case__slot:nth-of-type(4){background:radial-gradient(1200px 700px at 78% 6%, rgba(200,16,46,.22), rgba(200,16,46,0) 68%), var(--carta)}
+.caso-bc .case__slot:nth-of-type(5){background:radial-gradient(1200px 700px at 26% 4%, rgba(138,154,70,.30), rgba(138,154,70,0) 68%), var(--carta)}
+
+.caso-pl .case__slot:nth-of-type(1){background:radial-gradient(1200px 700px at 16% 0%, rgba(0,102,179,.26), rgba(0,102,179,0) 68%), var(--carta)}
+.caso-pl .case__slot:nth-of-type(2){background:radial-gradient(1200px 700px at 80% 0%, rgba(0,169,79,.24), rgba(0,169,79,0) 68%), var(--carta)}
+.caso-pl .case__slot:nth-of-type(3){background:radial-gradient(1200px 700px at 22% 6%, rgba(255,210,0,.34), rgba(255,210,0,0) 68%), var(--carta)}
+.caso-pl .case__slot:nth-of-type(4){background:radial-gradient(1200px 700px at 78% 4%, rgba(247,148,30,.30), rgba(247,148,30,0) 68%), var(--carta)}
+.caso-pl .case__slot:nth-of-type(5){background:radial-gradient(1200px 700px at 24% 2%, rgba(237,28,36,.24), rgba(237,28,36,0) 68%), var(--carta)}
+
+/* ── il serif, dove conta ── */
+.caso-bc .section__head--wide h2,
+.caso-pl .section__head--wide h2,
+.caso-bc .case__lead,
+.caso-pl .case__lead,
+.caso-pl .case__domanda {
+  font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+.caso-bc .section__head--wide h2,
+.caso-pl .section__head--wide h2 {
+  letter-spacing: -0.015em;
+  line-height: 1;
+  /* il serif ha le grazie che sporgono: senza questo la prima lettera si taglia */
+  padding: 0 0.04em;
+}
+
+/* ── l'etichetta in cima ── */
+.caso-bc .case__meta,
+.caso-pl .case__meta {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--accento);
+}
+
+/* ── la frase che apre ── */
+.caso-bc .case__lead,
+.caso-pl .case__lead {
+  font-size: clamp(30px, 4.2vw, 52px);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.caso-bc .case__lead--stretto,
+.caso-pl .case__lead--stretto { max-width: 20ch; }
+
+/* la domanda sotto, in corsivo serif: e una voce diversa dal titolo */
+.caso-pl .case__domanda {
+  max-width: 34ch;
+  font-size: clamp(19px, 2vw, 27px);
+  font-style: italic;
+  line-height: 1.32;
+  color: var(--ink-soft);
+}
+
+/* L'evidenziatore sta dietro al testo: pseudo-elemento a z-index negativo
+   dentro il contesto creato dallo span. Storto di mezzo grado, se no
+   sembra un rettangolo di Word. */
+.caso-bc .segno,
+.caso-pl .segno {
+  font-style: normal;
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+}
+.caso-bc .segno::before,
+.caso-pl .segno::before {
+  content: "";
+  position: absolute;
+  left: -0.08em;
+  right: -0.08em;
+  top: 0.16em;
+  bottom: 0.08em;
+  background: var(--segno);
+  border-radius: 3px;
+  transform: rotate(-0.7deg);
+  z-index: -1;
+}
+.caso-bc .segno--due::before,
+.caso-pl .segno--due::before { background: var(--segno-2); }
+
+/* ── le note sotto le fotografie ── */
+.caso-bc .case__nota,
+.caso-pl .case__nota {
+  font-size: clamp(15px, 1.2vw, 17.5px);
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.caso-bc .case__nota strong,
+.caso-pl .case__nota strong { color: var(--ink); font-weight: 700; }
+
+/* ── le fotografie: angoli tondi e un'ombra calda, non nera ── */
+.caso-bc .case__shot,
+.caso-pl .case__shot {
+  border-radius: 18px;
+  box-shadow: 0 34px 80px -46px rgba(26, 20, 16, 0.6);
+}
+
+/* ── coda ── */
+.caso-bc .case__back,
+.caso-pl .case__back { color: var(--ink-mute); }
+.caso-bc .case__back a:hover,
+.caso-pl .case__back a:hover { color: var(--accento); }
+.caso-bc .case__credit,
+.caso-pl .case__credit { color: var(--ink-mute); }
+.caso-bc .case__credit a,
+.caso-pl .case__credit a { color: var(--accento); }
+
+/* Su schermo stretto la frase evidenziata non ci sta su una riga sola, e
+   `nowrap` la farebbe uscire di lato. Quando puo andare a capo il segno
+   non puo essere un pseudo-elemento solo, che seguirebbe il primo pezzo e
+   basta: diventa uno sfondo ripetuto su ogni riga. Si perde
+   l'inclinazione, non la lettura. */
+@media (max-width: 760px) {
+  .caso-bc .segno,
+  .caso-pl .segno {
+    white-space: normal;
+    padding: 0 0.06em;
+    background-image: linear-gradient(var(--segno), var(--segno));
+    background-repeat: no-repeat;
+    background-size: 100% 0.74em;
+    background-position: 0 0.2em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .caso-bc .segno::before,
+  .caso-pl .segno::before { display: none; }
+  .caso-bc .segno--due,
+  .caso-pl .segno--due { background-image: linear-gradient(var(--segno-2), var(--segno-2)); }
+}

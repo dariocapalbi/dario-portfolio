@@ -61,8 +61,11 @@ body.caso-fm {
   background: #F7B500; opacity: .14; }
 @media (max-width: 860px) { .caso-fm .tondi-sfondo { display: none; } }
 
+/* La barra in alto resta `fixed` come ovunque: metterla `relative` per
+   alzarla sopra ai cerchi le faceva valere `left: 50%` come scostamento
+   in flusso -larga 1280 e spinta a 640- e la pagina scorreva di lato di
+   640px. Non le serve: e gia a z-index 100, i cerchi stanno a 0. */
 .caso-fm main,
-.caso-fm .nav,
 .caso-fm .footer { position: relative; z-index: 2; }
 
 /* Le sezioni sono dipinte color avorio: su questa pagina la sfumatura sta
@@ -206,3 +209,23 @@ body.caso-fm {
 
 /* La barra in alto si fonde in differenza col fondo: su una pagina quasi
    bianca resta scura, come sulle altre. Il pallino del cursore idem. */
+
+/* Su schermo stretto la frase evidenziata non ci sta su una riga sola, e
+   `nowrap` la faceva uscire di lato -26px fuori dal corpo della pagina.
+   Quando puo andare a capo il segno non puo essere un pseudo-elemento
+   solo, che seguirebbe il primo pezzo e basta: diventa uno sfondo
+   ripetuto su ogni riga. Si perde l'inclinazione, non la lettura. */
+@media (max-width: 760px) {
+  .caso-fm .segno {
+    white-space: normal;
+    padding: 0 0.06em;
+    background-image: linear-gradient(var(--fm-segno), var(--fm-segno));
+    background-repeat: no-repeat;
+    background-size: 100% 0.74em;
+    background-position: 0 0.2em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .caso-fm .segno::before { display: none; }
+  .caso-fm .caso-fm .segno--rosa { background-image: linear-gradient(var(--fm-segno-rosa), var(--fm-segno-rosa)); }
+}

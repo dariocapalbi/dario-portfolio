@@ -11,7 +11,13 @@
   --ink-ghost: rgba(10, 10, 10, 0.16);
   --line: rgba(10, 10, 10, 0.14);
   --accent: #FF4D23;
+  /* Il giallo non lo usa piu niente: l'eroe, la pallina del cursore, la
+     forma dietro al ritratto e il segno nella bio sono passati al lime. */
   --yellow: #FFF959;
+  /* il lime del pitch, campionato dalla pagina: e il fondo dell'eroe */
+  --lime: #E3F162;
+  /* il lilla del fiore, dalla stessa pagina */
+  --lilla: #DEC7F1;
   --dark: #0A0A0A;
   --dark-line: rgba(245, 244, 241, 0.16);
 
@@ -102,7 +108,7 @@ img { max-width: 100%; display: block; }
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: var(--yellow);
+  background: var(--lime);
   transition: width 0.8s cubic-bezier(0.21, 1, 0.4, 0.98),
     height 0.8s cubic-bezier(0.21, 1, 0.4, 0.98);
 }
@@ -273,7 +279,7 @@ html.has-custom-cursor a.case__slot {
 }
 
 .case__block--origin h3 {
-  color: rgba(245, 244, 241, 0.5);
+  color: var(--ink-mute);
 }
 
 .case__block--origin p {
@@ -484,9 +490,13 @@ html.has-custom-cursor a.case__slot {
   justify-content: flex-end;
 }
 
+/* Al posto del blocco nero: il lime. Il titolo e inchiostro, e il segno
+   dietro a "connect" passa al lilla: il giallo sul lime sarebbe la stessa
+   cosa, e il lilla e l'altro colore della stessa pagina da cui viene il
+   lime. */
 .hero__panel--dark {
-  background: var(--dark);
-  color: var(--paper);
+  background: var(--lime);
+  color: var(--ink);
 }
 
 .hero__panel--light {
@@ -504,9 +514,14 @@ html.has-custom-cursor a.case__slot {
   /* Sized to fill the dark panel. 80px at 1280x800 is the ceiling: the four
      lines still wrap to eight there, and one step more tips them to nine and
      pushes the hero past the viewport, which would unpin it. */
-  font-size: clamp(34px, min(6.25vw, 10vh), 88px);
-  line-height: 1.0;
-  letter-spacing: -0.01em;
+  /* Il serif ha l'occhio piu piccolo del Switzer: alla stessa misura si
+     legge piu minuto. Cresce dell'8,75% e in cambio l'interlinea scende a
+     0.92, cosi l'altezza totale resta quella di prima -640px a 1280x800,
+     otto righe- e l'eroe continua a stare dentro la finestra. Un passo
+     piu su va a nove righe, sfonda e si sgancia. */
+  font-size: clamp(37px, min(6.8vw, 10.9vh), 95px);
+  line-height: 0.92;
+  letter-spacing: -0.018em;
 }
 
 .hero__headline span {
@@ -516,9 +531,43 @@ html.has-custom-cursor a.case__slot {
   animation: rise 0.9s var(--ease) forwards;
 }
 
+/* Lo slogan e in serif come i case study, e "connect" non e piu giallo di
+   suo: ha il giallo dietro, come l'evidenziatore delle altre pagine. Il
+   testo torna scuro perche sopra al giallo l'avorio non si leggerebbe.
+   Il segno sta dietro -pseudo-elemento a z-index negativo dentro il
+   contesto creato dall'accento stesso- e storto di un grado. */
+.hero__headline {
+  font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+
 .hero__accent {
   font-style: normal;
-  color: var(--yellow);
+  position: relative;
+  z-index: 1;
+  padding: 0 0.05em;
+  color: var(--ink);
+}
+
+.hero__accent::before {
+  content: "";
+  position: absolute;
+  left: -0.03em;
+  right: -0.03em;
+  top: 0.15em;
+  bottom: 0.1em;
+  background: var(--lilla);
+  border-radius: 4px;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+/* "connect." non ha lettere alte ne code: il segno parte appena sopra
+   l'altezza della x e finisce sulla linea di base, cosi sta addosso alla
+   parola invece di galleggiarle sopra. */
+.hero__accent::before {
+  top: 0.3em;
+  bottom: 0;
 }
 
 .hero__headline span:nth-child(1) { animation-delay: 0.05s; }
@@ -563,6 +612,60 @@ html.has-custom-cursor a.case__slot {
 .wordmark__img {
   width: clamp(320px, 42vw, 720px);
   height: auto;
+}
+
+/* Il segno giallo dell'hero, riusabile nel testo: sta dietro alla parola
+   -pseudo-elemento a z-index negativo dentro il contesto creato dallo span
+   stesso- e storto di un grado, se no sembra un rettangolo di Word. */
+.segno-lime {
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+  padding: 0 0.05em;
+}
+
+.segno-lime::before {
+  content: "";
+  position: absolute;
+  left: -0.03em;
+  right: -0.03em;
+  top: 0.26em;
+  bottom: 0.02em;
+  background: var(--lime);
+  border-radius: 4px;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+/* Su schermo stretto la frase va a capo e un pseudo-elemento solo
+   seguirebbe il primo pezzo: il segno diventa uno sfondo ripetuto riga
+   per riga. Si perde l'inclinazione, non la lettura. */
+@media (max-width: 760px) {
+  .segno-lime {
+    white-space: normal;
+    background-image: linear-gradient(var(--lime), var(--lime));
+    background-repeat: no-repeat;
+    background-size: 100% 0.72em;
+    background-position: 0 0.3em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .segno-lime::before { display: none; }
+}
+
+/* ── i titoli, tutti in serif ──
+   Il portfolio parla in due voci: i titoli in DM Serif Display, il resto
+   -testo, etichette, bottoni, barra- resta Switzer. Il peso scende a 400
+   perche questo serif ha solo quello, e non gli serve altro: a queste
+   misure il contrasto fra aste e grazie basta da solo. */
+.hero__headline,
+.section__head h2,
+.section__head--wide h2,
+.contact__headline,
+.work__title,
+.services__name {
+  font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  font-weight: 400;
 }
 
 /* -------------------- sections -------------------- */
@@ -611,18 +714,26 @@ html.has-custom-cursor a.case__slot {
    dentro-. La maschera cresce verso il basso, il margine negativo rimette
    l'impaginato dov'era, e lo stato nascosto scende altrettanto perche la
    parola parta comunque fuori vista. */
+/* Col serif la maschera va piu in giu ancora: DM Serif Display ha
+   un'interlinea naturale di 1.36em, e dentro una riga da 0.95 le grazie
+   della base escono dal riquadro. A 0.22em "Services" e "About Me"
+   venivano tagliati di netto sotto. */
 .emerge-word {
   display: inline-block;
   overflow: hidden;
   vertical-align: top;
-  padding-bottom: 0.22em;
-  margin-bottom: -0.22em;
+  /* La maschera cresce anche di lato: nel serif l'inchiostro dell'ultima
+     lettera esce dalla sua larghezza di avanzamento -la s di "Let's", la k
+     di "Work", la e di "About Me"- e il riquadro della parola la tagliava.
+     Il margine negativo rimette l'impaginato e le spaziature dov'erano. */
+  padding: 0 0.12em 0.34em;
+  margin: 0 -0.12em -0.34em;
 }
 
 .emerge-word > span {
   display: inline-block;
   opacity: 0;
-  transform: translateY(calc(100% + 0.24em));
+  transform: translateY(calc(100% + 0.36em));
   transition: transform 0.6s cubic-bezier(0.21, 1, 0.4, 0.98),
     opacity 0.6s cubic-bezier(0.21, 1, 0.4, 0.98);
 }
@@ -654,31 +765,38 @@ html.has-custom-cursor a.case__slot {
 
 .section__head h2 {
   margin: 0;
-  font-size: clamp(28px, 4vw, 44px);
+  font-size: clamp(30px, 4.35vw, 48px);
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
 /* Full-width section intro: the heading spans edge to edge at a huge
    fluid size, pinned like the rest of the page's sections until the
    content after it slides up and covers it. Declared after the base
    .section__head h2 rule so it wins at equal specificity. */
+/* L'imbottitura verticale non e decorativa: DM Serif Display ha
+   un'interlinea naturale di 1.36em e dentro una riga da 0.95 il disegno
+   della lettera esce di 0.205em per lato. Con i 30px di prima, a 12vw su
+   1280, mancavano otto pixel e "Services" e "About Me" perdevano le
+   grazie di base. Adesso l'imbottitura cresce col titolo. */
 .section__head--full {
   position: relative;
   align-items: center;
   justify-content: center;
   height: auto;
   margin: 0 calc(-1 * var(--gutter));
-  padding: clamp(14px, 3vh, 30px) var(--gutter);
+  padding: clamp(14px, 2.7vw, 56px) var(--gutter);
   background: var(--paper);
   overflow: hidden;
 }
 
 .section__head--full h2,
 .section__head--wide h2 {
-  font-size: 11vw;
+  /* +9% sul Switzer che c'era prima: il serif ha l'occhio piu piccolo e
+     alla stessa misura si leggeva piu minuto. */
+  font-size: 12vw;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   line-height: 0.95;
   white-space: nowrap;
 }
@@ -694,7 +812,7 @@ html.has-custom-cursor a.case__slot {
   justify-content: center;
   height: auto;
   margin: 0 calc(-1 * var(--gutter)) clamp(32px, 5vw, 64px);
-  padding: clamp(14px, 3vh, 30px) var(--gutter);
+  padding: clamp(14px, 2.7vw, 56px) var(--gutter);
 }
 
 /* I titoli stavano bassi nel loro blocco: sopra avevano il padding della
@@ -888,9 +1006,9 @@ html.has-custom-cursor a.case__slot {
 .work__title {
   position: relative;
   margin: 0;
-  font-size: clamp(28px, 4vw, 44px);
+  font-size: clamp(30px, 4.35vw, 48px);
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   color: var(--ink);
 }
 
@@ -1100,9 +1218,9 @@ div.work__slot {
   /* Capped by height as well: the stage is pinned, so the whole list has to
      fit one screen. Three items at 9vw made it 577px tall in a 550px window,
      taller than the viewport it pins inside, and sticky cannot hold that. */
-  font-size: clamp(32px, min(9vw, 12vh), 112px);
+  font-size: clamp(35px, min(9.8vw, 13vh), 122px);
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   line-height: 1;
   color: var(--ink-ghost);
   transition: color 0.5s var(--ease);
@@ -1143,10 +1261,11 @@ div.work__slot {
    size so the two do not compete. */
 .about__statement {
   margin: 0 0 clamp(24px, 3vw, 36px);
-  font-size: clamp(22px, 3.4vw, 36px);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.35;
+  font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  font-size: clamp(24px, 3.7vw, 40px);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.22;
 }
 
 .about__bio {
@@ -1327,10 +1446,10 @@ div.work__slot {
   width: calc(100% + 2 * var(--gutter));
   margin: 0 calc(-1 * var(--gutter));
   padding: 0 4vw;
-  font-size: 13vw;
+  font-size: 15.4vw;
   font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
   white-space: nowrap;
   text-align: center;
 }

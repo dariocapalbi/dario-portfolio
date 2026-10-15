@@ -1,0 +1,212 @@
+/* ───────────────────────────────────────────────────────────────
+   Flagged — il case study, a parte.
+
+   Stessa lingua della pagina di Fitmate: titoli in serif grosso,
+   etichette in maiuscoletto spaziato, l'evidenziatore dietro una
+   parola, fondi a sfumatura morbida. I colori pero sono quelli del
+   prodotto — inchiostro #071A31, carta, menta, lavanda, cielo, lime —
+   e qui niente cerchi dietro: la pagina parla di documenti e scadenze,
+   non ha bisogno di cose che galleggiano.
+
+   Tutto sotto `body.caso-fl`, cosi Bacardi e Polaroid restano come
+   sono e styles.css non si tocca.
+   ─────────────────────────────────────────────────────────────── */
+
+body.caso-fl {
+  --fl-menta: #0F9488;
+  --fl-menta-pal: #BAF0EC;
+  --fl-lavanda: #EDE0FF;
+  --fl-viola: #6035CC;
+  --fl-blu: #175CD3;
+  --fl-lime: #6E8C1F;
+  --fl-lime-pal: #F2F8DE;
+  /* i due segni dell'evidenziatore: chiari, ci va sopra testo scuro */
+  --fl-segno: #B7F0EA;
+  --fl-segno-lilla: #E2D2FF;
+
+  --ink: #071A31;
+  --ink-soft: rgba(7, 26, 49, 0.68);
+  --ink-mute: rgba(7, 26, 49, 0.5);
+  --ink-ghost: rgba(7, 26, 49, 0.14);
+  --line: rgba(7, 26, 49, 0.12);
+
+  font-family: 'DM Sans', system-ui, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(880px 620px at 4% 2%,  rgba(170, 243, 236, 0.52) 0%, rgba(170, 243, 236, 0) 62%),
+    radial-gradient(840px 600px at 96% 6%, rgba(237, 224, 255, 0.60) 0%, rgba(237, 224, 255, 0) 60%),
+    radial-gradient(760px 660px at 92% 64%,rgba(159, 208, 249, 0.42) 0%, rgba(159, 208, 249, 0) 62%),
+    radial-gradient(700px 600px at 6% 92%, rgba(242, 248, 222, 0.62) 0%, rgba(242, 248, 222, 0) 64%),
+    #FCFBF8;
+  background-attachment: fixed;
+}
+
+/* Le sezioni sono dipinte color avorio: qui la sfumatura sta sul `body`
+   e loro devono lasciarla passare, se no si vede solo in cima. */
+.caso-fl .section,
+.caso-fl .section__head--wide,
+.caso-fl .footer { background: transparent; }
+.caso-fl .section { border-top-color: rgba(7, 26, 49, 0.1); }
+
+/* ── il serif, dove conta ── */
+.caso-fl .section__head--wide h2,
+.caso-fl .case__lead,
+.caso-fl .case__block h3,
+.caso-fl .case__block p.case__statement,
+.caso-fl .case__needs-title,
+.caso-fl .case__statuses dt {
+  font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+.caso-fl .section__head--wide h2 {
+  letter-spacing: -0.015em;
+  line-height: 1;
+  /* il serif ha le grazie che sporgono: senza questo la "F" si taglia */
+  padding: 0 0.04em;
+}
+
+/* ── l'etichetta in cima ── */
+.caso-fl .case__meta {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--fl-menta);
+}
+
+/* ── la frase che apre ── */
+.caso-fl .case__lead {
+  font-size: clamp(30px, 4.3vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+/* L'evidenziatore sta dietro al testo: pseudo-elemento a z-index negativo
+   dentro il contesto creato dallo span. Storto di mezzo grado, se no
+   sembra un rettangolo di Word. */
+.caso-fl .segno {
+  font-style: normal;
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+}
+.caso-fl .segno::before {
+  content: "";
+  position: absolute;
+  left: -0.08em;
+  right: -0.08em;
+  top: 0.16em;
+  bottom: 0.08em;
+  background: var(--fl-segno);
+  border-radius: 3px;
+  transform: rotate(-0.7deg);
+  z-index: -1;
+}
+.caso-fl .segno--lilla::before { background: var(--fl-segno-lilla); }
+
+/* ── i titoli di sezione: titoli, non etichette piccole ── */
+.caso-fl .case__block h3 {
+  margin: 0 0 clamp(14px, 1.8vw, 22px);
+  font-size: clamp(27px, 3.1vw, 42px);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-transform: none;
+  color: var(--ink);
+}
+.caso-fl .case__block h3 em { font-style: italic; }
+
+.caso-fl .case__block p,
+.caso-fl .case__block li {
+  font-size: clamp(15px, 1.2vw, 17.5px);
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.caso-fl .case__block strong { color: var(--ink); font-weight: 700; }
+.caso-fl .case__block em { font-style: italic; }
+
+/* ── il blocco scuro: resta l'unico fondo pieno della pagina ── */
+.caso-fl .case__block--origin {
+  background: var(--ink);
+  border-radius: 20px;
+}
+.caso-fl .case__block--origin h3 { color: var(--fl-menta-pal); }
+.caso-fl .case__block--origin p { color: rgba(252, 251, 248, 0.76); }
+.caso-fl .case__block--origin strong { color: #FCFBF8; }
+
+/* ── la frase che chiude una sezione, su un fondo suo ── */
+.caso-fl .case__block p.case__statement {
+  margin-top: clamp(22px, 3vw, 34px);
+  padding: clamp(24px, 3.2vw, 42px);
+  border-radius: 20px;
+  background: linear-gradient(118deg, rgba(170, 243, 236, 0.4), rgba(237, 224, 255, 0.5));
+  font-size: clamp(25px, 3.3vw, 42px);
+  line-height: 1.14;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+/* Dentro al blocco scuro la frase non puo tenere il fondo chiaro: stessa
+   specificita della regola qui sopra, quindi conta l'ordine. */
+.caso-fl .case__block--origin p.case__statement {
+  background: rgba(252, 251, 248, 0.08);
+  color: #FCFBF8;
+}
+.caso-fl .case__block--origin .segno::before { background: rgba(170, 243, 236, 0.28); }
+
+/* ── le fasi del processo: pillole menta ── */
+.caso-fl .case__fase {
+  display: inline-block;
+  margin-bottom: clamp(12px, 1.6vw, 18px);
+  padding: 7px 15px;
+  border-radius: 999px;
+  background: var(--fl-menta);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* ── l'elenco dei bisogni ── */
+.caso-fl .case__needs-num { font-weight: 700; color: var(--fl-menta); }
+.caso-fl .case__needs-title { font-size: clamp(19px, 1.9vw, 26px); letter-spacing: -0.01em; }
+.caso-fl .case__needs-text { color: var(--ink-soft); }
+
+/* ── i tre stati: i pallini tengono i colori veri del prodotto ── */
+.caso-fl .case__statuses dt { font-size: clamp(18px, 1.7vw, 23px); letter-spacing: -0.01em; }
+.caso-fl .case__statuses dd { color: var(--ink-soft); }
+
+/* ── le figure: angoli tondi e un'ombra d'inchiostro, non nera ── */
+.caso-fl .case__fig img {
+  border-radius: 18px;
+  box-shadow: 0 34px 80px -46px rgba(7, 26, 49, 0.6);
+}
+.caso-fl .case__fig figcaption { font-size: clamp(12px, 1vw, 13.5px); color: var(--ink-mute); }
+
+/* ── coda ── */
+.caso-fl .case__back { color: var(--ink-mute); }
+.caso-fl .case__back a:hover { color: var(--fl-menta); }
+.caso-fl .case__credit { color: var(--ink-mute); }
+.caso-fl .case__credit a { color: var(--fl-menta); text-decoration-color: rgba(15, 148, 136, 0.45); }
+
+/* Su schermo stretto la frase evidenziata non ci sta su una riga sola, e
+   `nowrap` la faceva uscire di lato -26px fuori dal corpo della pagina.
+   Quando puo andare a capo il segno non puo essere un pseudo-elemento
+   solo, che seguirebbe il primo pezzo e basta: diventa uno sfondo
+   ripetuto su ogni riga. Si perde l'inclinazione, non la lettura. */
+@media (max-width: 760px) {
+  .caso-fl .segno {
+    white-space: normal;
+    padding: 0 0.06em;
+    background-image: linear-gradient(var(--fl-segno), var(--fl-segno));
+    background-repeat: no-repeat;
+    background-size: 100% 0.74em;
+    background-position: 0 0.2em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .caso-fl .segno::before { display: none; }
+  .caso-fl .caso-fl .segno--lilla { background-image: linear-gradient(var(--fl-segno-lilla), var(--fl-segno-lilla)); }
+}

@@ -60,7 +60,15 @@ body{
 .corpo{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 18px 100px;scrollbar-width:none}
 .corpo::-webkit-scrollbar{display:none}
 
-.capo{display:flex;align-items:center;justify-content:space-between;padding:6px 0 14px}
+/* Tre pezzi invece di due -indietro, titolo, tondi- quindi non va piu
+   bene `space-between`: i tondi si spingono da soli a destra. */
+.capo{display:flex;align-items:center;gap:11px;padding:6px 0 14px}
+.capo .tondi{margin-left:auto}
+.tornare{width:36px;height:36px;flex:none;border-radius:50%;padding:0;cursor:pointer;
+  border:1px solid var(--bordo);background:var(--carta);color:var(--ink);display:none;place-items:center}
+.tornare:active{transform:scale(.93)}
+/* Appare solo quando c'e davvero un indietro dove tornare. */
+html.c-pila .tornare{display:grid}
 .capo h1{font-size:25px;font-weight:800;letter-spacing:-.02em}
 .capo .tondi{display:flex;gap:9px;align-items:center}
 .tondo{width:38px;height:38px;border-radius:50%;background:var(--carta);display:grid;place-items:center;
@@ -158,10 +166,6 @@ body{
   font-family:inherit;border-radius:999px;padding:8px 15px;font-size:12.5px;font-weight:700}
 .chip.on{background:var(--viola);color:#fff;border-color:var(--viola)}
 
-.segmenti{display:flex;gap:7px;margin:4px 0 14px}
-.segmento{border:0;cursor:pointer;font-family:inherit;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:700;
-  background:var(--carta);border:1px solid var(--bordo);color:var(--ink-2)}
-.segmento.on{background:var(--viola);color:#fff;border-color:var(--viola)}
 .cerca{display:flex;align-items:center;gap:9px;background:var(--carta);border:1px solid var(--bordo);
   border-radius:999px;padding:10px 15px;margin-bottom:13px}
 .cerca input{border:0;outline:0;font-family:inherit;font-size:13.5px;width:100%;background:transparent;color:var(--ink)}
@@ -202,12 +206,15 @@ body{
 
 .cat-riga{display:flex;gap:11px;overflow-x:auto;margin:0 -18px;padding:2px 18px 6px;scrollbar-width:none}
 .cat-riga::-webkit-scrollbar{display:none}
+/* La foto e la carta. Prima stava in multiply sopra a un colore pieno, e
+   siccome i colori erano quasi tutti rosa le sei categorie si somigliavano
+   tutte: ora ognuna tiene i colori suoi, col velo solo dove cade il nome. */
 .cat{flex:none;width:128px;height:150px;border-radius:var(--r-s);overflow:hidden;position:relative;cursor:pointer;
-  display:flex;align-items:flex-start}
-.cat .ph{position:absolute;right:0;top:0;bottom:0;width:62%;background-size:cover;background-position:center top;
-  mix-blend-mode:multiply;opacity:.95}
+  display:flex;align-items:flex-start;background-size:cover;background-position:center}
+.cat .vl{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,10,30,.62),rgba(18,10,30,.08) 58%)}
 .cat b{position:relative;z-index:2;color:#fff;font-size:15px;font-weight:800;line-height:1.15;padding:13px 12px;
-  letter-spacing:-.01em;text-shadow:0 1px 6px rgba(0,0,0,.18)}
+  letter-spacing:-.01em}
+.cat:active{transform:scale(.97)}
 .vedi-tutto{font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer;
   border-bottom:2px solid var(--rosa);padding-bottom:1px}
 
@@ -220,8 +227,6 @@ body{
 .stelle i{color:var(--bordo);font-style:normal}
 
 /* scheda personale del trainer */
-.indietro{display:flex;align-items:center;gap:7px;border:0;background:none;cursor:pointer;font-family:inherit;
-  font-size:25px;font-weight:800;letter-spacing:-.02em;color:var(--ink);padding:0}
 .pt-dett{text-align:center;padding-top:10px}
 .pt-dett > img{width:148px;height:148px;border-radius:50%;object-fit:cover;margin:0 auto;display:block;
   box-shadow:0 16px 34px -16px rgba(66,26,110,.6)}
@@ -301,6 +306,14 @@ body{
   font-size:15px;font-weight:800;background:var(--rosa);color:#fff;transition:transform .14s ease}
 .ev-pie button:active{transform:scale(.95)}
 .ev-pie button.dentro{background:var(--viola-lav);color:var(--viola-cupo)}
+
+/* ─── schermata di una categoria ─── */
+.cat-eroe{height:170px;border-radius:var(--r);overflow:hidden;position:relative;background-size:cover;
+  background-position:center;box-shadow:var(--ombra)}
+.cat-eroe .vl{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,10,30,.18) 0 40%,rgba(18,10,30,.76))}
+.cat-eroe .tx{position:absolute;left:15px;right:15px;bottom:14px;color:#fff}
+.cat-eroe h2{font-size:25px;font-weight:800;letter-spacing:-.02em}
+.cat-eroe span{font-size:12px;font-weight:600;opacity:.88}
 
 /* ─── lettore degli esercizi ─── */
 /* Il lettore sta su carta bianca come il resto dell'app: solo la clip
@@ -407,7 +420,7 @@ body{
 .vista{display:none} .vista.on{display:block}
 
 /* saluto in cima alla Home */
-.saluto{font-size:13.5px;color:var(--ink-2);font-weight:600;margin-top:-6px}
+.saluto{font-size:13.5px;color:var(--ink-2);font-weight:600;margin-top:5px}
 
 /* ─── questionario d'ingresso ─── */
 .survey{position:absolute;inset:0;z-index:50;background:linear-gradient(165deg,#F7F1FF,#FFEAF4 60%,#FFF);
@@ -508,17 +521,9 @@ body{
         <!-- ───────────── HOME ───────────── -->
         <section class="vista on" data-vista="home" id="vista-home">
           <div class="capo">
-            <div>
-              <h1>Hi, Emma</h1>
-              <p class="saluto" id="saluto-obiettivo">Let's keep the week going</p>
-            </div>
-            <div class="tondi">
-              <button class="tondo" data-brindisi="No new notifications">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1125" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
-                <i class="pallino"></i>
-              </button>
-              <img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account">
-            </div>
+            <button class="tornare" data-indietro aria-label="Back"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg></button>
+            <div><h1>Hi, Emma</h1><p class="saluto" id="saluto-obiettivo">Let's keep the week going</p></div>
+            <div class="tondi"><button class="tondo" data-brindisi="No new notifications"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1A1125"><path d="M12 2.4a6 6 0 0 0-6 6c0 4.3-1.1 5.8-1.7 6.4a1 1 0 0 0 .7 1.7h14a1 1 0 0 0 .7-1.7c-.6-.6-1.7-2.1-1.7-6.4a6 6 0 0 0-6-6z"/><path d="M9.8 18.4a2.4 2.4 0 0 0 4.4 0z"/></svg><i class="pallino"></i></button><img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account"></div>
           </div>
 
           <div class="eroe">
@@ -537,24 +542,24 @@ body{
 
           <div class="azioni">
             <div class="azione" data-vai="workout">
-              <span class="ic" style="background:var(--viola-lav)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7830FC" stroke-width="2" stroke-linecap="round"><path d="M6.5 9v6M17.5 9v6M3.5 10.5v3M20.5 10.5v3M6.5 12h11"/></svg></span>
+              <span class="ic" style="background:var(--viola-lav)"><svg width="19" height="19" viewBox="0 0 24 24" fill="#7830FC"><rect x="2" y="9.4" width="2.9" height="5.2" rx="1.2"/><rect x="5.5" y="7.2" width="3.4" height="9.6" rx="1.5"/><rect x="8.9" y="10.6" width="6.2" height="2.8" rx="1.2"/><rect x="15.1" y="7.2" width="3.4" height="9.6" rx="1.5"/><rect x="19.1" y="9.4" width="2.9" height="5.2" rx="1.2"/></svg></span>
               <span>Start a<br>Workout</span>
             </div>
             <div class="azione" data-vai="trainer">
-              <span class="ic" style="background:var(--rosa-pal)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EC338B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3 2.7-5 6-5s6 2 6 5"/><path d="M16 5.4a3.2 3.2 0 0 1 0 5.2"/></svg></span>
+              <span class="ic" style="background:var(--rosa-pal)"><svg width="19" height="19" viewBox="0 0 24 24" fill="#EC338B"><path d="M12 3.2c-5 0-9.2 3.4-9.2 7.6 0 2.3 1.2 4.3 3.1 5.7l-.8 3.3a.85.85 0 0 0 1.26.92l3.5-2.1c.7.1 1.4.16 2.14.16 5 0 9.2-3.4 9.2-7.98S17 3.2 12 3.2z"/></svg></span>
               <span>Talk to a<br>Trainer</span>
             </div>
             <div class="azione" data-vai="meetup">
-              <span class="ic" style="background:var(--giallo-pal)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F7B500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><circle cx="5" cy="11" r="2.4"/><circle cx="19" cy="11" r="2.4"/><path d="M5.5 20c0-2.6 2.9-4.5 6.5-4.5s6.5 1.9 6.5 4.5"/></svg></span>
-              <span>Join a<br>Meetup</span>
+              <span class="ic" style="background:var(--giallo-pal)"><svg width="19" height="19" viewBox="0 0 24 24" fill="#F7B500"><circle cx="9" cy="7.4" r="3.4"/><circle cx="17.6" cy="8.8" r="2.5"/><path d="M2.6 19.1c0-3.4 2.9-5.6 6.4-5.6s6.4 2.2 6.4 5.6a1 1 0 0 1-1 1H3.6a1 1 0 0 1-1-1z"/><path d="M17.4 13.2c2.3.2 4 1.8 4 4a.9.9 0 0 1-.9.9h-2.6c.1-1.8-.1-3.5-.5-4.9z"/></svg></span>
+              <span>Find a<br>Meetup</span>
             </div>
-            <div class="azione" data-vai="account">
-              <span class="ic" style="background:var(--azzurro-pal)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E9BF0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18V12M10 18V6M16 18v-9M4 18h16"/></svg></span>
+            <div class="azione" data-vai="progress">
+              <span class="ic" style="background:var(--azzurro-pal)"><svg width="19" height="19" viewBox="0 0 24 24" fill="#2E9BF0"><path d="M12 20.6 4.6 13.3A5.2 5.2 0 0 1 12 6.1a5.2 5.2 0 0 1 7.4 7.2z"/></svg></span>
               <span>Track<br>Activity</span>
             </div>
           </div>
 
-          <div class="riga-tit"><h3>Your progress</h3><a data-vai="account">See more &rsaquo;</a></div>
+          <div class="riga-tit"><h3>Your progress</h3><a data-vai="progress">See more &rsaquo;</a></div>
           <div class="progresso">
             <div class="stat"><span class="anello" id="h-an-w"></span><span><span class="et">Workouts</span><span class="val" id="h-v-w">3/5</span></span></div>
             <div class="stat"><span class="anello" id="h-an-t"></span><span><span class="et">Active time</span><span class="val" id="h-v-t">120 min</span></span></div>
@@ -568,19 +573,14 @@ body{
         <!-- ───────────── MEETUP ───────────── -->
         <section class="vista" data-vista="meetup">
           <div class="capo">
-            <h1>Meetup</h1>
-            <div class="tondi">
-              <button class="tondo" data-brindisi="No new notifications">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1125" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
-                <i class="pallino"></i>
-              </button>
-              <img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account">
-            </div>
+            <button class="tornare" data-indietro aria-label="Back"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg></button>
+            <h1>Community</h1>
+            <div class="tondi"><button class="tondo" data-brindisi="No new notifications"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1A1125"><path d="M12 2.4a6 6 0 0 0-6 6c0 4.3-1.1 5.8-1.7 6.4a1 1 0 0 0 .7 1.7h14a1 1 0 0 0 .7-1.7c-.6-.6-1.7-2.1-1.7-6.4a6 6 0 0 0-6-6z"/><path d="M9.8 18.4a2.4 2.4 0 0 0 4.4 0z"/></svg><i class="pallino"></i></button><img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account"></div>
           </div>
           <p class="guida">Find people training nearby and make the workout the plan with friends, instead of the thing competing with it.</p>
           <div class="cerca">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A79DB4" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
-            <input id="filtro" placeholder="Search activities, locations…">
+            <input id="filtro" placeholder="Search meetups, places, people…">
           </div>
           <div class="chips" id="chip-incontri"></div>
           <div class="chips" id="chip-quando"></div>
@@ -591,10 +591,8 @@ body{
         <!-- ───────────── SCHEDA DI UN INCONTRO ───────────── -->
         <section class="vista" data-vista="evento">
           <div class="capo">
-            <button class="indietro" data-vai="meetup">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg>
-              Meetup
-            </button>
+            <button class="tornare" data-indietro aria-label="Back"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg></button>
+            <h1>Community</h1>
             <div class="tondi"><img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account"></div>
           </div>
           <div id="ev-scheda"></div>
@@ -602,7 +600,11 @@ body{
 
         <!-- ───────────── WORKOUT ───────────── -->
         <section class="vista" data-vista="workout">
-          <div class="capo"><h1>Workout</h1></div>
+          <div class="capo">
+            <button class="tornare" data-indietro aria-label="Back"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg></button>
+            <h1>Workout</h1>
+            <div class="tondi"><img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account"></div>
+          </div>
 
           <div class="eroe">
             <div class="foto" style="background-image:url('assets/proto/fm-p-hero2.webp')"></div>
@@ -626,6 +628,7 @@ body{
         <!-- ───────────── PERSONAL TRAINER ───────────── -->
         <section class="vista" data-vista="trainer">
           <div class="capo">
+            <button class="tornare" data-indietro aria-label="Back"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg></button>
             <h1>Trainer</h1>
             <div class="tondi"><img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account"></div>
           </div>
@@ -642,27 +645,33 @@ body{
         <!-- ───────────── SCHEDA DI UN TRAINER ───────────── -->
         <section class="vista" data-vista="pt-dett">
           <div class="capo">
-            <button class="indietro" data-vai="trainer">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg>
-              Trainer
-            </button>
+            <button class="tornare" data-indietro aria-label="Back"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg></button>
+            <h1>Trainer</h1>
             <div class="tondi"><img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account"></div>
           </div>
           <div id="pt-scheda"></div>
         </section>
 
-        <!-- ───────────── ACCOUNT ───────────── -->
-        <section class="vista" data-vista="account">
-          <div class="capo"><h1>Account</h1></div>
-
-          <div class="pannello" style="display:flex;align-items:center;gap:14px">
-            <img src="assets/proto/pt-emma.webp" alt="Emma" style="width:58px;height:58px;border-radius:50%;object-fit:cover;flex:none;display:block">
-            <span>
-              <span style="display:block;font-size:19px;font-weight:800;letter-spacing:-.01em">Emma</span>
-              <span style="display:block;font-size:13px;color:var(--ink-2);margin-top:2px">30 · Recruiter · London</span>
-            </span>
+        <!-- ───────────── CATEGORIA DI TRAINER ─────────────
+             Una categoria non filtra piu la lista li sotto: si apre. -->
+        <section class="vista" data-vista="categoria">
+          <div class="capo">
+            <button class="tornare" data-indietro aria-label="Back"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg></button>
+            <h1>Categories</h1>
+            <div class="tondi"><img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account"></div>
           </div>
+          <div id="cat-scheda"></div>
+        </section>
 
+        <!-- ───────────── YOUR PROGRESS ─────────────
+             Era dentro Account, ma quello che si e fatto in settimana non e
+             una preferenza: e il motivo per cui si torna sull'app. -->
+        <section class="vista" data-vista="progress">
+          <div class="capo">
+            <button class="tornare" data-indietro aria-label="Back"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg></button>
+            <h1>Your progress</h1>
+            <div class="tondi"><img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account"></div>
+          </div>
           <div class="riga-tit"><h3>This week</h3><span style="font-size:12.5px;color:var(--ink-3)">8 – 14 Apr</span></div>
           <div class="progresso">
             <div class="stat"><span class="anello" id="an-w"></span><span><span class="et">Workouts</span><span class="val" id="v-w">3/5</span></span></div>
@@ -680,12 +689,45 @@ body{
 
           <div class="riga-tit"><h3>Meetups joined</h3><span style="font-size:12.5px;color:var(--ink-3)" id="p-meet">0</span></div>
           <div class="lista" id="miei-incontri"></div>
+        </section>
+
+        <!-- ───────────── SETTINGS ─────────────
+             Qui resta chi sei e cosa preferisci, non cosa hai fatto. -->
+        <section class="vista" data-vista="account">
+          <div class="capo">
+            <button class="tornare" data-indietro aria-label="Back"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg></button>
+            <h1>Settings</h1>
+            <div class="tondi"><img class="ritratto" src="assets/proto/pt-emma.webp" alt="Emma" data-vai="account"></div>
+          </div>
+          <div class="pannello" style="display:flex;align-items:center;gap:14px">
+            <img src="assets/proto/pt-emma.webp" alt="Emma" style="width:58px;height:58px;border-radius:50%;object-fit:cover;flex:none;display:block">
+            <span>
+              <span style="display:block;font-size:19px;font-weight:800;letter-spacing:-.01em">Emma</span>
+              <span style="display:block;font-size:13px;color:var(--ink-2);margin-top:2px">30 · Recruiter · London</span>
+            </span>
+            <button class="unisci" style="margin-left:auto;background:var(--viola-lav);color:var(--viola-cupo)" data-brindisi="Editing your profile — prototype stops here">Edit</button>
+          </div>
+
+          <div class="riga-tit"><h3>Training</h3></div>
+          <div class="pannello" style="padding:4px 16px">
+            <div class="vocep" data-brindisi="Weekly goal: 5 workouts">Weekly goal <span style="color:var(--ink-3)">5 workouts &rsaquo;</span></div>
+            <div class="vocep" data-brindisi="Starting level: Intermediate">Starting level <span style="color:var(--ink-3)">Intermediate &rsaquo;</span></div>
+            <div class="vocep" data-brindisi="What you train for, from the survey">Goals <span style="color:var(--ink-3)" id="set-obiettivi">Strength &rsaquo;</span></div>
+            <div class="vocep" data-brindisi="Units: metric">Units <span style="color:var(--ink-3)">Metric &rsaquo;</span></div>
+          </div>
+
+          <div class="riga-tit"><h3>App</h3></div>
+          <div class="pannello" style="padding:4px 16px">
+            <div class="vocep" data-brindisi="Notifications are on">Notifications <span style="color:var(--ink-3)">On &rsaquo;</span></div>
+            <div class="vocep" data-brindisi="Apple Health is connected">Connected apps <span style="color:var(--ink-3)">Health &rsaquo;</span></div>
+            <div class="vocep" data-brindisi="Privacy settings">Privacy <span style="color:var(--ink-3)">&rsaquo;</span></div>
+            <div class="vocep" data-brindisi="Help and support">Help <span style="color:var(--ink-3)">&rsaquo;</span></div>
+          </div>
 
           <div class="pannello" style="margin-top:12px;padding:4px 16px">
-            <div class="vocep">Goals &amp; preferences <span style="color:var(--ink-3)">&rsaquo;</span></div>
-            <div class="vocep">Notifications <span style="color:var(--ink-3)">&rsaquo;</span></div>
-            <div class="vocep">Help <span style="color:var(--ink-3)">&rsaquo;</span></div>
+            <div class="vocep" style="color:var(--rosa)" data-brindisi="Signed out — not really, it's a prototype">Log out</div>
           </div>
+          <p style="font-size:11.5px;color:var(--ink-3);text-align:center;margin-top:16px">Fitmate · prototype build</p>
         </section>
 
       </div>
@@ -768,15 +810,15 @@ body{
 
       <nav class="fondo" id="fondo">
         <button class="tab on" data-vai="home">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>Home</button>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11.3 3.3a1 1 0 0 1 1.4 0l8.1 7.3a1 1 0 0 1-.68 1.74H19v7.2A1.5 1.5 0 0 1 17.5 21H14v-5.4a2 2 0 0 0-4 0V21H6.5A1.5 1.5 0 0 1 5 19.5v-7.26H3.88a1 1 0 0 1-.68-1.74z"/></svg>Home</button>
         <button class="tab" data-vai="meetup">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><circle cx="5" cy="11" r="2.4"/><circle cx="19" cy="11" r="2.4"/><path d="M5.5 20c0-2.6 2.9-4.5 6.5-4.5s6.5 1.9 6.5 4.5"/></svg>Meetup</button>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="7.4" r="3.4"/><circle cx="17.6" cy="8.8" r="2.5"/><path d="M2.6 19.1c0-3.4 2.9-5.6 6.4-5.6s6.4 2.2 6.4 5.6a1 1 0 0 1-1 1H3.6a1 1 0 0 1-1-1z"/><path d="M17.4 13.2c2.3.2 4 1.8 4 4a.9.9 0 0 1-.9.9h-2.6c.1-1.8-.1-3.5-.5-4.9z"/></svg>Community</button>
         <button class="tab" data-vai="workout">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6.5 9v6M17.5 9v6M3.5 10.5v3M20.5 10.5v3M6.5 12h11"/></svg>Workout</button>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="9.4" width="2.9" height="5.2" rx="1.2"/><rect x="5.5" y="7.2" width="3.4" height="9.6" rx="1.5"/><rect x="8.9" y="10.6" width="6.2" height="2.8" rx="1.2"/><rect x="15.1" y="7.2" width="3.4" height="9.6" rx="1.5"/><rect x="19.1" y="9.4" width="2.9" height="5.2" rx="1.2"/></svg>Workout</button>
         <button class="tab" data-vai="trainer">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3 2.7-5 6-5s6 2 6 5"/><path d="M16 5.4a3.2 3.2 0 0 1 0 5.2"/></svg>Trainer</button>
-        <button class="tab" data-vai="account">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-3.6 3.4-6 7.5-6s7.5 2.4 7.5 6"/></svg>Account</button>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="9.6" cy="7" r="3.5"/><path d="M3.2 19.3c0-3.3 2.8-5.7 6.4-5.7s6.4 2.4 6.4 5.7a1 1 0 0 1-1 1H4.2a1 1 0 0 1-1-1z"/><path d="m18.4 2.8 1 2 2.2.32-1.6 1.56.38 2.2-1.98-1.04-1.98 1.04.38-2.2-1.6-1.56 2.2-.32z"/></svg>Trainer</button>
+        <button class="tab" data-vai="progress">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="12.2" width="4" height="8.2" rx="1.6"/><rect x="10" y="7.2" width="4" height="13.2" rx="1.6"/><rect x="17" y="3.4" width="4" height="17" rx="1.6"/></svg>Progress</button>
       </nav>
 
     </div>
@@ -790,12 +832,12 @@ const F = n => 'assets/proto/' + n + '.webp';
 /* ═══════════ icone per categoria ═══════════ */
 /* Ogni categoria ha la sua, se no dodici allenamenti sono dodici manubri. */
 const ICONE = {
-  Strength: '<path d="M6.5 9v6M17.5 9v6M3.5 10.5v3M20.5 10.5v3M6.5 12h11"/>',
-  Cardio:   '<path d="M3 12h3.5l2-5 3 10 2.5-7 1.5 2H21"/>',
-  Mobility: '<circle cx="12" cy="4.6" r="2"/><path d="M12 7v5m0 0-3.5 2.6M12 12l3.5 2.6M8.5 14.6 7 20m8.5-5.4L17 20M6 9.4l6-1.2 6 1.2"/>',
-  HIIT:     '<path d="M13.5 2 5 13h5.5L9.5 22 19 10h-5.8z"/>',
-  Yoga:     '<circle cx="12" cy="4.4" r="2"/><path d="M12 6.8v4.4M4 11.2c2.6 2.4 5.2 3.4 8 3.4s5.4-1 8-3.4M8.4 20.4 12 14.6l3.6 5.8"/>',
-  Core:     '<path d="M12 3c3.6 0 6.4 2.3 6.4 5.6 0 2.6-1.4 4-1.4 6.4 0 2.1 1 3.2 1 3.2H6c0 0 1-1.1 1-3.2 0-2.4-1.4-3.8-1.4-6.4C5.6 5.3 8.4 3 12 3Z"/><path d="M8.6 10h6.8M9.2 14h5.6"/>',
+  Strength: '<rect x="2" y="9.4" width="2.9" height="5.2" rx="1.2"/><rect x="5.5" y="7.2" width="3.4" height="9.6" rx="1.5"/><rect x="8.9" y="10.6" width="6.2" height="2.8" rx="1.2"/><rect x="15.1" y="7.2" width="3.4" height="9.6" rx="1.5"/><rect x="19.1" y="9.4" width="2.9" height="5.2" rx="1.2"/>',
+  Cardio:   '<path d="M12 20.6 4.6 13.3A5.2 5.2 0 0 1 12 6.1a5.2 5.2 0 0 1 7.4 7.2z"/>',
+  Mobility: '<circle cx="12" cy="4.2" r="2.2"/><path d="M12 7.4c-1.9 0-3.1.6-5 1.7a1.2 1.2 0 0 0 1.2 2.1l1.6-.95v3.1l-3.2 5.4a1.3 1.3 0 0 0 2.24 1.32L12 15.6l3.16 4.47a1.3 1.3 0 0 0 2.24-1.32l-3.2-5.4v-3.1l1.6.95A1.2 1.2 0 0 0 17 9.1c-1.9-1.1-3.1-1.7-5-1.7z"/>',
+  HIIT:     '<path d="M13.7 2 5.3 13.3a.8.8 0 0 0 .64 1.28h4.1l-1.26 7.1a.8.8 0 0 0 1.44.6l8.4-11.2a.8.8 0 0 0-.64-1.28h-4.1l1.26-7.2A.8.8 0 0 0 13.7 2z"/>',
+  Yoga:     '<circle cx="12" cy="4.6" r="2.2"/><path d="M12 7.6a2.3 2.3 0 0 0-2.3 2.3v2.3L6.2 10.8a1.2 1.2 0 0 0-1 2.18l5 2.6-3.3 2.04A1.3 1.3 0 0 0 7.6 20h8.8a1.3 1.3 0 0 0 .7-2.38l-3.3-2.04 5-2.6a1.2 1.2 0 0 0-1-2.18l-3.5 1.4V9.9A2.3 2.3 0 0 0 12 7.6z"/>',
+  Core:     '<path d="M12.8 2c.5 2.2-.3 3.9-1.8 5.6C9 9.8 6.4 11 6.4 14.9A5.6 5.6 0 0 0 12 21.6a5.6 5.6 0 0 0 5.6-6.7c-.4-3.2-3-4-3-6.5 0-1 .3-1.8.3-1.8-1.6.5-2.5 1.7-2.9 3-.8-2.2-.4-5.2.8-7.6z"/>',
 };
 const COLORI = {
   Strength: ['var(--viola-lav)', '#7830FC'],
@@ -805,10 +847,9 @@ const COLORI = {
   Yoga:     ['var(--verde-pal)', '#15B67D'],
   Core:     ['var(--viola-lav)', '#4726AA'],
 };
-const iconaCat = (cat, lato=20) => {
+const iconaCat = (cat, lato=21) => {
   const [, ink] = COLORI[cat] || COLORI.Strength;
-  return `<svg width="${lato}" height="${lato}" viewBox="0 0 24 24" fill="none" stroke="${ink}"
-    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONE[cat] || ICONE.Strength}</svg>`;
+  return `<svg width="${lato}" height="${lato}" viewBox="0 0 24 24" fill="${ink}">${ICONE[cat] || ICONE.Strength}</svg>`;
 };
 
 /* ═══════════ esercizi, per categoria ═══════════ */
@@ -816,46 +857,46 @@ const iconaCat = (cat, lato=20) => {
    finito un esercizio passa al successivo da solo. */
 const ESERCIZI = {
   Strength: [
-    ['Air squats',      45, '3 × 12 · chest up, knees out',  'cat-ph-weightloss'],
-    ['Push-ups',        40, '3 × 10 · elbows at 45°',         'gy-manubri'],
-    ['Walking lunges',  50, '12 per leg · slow on the way down', 'cat-ph-cardio'],
-    ['Glute bridge',    40, '3 × 15 · squeeze at the top',    'gy-palla'],
-    ['Plank hold',      35, '3 × 30 s · ribs down',           'gy-tappeto'],
+    ['Air squats',      45, '3 × 12 · chest up, knees out',     'ph-manubrio'],
+    ['Push-ups',        40, '3 × 10 · elbows at 45°',           'ph-saltoblu'],
+    ['Walking lunges',  50, '12 per leg · slow on the way down','ph-affondo'],
+    ['Glute bridge',    40, '3 × 15 · squeeze at the top',      'ph-kettle'],
+    ['Plank hold',      35, '3 × 30 s · ribs down',             'ph-verde'],
   ],
   Cardio: [
-    ['Easy warm-up',    60, '5 min · nose breathing',         'fm-p-run'],
-    ['Steady effort',   55, '4 min · you can still talk',     'cat-ph-cardio'],
-    ['Pick-ups',        45, '6 × 30 s · fast but smooth',     'fm-p-run'],
-    ['Hill push',       50, '3 × 1 min · short strides',      'pt-banner'],
-    ['Cool down',       40, '5 min · let it drop',            'gy-tappeto'],
+    ['Easy warm-up',    60, '5 min · nose breathing',           'fm-p-run'],
+    ['Steady effort',   55, '4 min · you can still talk',       'ph-corsarossa'],
+    ['Pick-ups',        45, '6 × 30 s · fast but smooth',       'ph-saltoblu'],
+    ['Hill push',       50, '3 × 1 min · short strides',        'ph-arancio'],
+    ['Cool down',       40, '5 min · let it drop',              'ph-verde'],
   ],
   Mobility: [
-    ['Cat–cow',         40, '10 slow rounds · follow the breath', 'gy-tappeto'],
-    ['Hip opener',      45, '45 s per side',                  'gy-palla'],
-    ['Thoracic twist',  40, '8 per side · eyes follow the hand', 'gy-bottiglia'],
-    ['Hamstring flow',  40, '10 per side',                    'gy-palla'],
-    ['Deep squat hold', 35, '60 s · heels down',              'cat-ph-weightloss'],
+    ['Cat–cow',         40, '10 slow rounds · follow the breath','ph-saltogiallo'],
+    ['Hip opener',      45, '45 s per side',                    'ph-affondo'],
+    ['Thoracic twist',  40, '8 per side · eyes follow the hand','ph-attrezzi'],
+    ['Hamstring flow',  40, '10 per side',                      'ph-arancio'],
+    ['Deep squat hold', 35, '60 s · heels down',                'ph-kettle'],
   ],
   HIIT: [
-    ['Jumping jacks',   30, '40 s on · 20 s off',             'gy-manubri'],
-    ['Burpees',         30, '40 s on · pace yourself',        'cat-ph-cardio'],
-    ['Mountain climbers',30,'40 s on · hips low',             'gy-manubri'],
-    ['High knees',      30, '40 s on · fast feet',            'fm-p-run'],
-    ['Rest and repeat', 25, '1 min · breathe',                'gy-bottiglia'],
+    ['Jumping jacks',   30, '40 s on · 20 s off',               'ph-corsarossa'],
+    ['Burpees',         30, '40 s on · pace yourself',          'ph-saltoblu'],
+    ['Mountain climbers',30,'40 s on · hips low',               'ph-manubrio'],
+    ['High knees',      30, '40 s on · fast feet',              'ph-arancio'],
+    ['Rest and repeat', 25, '1 min · breathe',                  'ph-saltogiallo'],
   ],
   Yoga: [
-    ['Sun salutation',  50, '3 rounds · move with the breath','gy-tappeto'],
-    ['Warrior II',      45, '45 s per side',                  'gy-palla'],
-    ['Triangle',        40, '40 s per side',                  'gy-tappeto'],
-    ['Seated twist',    40, '40 s per side',                  'gy-palla'],
-    ['Savasana',        45, '2 min · nothing to do',          'gy-tappeto'],
+    ['Sun salutation',  50, '3 rounds · move with the breath',  'ph-verde'],
+    ['Warrior II',      45, '45 s per side',                    'ph-saltogiallo'],
+    ['Triangle',        40, '40 s per side',                    'ph-arancio'],
+    ['Seated twist',    40, '40 s per side',                    'ph-attrezzi'],
+    ['Savasana',        45, '2 min · nothing to do',            'ph-kettle'],
   ],
   Core: [
-    ['Dead bug',        40, '3 × 10 · low back glued down',   'gy-manubri'],
-    ['Russian twist',   35, '3 × 20 · slow',                  'cat-ph-weightloss'],
-    ['Hollow hold',     30, '3 × 25 s',                       'gy-palla'],
-    ['Side plank',      40, '30 s per side',                  'gy-tappeto'],
-    ['Crunch finisher', 35, '3 × 15',                         'gy-manubri'],
+    ['Dead bug',        40, '3 × 10 · low back glued down',     'ph-attrezzi'],
+    ['Russian twist',   35, '3 × 20 · slow',                    'ph-manubrio'],
+    ['Hollow hold',     30, '3 × 25 s',                         'ph-corsarossa'],
+    ['Side plank',      40, '30 s per side',                    'ph-saltoblu'],
+    ['Crunch finisher', 35, '3 × 15',                           'ph-affondo'],
   ],
 };
 
@@ -869,27 +910,27 @@ const S = {
   incontri: [
     { id:'beach', nome:'Beach Run Barcelona', tag:'Running',  quando:'Sat, 12 Apr · 8:00',  gio:'SAT', g:'12', m:'APR', dove:'Barceloneta Beach', vanno:12, dentro:false, foto:'fm-p-run', vicino:true, host:'dani', prezzo:'Free',
       desc:'Five kilometres along the sand, then coffee at the kiosk. We split into two paces at the start so nobody runs alone, and nobody waits around at the end.' },
-    { id:'yoga',  nome:'Sunrise Yoga Flow',   tag:'Yoga',     quando:'Sun, 13 Apr · 7:00',  gio:'SUN', g:'13', m:'APR', dove:'Barceloneta Beach', vanno:8,  dentro:false, foto:'gy-tappeto', vicino:true, host:'aisha', prezzo:'Free',
+    { id:'yoga',  nome:'Sunrise Yoga Flow',   tag:'Yoga',     quando:'Sun, 13 Apr · 7:00',  gio:'SUN', g:'13', m:'APR', dove:'Barceloneta Beach', vanno:8,  dentro:false, foto:'ph-saltogiallo', vicino:true, host:'aisha', prezzo:'Free',
       desc:'An hour of slow vinyasa facing the water, finishing before the beach fills up. Bring a towel — the sand does the rest. All levels, genuinely.' },
-    { id:'hiit',  nome:'Outdoor HIIT',        tag:'HIIT',     quando:'Tue, 15 Apr · 18:30', gio:'TUE', g:'15', m:'APR', dove:'Ciutadella Park',   vanno:8,  dentro:false, foto:'gy-manubri', vicino:true, host:'marta', prezzo:'€5',
+    { id:'hiit',  nome:'Outdoor HIIT',        tag:'HIIT',     quando:'Tue, 15 Apr · 18:30', gio:'TUE', g:'15', m:'APR', dove:'Ciutadella Park',   vanno:8,  dentro:false, foto:'ph-corsarossa', vicino:true, host:'marta', prezzo:'€5',
       desc:'Forty minutes of intervals on the grass: twenty seconds hard, forty easy, repeated until it stops feeling clever. Scaled options for every round.' },
-    { id:'swim',  nome:'Open Water Swim',     tag:'Swimming', quando:'Sat, 19 Apr · 9:00',  gio:'SAT', g:'19', m:'APR', dove:'Platja del Bogatell', vanno:5, dentro:false, foto:'cat-ph-cardio', vicino:false, host:'dani', prezzo:'Free',
+    { id:'swim',  nome:'Open Water Swim',     tag:'Swimming', quando:'Sat, 19 Apr · 9:00',  gio:'SAT', g:'19', m:'APR', dove:'Platja del Bogatell', vanno:5, dentro:false, foto:'ph-saltoblu', vicino:false, host:'dani', prezzo:'Free',
       desc:'A 1 km loop between the buoys with a kayak alongside. Wetsuit optional in April — most of us wish we had one by the second lap.' },
-    { id:'flow',  nome:'Animal Flow Session', tag:'Mobility', quando:'Wed, 16 Apr · 19:00', gio:'WED', g:'16', m:'APR', dove:'Parc del Fòrum',    vanno:6,  dentro:false, foto:'gy-palla', vicino:true, host:'marta', prezzo:'€8',
+    { id:'flow',  nome:'Animal Flow Session', tag:'Mobility', quando:'Wed, 16 Apr · 19:00', gio:'WED', g:'16', m:'APR', dove:'Parc del Fòrum',    vanno:6,  dentro:false, foto:'ph-verde', vicino:true, host:'marta', prezzo:'€8',
       desc:'Ground-based movement: crawls, switches, beast holds. Harder than it looks and the best thing you can do for stiff hips after a week at a desk.' },
-    { id:'ride',  nome:'Coastal Ride',        tag:'Cycling',  quando:'Sun, 20 Apr · 8:30',  gio:'SUN', g:'20', m:'APR', dove:'Castelldefels',     vanno:14, dentro:false, foto:'pt-banner', vicino:false, host:'dani', prezzo:'Free',
+    { id:'ride',  nome:'Coastal Ride',        tag:'Cycling',  quando:'Sun, 20 Apr · 8:30',  gio:'SUN', g:'20', m:'APR', dove:'Castelldefels',     vanno:14, dentro:false, foto:'ph-arancio', vicino:false, host:'dani', prezzo:'Free',
       desc:'Forty-five flat kilometres down the coast and back, no-drop. We stop halfway for coffee and the group reforms there, so pace yourself however you like.' },
-    { id:'lift',  nome:'Lift Club',           tag:'Strength', quando:'Thu, 17 Apr · 19:30', gio:'THU', g:'17', m:'APR', dove:'Gràcia Gym',        vanno:9,  dentro:false, foto:'cat-ph-weightloss', vicino:true, host:'james', prezzo:'€12',
+    { id:'lift',  nome:'Lift Club',           tag:'Strength', quando:'Thu, 17 Apr · 19:30', gio:'THU', g:'17', m:'APR', dove:'Gràcia Gym',        vanno:9,  dentro:false, foto:'ph-manubrio', vicino:true, host:'james', prezzo:'€12',
       desc:'Squat, bench, row — one main lift and two accessories, in pairs so someone is always watching your bar. Bring whatever shoes you own.' },
-    { id:'walk',  nome:'Sunset Walk & Talk',  tag:'Walking',  quando:'Fri, 18 Apr · 20:00', gio:'FRI', g:'18', m:'APR', dove:'Montjuïc',          vanno:21, dentro:false, foto:'gy-bottiglia', vicino:true, host:'melanie', prezzo:'Free',
+    { id:'walk',  nome:'Sunset Walk & Talk',  tag:'Walking',  quando:'Fri, 18 Apr · 20:00', gio:'FRI', g:'18', m:'APR', dove:'Montjuïc',          vanno:21, dentro:false, foto:'ph-affondo', vicino:true, host:'melanie', prezzo:'Free',
       desc:'An hour uphill at a pace where you can still hold a conversation — that is the whole point. We watch the sun go down over the port and walk back.' },
-    { id:'pilat', nome:'Reformer Pilates',    tag:'Mobility', quando:'Mon, 21 Apr · 10:00', gio:'MON', g:'21', m:'APR', dove:'Eixample Studio',   vanno:7,  dentro:false, foto:'gy-tappeto', vicino:false, host:'aisha', prezzo:'€15',
+    { id:'pilat', nome:'Reformer Pilates',    tag:'Mobility', quando:'Mon, 21 Apr · 10:00', gio:'MON', g:'21', m:'APR', dove:'Eixample Studio',   vanno:7,  dentro:false, foto:'ph-kettle', vicino:false, host:'aisha', prezzo:'€15',
       desc:'Six reformers, six people, one hour. Slow and precise rather than sweaty, and the one class people who hate classes tend to keep coming back to.' },
-    { id:'trail', nome:'Collserola Trail',    tag:'Running',  quando:'Sat, 26 Apr · 8:00',  gio:'SAT', g:'26', m:'APR', dove:'Collserola Park',   vanno:11, dentro:false, foto:'fm-p-run', vicino:false, host:'dani', prezzo:'Free',
+    { id:'trail', nome:'Collserola Trail',    tag:'Running',  quando:'Sat, 26 Apr · 8:00',  gio:'SAT', g:'26', m:'APR', dove:'Collserola Park',   vanno:11, dentro:false, foto:'pt-banner', vicino:false, host:'dani', prezzo:'Free',
       desc:'Twelve kilometres on dirt with about 300 m of climbing. We walk the steep parts without apologising for it. Trail shoes help, road shoes survive.' },
-    { id:'tabata',nome:'Park Tabata',         tag:'HIIT',     quando:'Tue, 22 Apr · 18:00', gio:'TUE', g:'22', m:'APR', dove:'Parc Joan Miró',    vanno:10, dentro:false, foto:'gy-manubri', vicino:true, host:'marta', prezzo:'€5',
+    { id:'tabata',nome:'Park Tabata',         tag:'HIIT',     quando:'Tue, 22 Apr · 18:00', gio:'TUE', g:'22', m:'APR', dove:'Parc Joan Miró',    vanno:10, dentro:false, foto:'ph-attrezzi', vicino:true, host:'marta', prezzo:'€5',
       desc:'Eight rounds of twenty on, ten off, four blocks, twenty minutes door to door. The shortest thing on this list and the one people talk about afterwards.' },
-    { id:'swim2', nome:'Lane Swim Meet',      tag:'Swimming', quando:'Thu, 24 Apr · 7:30',  gio:'THU', g:'24', m:'APR', dove:'Picornell Pools',   vanno:4,  dentro:false, foto:'cat-ph-cardio', vicino:false, host:'laura', prezzo:'€6',
+    { id:'swim2', nome:'Lane Swim Meet',      tag:'Swimming', quando:'Thu, 24 Apr · 7:30',  gio:'THU', g:'24', m:'APR', dove:'Picornell Pools',   vanno:4,  dentro:false, foto:'fm-p-hero2', vicino:false, host:'laura', prezzo:'€6',
       desc:'A structured 1500 m set in the Olympic pool, split by lane speed. Entry is paid at the door. Good if you want technique feedback between sets.' },
   ],
   filtroIncontri: 'All',
@@ -948,6 +989,7 @@ const S = {
   ptTab: 'trainers',
   ptAperto: null,
   eventoAperto: null,
+  catAperta: null,
 };
 
 const $  = s => document.querySelector(s);
@@ -1143,12 +1185,18 @@ function disegnaSettimana(){
 
 /* ═══════════ Personal Trainer ═══════════ */
 const CATEGORIE_PT = [
-  { n:'Weight loss',      c:'#F2768B', ph:'cat-ph-weightloss' },
-  { n:'Cardio',           c:'#58C8F0', ph:'cat-ph-cardio' },
-  { n:'Nutrition',        c:'#EC338B', ph:'pt-melanie' },
-  { n:'Muscle build',     c:'#5B3BD4', ph:'pt-james' },
-  { n:'Yoga',             c:'#15B67D', ph:'gy-tappeto' },
-  { n:'Strength',         c:'#F7B500', ph:'cat-ph-weightloss' },
+  { n:'Weight loss',  ph:'ph-arancio',     wk:'Cardio',
+    d:'Coaches who work on the whole week, not just the hour you train: what you eat, how you sleep and the three sessions in between.' },
+  { n:'Cardio',       ph:'ph-corsarossa',  wk:'Cardio',
+    d:'Running, cycling, swimming. First a pace you can hold a conversation at, then everything else built on top of it.' },
+  { n:'Nutrition',    ph:'ph-kettle',      wk:'Mobility',
+    d:'No meal plans handed over on day one. These coaches start from what is already in your kitchen and move from there.' },
+  { n:'Muscle build', ph:'ph-manubrio',    wk:'Strength',
+    d:'Progressive overload, boring on purpose. Technique first, load second, and a programme you can repeat for months.' },
+  { n:'Yoga',         ph:'ph-verde',       wk:'Yoga',
+    d:'Breath, mobility and the kind of class you leave taller than you walked in. All levels, genuinely.' },
+  { n:'Strength',     ph:'ph-saltoblu',    wk:'Strength',
+    d:'Squat, hinge, push, pull, carry. Five patterns, a lifetime of variations, and someone watching your bar.' },
 ];
 
 const stelle = n => '★★★★★'.slice(0,n) + `<i>${'★★★★★'.slice(0, 5-n)}</i>`;
@@ -1215,9 +1263,8 @@ function disegnaPT(){
     <div class="riga-tit"><h3>Search for categories</h3><span class="vedi-tutto" data-brindisi="All categories — prototype stops here">View all</span></div>
     <div class="cat-riga">
       ${CATEGORIE_PT.map(c=>`
-        <div class="cat" style="background:${c.c}" data-cat-pt="${c.n}">
-          <div class="ph" style="background-image:url('${F(c.ph)}')"></div>
-          <b>${c.n}</b>
+        <div class="cat" style="background-image:url('${F(c.ph)}')" data-cat-pt="${c.n}">
+          <div class="vl"></div><b>${c.n}</b>
         </div>`).join('')}
     </div>
 
@@ -1265,7 +1312,7 @@ function disegnaSchedaPT(){
     <div class="wk-riga">
       ${t.wk.map((n,i)=>{
         const a = perNome(n) || S.allenamenti[0];
-        const foto = ['gy-tappeto','gy-manubri','gy-palla'][i % 3];
+        const foto = ['ph-manubrio','ph-corsarossa','ph-saltogiallo'][i % 3];
         return `<div class="wk" style="background-image:url('${F(foto)}')" data-avvia="${a.nome}">
           <div class="vl"></div><b>${a.nome}</b><span>${a.min} Mins</span>
         </div>`;}).join('')}
@@ -1273,18 +1320,68 @@ function disegnaSchedaPT(){
     <div style="height:70px"></div>`;
 }
 
+function disegnaCategoria(){
+  const c = CATEGORIE_PT.find(x => x.n === S.catAperta);
+  if (!c) return;
+  const trainers = S.trainers.filter(t => t.cat === c.n);
+  const allen = S.allenamenti.filter(a => a.cat === c.wk);
+  $('#cat-scheda').innerHTML = `
+    <div class="cat-eroe" style="background-image:url('${F(c.ph)}')">
+      <div class="vl"></div>
+      <div class="tx"><h2>${c.n}</h2><span>${trainers.length} trainer${trainers.length===1?'':'s'} · ${allen.length} workouts</span></div>
+    </div>
+    <p class="ev-testo">${c.d}</p>
+
+    <div class="riga-tit"><h3>Trainers</h3><span style="font-size:12.5px;color:var(--ink-3)">${trainers.length}</span></div>
+    <div class="lista">
+      ${trainers.length ? trainers.map(t=>`
+        <div class="pt-riga" data-pt-apri="${t.id}">
+          <img src="${F(t.foto)}" alt="${t.nome}">
+          <span><h4>${t.nome} ${t.cognome}</h4><p class="r">${t.cat} · ${t.anni} yrs</p>
+            <p class="stelle">${stelle(Math.round(t.voto))} <span style="color:var(--ink-3);font-size:11px;letter-spacing:0">${t.voto}</span></p></span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A79DB4" stroke-width="2.2" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg>
+        </div>`).join('')
+        : `<p style="color:var(--ink-3);font-size:13.5px">No trainer in this category yet.</p>`}
+    </div>
+
+    <div class="riga-tit"><h3>Workouts to start with</h3><span class="vedi-tutto" data-vai="workout">View all</span></div>
+    <div class="lista">
+      ${allen.slice(0,4).map(a=>{
+        const [sfondo] = COLORI[a.cat] || COLORI.Strength;
+        return `<div class="allen" data-avvia="${a.nome}">
+          <span class="ic" style="background:${sfondo}">${iconaCat(a.cat)}</span>
+          <span><h4>${a.nome}</h4><p class="r">${a.min} min · ${a.liv} · ${a.kcal} kcal</p></span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A79DB4" stroke-width="2.2" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg>
+        </div>`;}).join('')}
+    </div>
+    <div style="height:20px"></div>`;
+}
+
 /* ═══════════ navigazione ═══════════ */
-function vai(nome){
+/* Le schermate che stanno dentro una linguetta: la barra in fondo resta
+   accesa dove sei entrato, se no sembra di essere usciti dalla sezione. */
+const DENTRO = { 'pt-dett':'trainer', 'categoria':'trainer', 'evento':'meetup' };
+
+/* Una pila di dove si e stati, cosi "indietro" torna da dove si e venuti
+   invece che a un posto deciso a tavolino. Il tasto compare solo quando
+   c'e qualcosa dentro: all'avvio, sulla Home, non c'e niente da cui tornare. */
+const pila = [];
+function vai(nome, spingi = true){
+  const ora = document.querySelector('.vista.on')?.dataset.vista;
+  if (spingi && ora && ora !== nome) pila.push(ora);
   $$('.vista').forEach(v => v.classList.toggle('on', v.dataset.vista === nome));
-  $$('#fondo .tab').forEach(t => t.classList.toggle('on', t.dataset.vai === nome));
-  // la scheda di un trainer vive dentro Trainer, quindi la linguetta resta accesa li
-  if (nome === 'pt-dett') $$('#fondo .tab').forEach(t => t.classList.toggle('on', t.dataset.vai === 'trainer'));
-  if (nome === 'evento')  $$('#fondo .tab').forEach(t => t.classList.toggle('on', t.dataset.vai === 'meetup'));
+  const acceso = DENTRO[nome] || nome;
+  $$('#fondo .tab').forEach(t => t.classList.toggle('on', t.dataset.vai === acceso));
   $('#fab-chat').style.display = nome === 'pt-dett' ? 'grid' : 'none';
   $('#ev-pie').classList.toggle('on', nome === 'evento');
   // il messaggino non deve finire sopra al bottone Join
   $('#brindisi').style.bottom = nome === 'evento' ? '168px' : '';
+  document.documentElement.classList.toggle('c-pila', pila.length > 0);
   $('#corpo').scrollTop = 0;
+}
+
+function indietro(){
+  vai(pila.pop() || 'home', false);
 }
 
 let tempoBrindisi;
@@ -1450,17 +1547,13 @@ document.addEventListener('click', e => {
   const rap = e.target.closest('[data-rapida]');
   if (rap) { inviaChat(rap.dataset.rapida); return; }
 
+  if (e.target.closest('[data-indietro]')) { indietro(); return; }
+
   const apri = e.target.closest('[data-pt-apri]');
   if (apri) { S.ptAperto = apri.dataset.ptApri; disegnaSchedaPT(); vai('pt-dett'); return; }
 
   const catPt = e.target.closest('[data-cat-pt]');
-  if (catPt) {
-    const n = catPt.dataset.catPt;
-    S.catTrainer = S.trainers.some(t=>t.cat===n) ? n : 'All';
-    S.ptTab = 'trainers'; disegnaPT();
-    brindisi(S.catTrainer === 'All' ? `No trainer for ${n} yet` : `${n} trainers`);
-    return;
-  }
+  if (catPt) { S.catAperta = catPt.dataset.catPt; disegnaCategoria(); vai('categoria'); return; }
 
   const ptTab = e.target.closest('[data-pt]');
   if (ptTab) { S.ptTab = ptTab.dataset.pt; disegnaPT(); return; }
@@ -1569,6 +1662,8 @@ function chiudiSurvey(){
     $('#'+pre+'-min').textContent = o.min;
     $('#'+pre+'-liv').textContent = o.liv;
   }
+  const set = $('#set-obiettivi');
+  if (set) set.innerHTML = (scelte.length ? scelte.join(', ') : 'Not set') + ' &rsaquo;';
   $('#saluto-obiettivo').textContent = scelte.length
     ? `${scelte.slice(0,2).join(' · ')}${scelte.length>2?' +'+(scelte.length-2):''} · ${S.allenamentiFatti} of ${S.obiettivo}`
     : "Let's keep the week going";

@@ -44,9 +44,10 @@ body{
   min-height:100vh;display:grid;place-items:center;padding:clamp(28px,5vw,64px) 20px;
   overflow-x:hidden;
 }
-.scena{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(28px,5vw,78px);
-  align-items:center;max-width:1180px;position:relative;z-index:2}
-@media (max-width:900px){ .scena{grid-template-columns:1fr;gap:34px} }
+/* Il telefono da solo in cima, il testo sotto: affiancati si rubavano lo
+   spazio a vicenda e il prototipo -che e la cosa- restava stretto. */
+.scena{display:flex;flex-direction:column;align-items:center;gap:clamp(44px,6vw,86px);
+  max-width:1180px;position:relative;z-index:2}
 
 /* Solo cerchi dietro: stessa paletta, forme mie. */
 .forme{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
@@ -60,22 +61,29 @@ body{
    non hanno dove stare senza finire addosso al testo, resta il fondo. */
 @media (max-width:900px){ .forme .f2,.forme .f3,.forme .f4,.forme .f5{display:none} .forme .f1{left:-130px;top:6%;width:230px;opacity:.45} }
 
-/* --- la colonna di testo --- */
-.intro{max-width:520px}
+/* --- il testo, sotto --- */
+.intro{max-width:900px;width:100%}
 .occhiello{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
   color:var(--onice);opacity:.55}
 .titolo{font-family:'DM Serif Display',Georgia,serif;font-weight:400;
-  font-size:clamp(38px,4.6vw,60px);line-height:1.04;letter-spacing:-.015em;margin-top:16px}
+  font-size:clamp(38px,4.4vw,58px);line-height:1.04;letter-spacing:-.015em;margin-top:16px}
 /* l'evidenziatore, storto come a mano */
 .titolo em{font-style:normal;position:relative;z-index:1;white-space:nowrap}
 .titolo em::before{content:'';position:absolute;left:-.08em;right:-.08em;top:.16em;bottom:.08em;
   background:var(--lime);z-index:-1;border-radius:3px;transform:rotate(-.7deg)}
 .titolo i{font-family:'DM Serif Display',Georgia,serif;font-style:italic}
-.sotto{margin-top:20px;font-size:16px;line-height:1.62;color:#453F52;max-width:46ch}
+.sotto{margin-top:20px;font-size:17px;line-height:1.62;color:#453F52;max-width:62ch}
 .sotto b{font-weight:700;color:var(--onice)}
-.mappa{margin-top:26px;border-top:1px solid rgba(23,20,28,.14)}
+.mappa{margin-top:30px;border-top:1px solid rgba(23,20,28,.14);
+  display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(24px,4vw,56px)}
 .mappa div{display:grid;grid-template-columns:104px 1fr;gap:16px;align-items:baseline;
-  padding:11px 0;border-bottom:1px solid rgba(23,20,28,.14)}
+  padding:12px 0;border-bottom:1px solid rgba(23,20,28,.14)}
+/* cinque voci su due colonne: l'ultima di ciascuna chiude senza riga sotto */
+.mappa div:nth-child(4),.mappa div:nth-child(5){border-bottom:0}
+@media (max-width:860px){
+  .mappa{grid-template-columns:1fr}
+  .mappa div:nth-child(4){border-bottom:1px solid rgba(23,20,28,.14)}
+}
 .mappa b{font-size:14px;font-weight:700}
 .mappa span{font-size:13.5px;line-height:1.5;color:#5C5567}
 .firma{margin-top:24px;font-size:13px;line-height:1.6;color:#6B6577}
@@ -593,7 +601,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .scala{display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:var(--ink-3);margin-top:-4px}
 
 /* ─── accesso ─── */
-.accesso{position:absolute;inset:0;z-index:52;background:linear-gradient(170deg,#F7F1FF,#FFEAF4 58%,#FFF);
+.accesso{position:absolute;inset:0;z-index:49;background:linear-gradient(170deg,#F7F1FF,#FFEAF4 58%,#FFF);
   display:none;flex-direction:column;padding:46px 24px 20px;overflow-y:auto;scrollbar-width:none}
 .accesso.on{display:flex}
 .accesso::-webkit-scrollbar{display:none}
@@ -668,22 +676,6 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 </div>
 
 <div class="scena">
-  <div class="intro">
-    <p class="occhiello">The prototype</p>
-    <h1 class="titolo">Fitmate didn't stop at a <em>Figma file</em>.</h1>
-    <p class="sotto">It was the fourth project of my UX/UI bootcamp at Ironhack, and it ended where projects like that usually end — a prototype and a presentation. <b>I kept building it on my own once the bootcamp was over</b>, now with AI. This is where that got to: not a picture of an app, an app. Every version runs, which is the only way to find out that a flow reads well on a board and badly in a hand.</p>
-
-    <div class="mappa">
-      <div><b>Survey</b><span>Takes more than one answer, and what you pick sets your weekly target and chooses today's workout.</span></div>
-      <div><b>Workout</b><span>Press play and the exercises run one after another, each with its own countdown.</span></div>
-      <div><b>Community</b><span>Filters the way a meetup app really filters: date, distance, category, type, price, sort.</span></div>
-      <div><b>Trainer</b><span>Open a profile, read the reviews, send a message — and get an answer back.</span></div>
-      <div><b>Progress</b><span>Everything you do in here moves the week. Nothing is decoration.</span></div>
-    </div>
-
-    <p class="firma">Designed and built by <b>Dario Capalbi</b><br><a href="fitmate.html">Back to the case study &rarr;</a></p>
-  </div>
-
   <div class="telefono">
     <div class="schermo">
       <div class="tacca"></div>
@@ -1069,6 +1061,22 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       </nav>
 
     </div>
+  </div>
+
+  <div class="intro">
+    <p class="occhiello">The prototype</p>
+    <h1 class="titolo">Fitmate didn't stop at a <em>Figma file</em>.</h1>
+    <p class="sotto">It was the fourth project of my UX/UI bootcamp at Ironhack, and it ended where projects like that usually end — a prototype and a presentation. <b>I kept building it on my own once the bootcamp was over</b>, now with AI. This is where that got to: not a picture of an app, an app. Every version runs, which is the only way to find out that a flow reads well on a board and badly in a hand.</p>
+
+    <div class="mappa">
+      <div><b>Survey</b><span>Takes more than one answer, and what you pick sets your weekly target and chooses today's workout.</span></div>
+      <div><b>Workout</b><span>Press play and the exercises run one after another, each with its own countdown.</span></div>
+      <div><b>Community</b><span>Filters the way a meetup app really filters: date, distance, category, type, price, sort.</span></div>
+      <div><b>Trainer</b><span>Open a profile, read the reviews, send a message — and get an answer back.</span></div>
+      <div><b>Progress</b><span>Everything you do in here moves the week. Nothing is decoration.</span></div>
+    </div>
+
+    <p class="firma">Designed and built by <b>Dario Capalbi</b><br><a href="fitmate.html">Back to the case study &rarr;</a></p>
   </div>
 </div>
 
@@ -2135,8 +2143,12 @@ function disegnaAccesso(){
 
 function mostraAccesso(){
   disegnaAccesso();
+  // prima si mette l'accesso sotto, poi il questionario si solleva e lo
+  // scopre: al contrario, per quei 300ms si vedeva la Home e sembrava di
+  // esserci entrati per poi tornare indietro
+  $('#accesso').classList.add('on');
   $('#survey').classList.add('esce');
-  setTimeout(() => { $('#survey').classList.add('via'); $('#accesso').classList.add('on'); }, 300);
+  setTimeout(() => $('#survey').classList.add('via'), 460);
 }
 
 function validaAccesso(){

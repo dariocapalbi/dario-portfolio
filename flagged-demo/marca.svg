@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Flagged">
+  <defs>
+    <clipPath id="fondo"><rect width="64" height="64" rx="16" /></clipPath>
+    <linearGradient id="fondo-g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="13%" stop-color="#AAF3EC" />
+      <stop offset="66%" stop-color="#EDE0FF" />
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#fondo)">
+    <rect width="64" height="64" fill="url(#fondo-g)" />
+  </g>
+  <path
+    d="M12 32q6.7-8 13.3 0t13.3 0t13.3 0"
+    fill="none" stroke="#071A31" stroke-width="5.5" stroke-linecap="round"
+  />
+</svg>

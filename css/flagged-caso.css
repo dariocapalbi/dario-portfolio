@@ -206,6 +206,297 @@ body.caso-fl {
 }
 .caso-fl .case__cta-frase { font-weight: 400; }
 
+/* ───────────────────────────────────────────────────────────────
+   Il filmato: cinquanta secondi dentro al prodotto.
+
+   `preload="none"` perche sono 3,5 MB e nessuno deve scaricarli per
+   leggere il case study: parte quando uno lo chiede. I sottotitoli sono
+   accesi da soli, la maggior parte della gente guarda senza audio.
+   ─────────────────────────────────────────────────────────────── */
+.caso-fl .case__video video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+  background: var(--ink);
+  box-shadow: 0 34px 80px -46px rgba(7, 26, 49, 0.6);
+}
+
+.caso-fl .case__video video::cue {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.95em;
+  line-height: 1.4;
+  background: rgba(7, 26, 49, 0.82);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   La mappa: cinque sezioni, tre livelli, niente di piu.
+
+   Non e un disegno ma testo in una griglia: si legge con lo schermo
+   stretto, si seleziona, e non diventa sfocata. Ogni colonna e una
+   sezione; le righe stanno allineate perche la riga della descrizione
+   ha un'altezza minima uguale per tutte.
+   ─────────────────────────────────────────────────────────────── */
+.caso-fl .ia {
+  padding: clamp(24px, 3.4vw, 46px) clamp(18px, 2.6vw, 38px);
+  border-radius: 20px;
+  background: linear-gradient(140deg, rgba(170, 243, 236, 0.3), rgba(237, 224, 255, 0.36));
+}
+
+.caso-fl .ia__radice {
+  margin: 0 auto;
+  width: fit-content;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: var(--ink);
+  font-size: clamp(13px, 1.1vw, 15px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #FCFBF8;
+}
+.caso-fl .ia__radice span {
+  display: block;
+  margin-top: 1px;
+  font-weight: 400;
+  font-size: 0.82em;
+  color: rgba(252, 251, 248, 0.6);
+}
+
+/* la sbarra che tiene insieme le cinque sezioni: un gambo che scende
+   dalla radice e una riga che corre sopra alle colonne */
+.caso-fl .ia__giunto {
+  position: relative;
+  height: clamp(22px, 2.6vw, 34px);
+  /* da centro prima colonna a centro ultima: con cinque colonne, 10% e 90% */
+  margin: 0 10%;
+}
+.caso-fl .ia__giunto::before,
+.caso-fl .ia__giunto::after {
+  content: "";
+  position: absolute;
+  background: rgba(7, 26, 49, 0.22);
+}
+.caso-fl .ia__giunto::before { left: 50%; top: 0; width: 1px; height: 55%; }
+.caso-fl .ia__giunto::after  { left: 0; right: 0; bottom: 0; height: 1px; }
+
+.caso-fl .ia__sezioni {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: clamp(8px, 1vw, 14px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.caso-fl .ia__sezioni > li {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(7px, 0.9vw, 10px);
+  position: relative;
+  padding-top: clamp(14px, 1.8vw, 22px);
+}
+/* il gambo che sale dalla colonna fino alla sbarra */
+.caso-fl .ia__sezioni > li::before {
+  content: "";
+  position: absolute;
+  left: 50%; top: 0;
+  width: 1px; height: clamp(14px, 1.8vw, 22px);
+  background: rgba(7, 26, 49, 0.22);
+}
+
+.caso-fl .ia__nodo {
+  margin: 0;
+  padding: clamp(9px, 1.1vw, 13px) clamp(8px, 1vw, 12px);
+  border: 1px solid rgba(7, 26, 49, 0.14);
+  border-radius: 12px;
+  background: rgba(252, 251, 248, 0.86);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: clamp(12px, 1.02vw, 14.5px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+  text-align: center;
+  color: var(--ink);
+}
+.caso-fl .ia__nodo--sez {
+  border-color: transparent;
+  background: var(--fl-menta);
+  color: #fff;
+}
+.caso-fl .ia__nodo--foglia {
+  border-style: dashed;
+  background: transparent;
+  font-weight: 500;
+}
+
+.caso-fl .ia__che {
+  margin: 0;
+  min-height: 3.4em;            /* tiene allineate le righe sotto */
+  font-size: clamp(11px, 0.92vw, 12.8px);
+  line-height: 1.42;
+  text-align: center;
+  color: var(--ink-mute);
+}
+
+.caso-fl .ia__sotto {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(7px, 0.9vw, 10px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* la linea fra un livello e quello sotto */
+.caso-fl .ia__sotto > li { position: relative; }
+.caso-fl .ia__sotto > li::before {
+  content: "";
+  position: absolute;
+  left: 50%; top: calc(-1 * clamp(7px, 0.9vw, 10px));
+  width: 1px; height: clamp(7px, 0.9vw, 10px);
+  background: rgba(7, 26, 49, 0.22);
+}
+
+.caso-fl .ia__chiave {
+  margin: clamp(16px, 2vw, 24px) 0 0;
+  font-size: clamp(11.5px, 0.95vw, 13.2px);
+  line-height: 1.5;
+  text-align: center;
+  color: var(--ink-mute);
+}
+.caso-fl .ia__chiave strong { color: var(--ink); font-weight: 700; }
+
+/* Sotto gli 820 cinque colonne diventano cinque colonnine da 60px e
+   nessuno legge piu niente: due colonne, poi una. La sbarra sopra non
+   significa piu nulla quando le colonne vanno a capo, quindi sparisce. */
+@media (max-width: 820px) {
+  .caso-fl .ia__sezioni { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .caso-fl .ia__giunto { display: none; }
+  .caso-fl .ia__radice { margin-bottom: 18px; }
+  .caso-fl .ia__sezioni > li::before { display: none; }
+  .caso-fl .ia__che { min-height: 0; }
+}
+@media (max-width: 460px) {
+  .caso-fl .ia__sezioni { grid-template-columns: 1fr; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   La giostra delle cinque fasi.
+
+   Era un'unica immagine alta 7387 pixel: si scorreva e basta. Qui ogni
+   fase e una diapositiva, con il suo numero e la sua data sotto.
+   Il meccanismo e `scroll-snap`, non una libreria: col dito funziona
+   da solo, le frecce fanno `scrollBy`, e se il JavaScript non parte
+   resta una striscia che si scorre. 
+   ─────────────────────────────────────────────────────────────── */
+.caso-fl .giostra__pista {
+  display: flex;
+  gap: clamp(14px, 2vw, 26px);
+  margin: 0;
+  padding: 0 0 6px;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.caso-fl .giostra__pista::-webkit-scrollbar { display: none; }
+
+.caso-fl .giostra__passo {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+}
+/* Le cinque schermate non hanno la stessa forma -la seconda e piu alta
+   delle altre- e una pista alta quanto la piu alta lasciava un buco sotto
+   alle altre quattro. Stessa scatola per tutte, l'immagine ci sta dentro
+   intera: la seconda si rimpicciolisce un po' invece di far saltare la
+   giostra di cinquanta pixel a ogni passo. */
+.caso-fl .giostra__passo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 34px 80px -46px rgba(7, 26, 49, 0.6);
+}
+
+.caso-fl .giostra__dice {
+  /* e la didascalia a decidere l'altezza della pista: senza un minimo
+     uguale per tutte, le diapositive corte lasciano il vuoto sotto.
+     Misurato: serve 5,6em a 1280 e 6,8em fra 600 e 900, dove i titoli
+     vanno a capo. */
+  min-height: 7em;
+  margin: clamp(14px, 1.8vw, 20px) 0 0;
+  font-size: clamp(13px, 1.08vw, 15.5px);
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.caso-fl .giostra__dice b {
+  display: block;
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(19px, 1.9vw, 25px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.caso-fl .giostra__num {
+  display: inline-block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--fl-menta);
+}
+
+.caso-fl .giostra__barra {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: clamp(16px, 2vw, 22px);
+}
+.caso-fl .giostra__frec {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px; height: 42px;
+  border: 1px solid rgba(7, 26, 49, 0.2);
+  border-radius: 50%;
+  background: rgba(252, 251, 248, 0.7);
+  font-size: 15px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+.caso-fl .giostra__frec:hover { background: var(--fl-menta); border-color: var(--fl-menta); color: #fff; }
+.caso-fl .giostra__frec[disabled] { opacity: 0.3; cursor: default; }
+.caso-fl .giostra__frec[disabled]:hover { background: rgba(252, 251, 248, 0.7); border-color: rgba(7,26,49,.2); color: var(--ink); }
+
+.caso-fl .giostra__punti {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.caso-fl .giostra__punti button {
+  display: block;
+  width: 9px; height: 9px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(7, 26, 49, 0.2);
+  cursor: pointer;
+  transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.caso-fl .giostra__punti button[aria-current="true"] {
+  background: var(--fl-menta);
+  transform: scale(1.35);
+}
+
+/* Sotto i 760 i titoli delle fasi prendono due righe: 8,3em misurati. */
+@media (max-width: 760px) {
+  .caso-fl .giostra__dice { min-height: 8.5em; }
+}
+
 /* ── coda ── */
 .caso-fl .case__back { color: var(--ink-mute); }
 .caso-fl .case__back a:hover { color: var(--fl-menta); }

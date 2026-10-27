@@ -54,6 +54,7 @@ body.caso-fl {
 .caso-fl .case__block h3,
 .caso-fl .case__block p.case__statement,
 .caso-fl .case__needs-title,
+.caso-fl .case__cta-frase,
 .caso-fl .case__statuses dt {
   font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
   font-weight: 400;
@@ -184,6 +185,26 @@ body.caso-fl {
   box-shadow: 0 34px 80px -46px rgba(7, 26, 49, 0.6);
 }
 .caso-fl .case__fig figcaption { font-size: clamp(12px, 1vw, 13.5px); color: var(--ink-mute); }
+
+/* ── l'invito ad aprire il prodotto ── */
+.caso-fl .case__cta-btn {
+  border-color: var(--fl-menta);
+  background: var(--fl-menta);
+  color: #fff;
+}
+.caso-fl .case__cta-btn:hover {
+  background: transparent;
+  color: var(--fl-menta);
+}
+.caso-fl .case__cta-note { color: var(--ink-mute); }
+
+/* Lo stesso fondo della frase che chiude una sezione: il pannello in fondo
+   e l'ultimo respiro della pagina, non un riquadro grigio di sistema. */
+.caso-fl .case__cta--fine {
+  border-color: transparent;
+  background: linear-gradient(118deg, rgba(170, 243, 236, 0.4), rgba(237, 224, 255, 0.5));
+}
+.caso-fl .case__cta-frase { font-weight: 400; }
 
 /* ── coda ── */
 .caso-fl .case__back { color: var(--ink-mute); }

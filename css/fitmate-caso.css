@@ -80,6 +80,7 @@ body.caso-fm {
 .caso-fm .case__lead,
 .caso-fm .case__block h3,
 .caso-fm .case__block p.case__statement,
+.caso-fm .case__cta-frase,
 .caso-fm .case__needs-title {
   font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
   font-weight: 400;
@@ -200,6 +201,26 @@ body.caso-fm {
   font-size: clamp(12px, 1vw, 13.5px);
   color: var(--ink-mute);
 }
+
+/* ── l'invito ad aprire il prototipo ── */
+.caso-fm .case__cta-btn {
+  border-color: var(--fm-viola);
+  background: var(--fm-viola);
+  color: #fff;
+}
+.caso-fm .case__cta-btn:hover {
+  background: transparent;
+  color: var(--fm-viola);
+}
+.caso-fm .case__cta-note { color: var(--ink-mute); }
+
+/* Lo stesso fondo della frase che chiude una sezione: il pannello in fondo
+   e l'ultimo respiro della pagina, non un riquadro grigio di sistema. */
+.caso-fm .case__cta--fine {
+  border-color: transparent;
+  background: linear-gradient(118deg, rgba(120, 48, 252, 0.13), rgba(236, 51, 139, 0.15));
+}
+.caso-fm .case__cta-frase { font-weight: 400; }
 
 /* ── coda ── */
 .caso-fm .case__back { color: var(--ink-mute); }

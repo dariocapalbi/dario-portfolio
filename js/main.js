@@ -210,6 +210,54 @@ if (servicesPinWrap && servicesItems.length && !reduceMotion) {
   servicesItems.forEach((el) => el.classList.add('is-active'));
 }
 
+/* Il titolo dell'eroe deve riempire il pannello, ma quante righe occupa
+   dipende dalla larghezza: a 1280 ne fa otto e lo riempie, a 1512 ne fa sei
+   e resta mezzo pannello vuoto sopra. Nessun `clamp` puo saperlo -non sa
+   quante righe verranno- quindi la misura si cerca: si prova una taglia, si
+   guarda quanto e alto il titolo, si stringe. Dodici tentativi bastano a
+   trovarla al decimo di pixel.
+   L'altezza cresce sempre insieme al corpo -piu grande, al massimo piu
+   righe- quindi la ricerca per bisezione e lecita. */
+const panelloEroe = document.querySelector('.hero__panel--dark');
+const titoloEroe = document.querySelector('.hero__headline');
+const scorriEroe = document.querySelector('.hero__scroll');
+
+function spazioPerIlTitolo(){
+  const cs = getComputedStyle(panelloEroe);
+  let h = panelloEroe.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+  if (scorriEroe && getComputedStyle(scorriEroe).position !== 'absolute') {
+    const s = getComputedStyle(scorriEroe);
+    h -= scorriEroe.offsetHeight + parseFloat(s.marginTop) + parseFloat(s.marginBottom);
+  }
+  h -= parseFloat(getComputedStyle(titoloEroe).marginTop);
+  return h;
+}
+
+function adattaTitoloEroe(){
+  if (!panelloEroe || !titoloEroe) return;
+  titoloEroe.style.fontSize = '';
+  const spazio = spazioPerIlTitolo();
+  // su schermi bassi o stretti lascia fare al clamp del foglio di stile
+  if (spazio < 240 || window.innerWidth < 720) return;
+  let basso = 24, alto = 168;
+  if (titoloEroe.offsetHeight > spazio) alto = parseFloat(getComputedStyle(titoloEroe).fontSize);
+  for (let i = 0; i < 12; i++) {
+    const mezzo = (basso + alto) / 2;
+    titoloEroe.style.fontSize = mezzo + 'px';
+    if (titoloEroe.offsetHeight <= spazio) basso = mezzo; else alto = mezzo;
+  }
+  titoloEroe.style.fontSize = Math.floor(basso) + 'px';
+}
+
+adattaTitoloEroe();
+// il serif arriva dopo il primo disegno e cambia dove vanno a capo le righe
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(adattaTitoloEroe);
+let attesaTitolo;
+window.addEventListener('resize', () => {
+  clearTimeout(attesaTitolo);
+  attesaTitolo = setTimeout(adattaTitoloEroe, 120);
+});
+
 // The hero only stays pinned while it fits on screen. Taller than the
 // viewport — any phone once the panels stack, or a laptop short enough that
 // the headline overflows — a sticky box pins immediately and everything
@@ -220,7 +268,7 @@ if (hero) {
     hero.classList.toggle('hero--unpinned', hero.offsetHeight > window.innerHeight + 1);
   };
   syncHeroPin();
-  window.addEventListener('resize', syncHeroPin);
+  window.addEventListener('resize', () => setTimeout(syncHeroPin, 160));
   // Webfonts landing reflow the headline, which is what decides the height.
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncHeroPin);
 }
